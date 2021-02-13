@@ -24,7 +24,6 @@ const event = new Event({
     id: "01"
 });
 //event.save();
-
 app.get("/", (req,res)=>{
     res.json({
         status: "ok"
