@@ -1,0 +1,40 @@
+<%- include('partials/header') -%>
+    <h1>Create Event</h1>
+    <form action="/createEvent" method="post" enctype="multipart/form-data">
+        <label for="startDate">User Name</label>
+        <input type="text" placeholder="User Name" name="username"><br><br>
+        <label for="startDate">Event Name</label>
+        <input type="text" placeholder="Event Name" name="Name"><br><br>
+
+        <label for="startDate">Event Description</label>
+        <input type="text" placeholder="Descripion" name="description"><br><br>
+
+        <label for="startDate">Enter City</label>
+        <input type="text" placeholder="City" name="city"><br><br>
+
+        <label for="startDate">Enter Location</label>
+        <input type="text" placeholder="Location" name="location"><br><br>
+
+        <label for="startDate">Maximum Capacity</label>
+        <input type="number" placeholder="Capacity" name="capacity"><br><br>
+
+        <label for="startDate">Enter the Starting Date</label>
+        <input type="date" name="startDate"><br><br>
+
+        <label for="endDate">Enter the Ending Date</label>
+        <input type="date" name="endDate"><br><br>
+
+        <label for="startTime">Enter the Starting Time</label>
+        <input type="time" name="startTime"><br><br>
+
+        <label for="endTime">Enter the Ending Time</label>
+        <input type="time" name="endTime"><br><br>
+
+        <label for="startDate">Ticket Price</label>
+        <input type="number" placeholder="Price" name="price"><br><br>
+
+        <!--<input type="file" name="picture">-->
+
+        <button type="submit">Create</button>
+    </form>
+<%- include('partials/footer') -%>
