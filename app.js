@@ -91,10 +91,7 @@ app.post("/createEvent", function(req,res){
 })
 
 app.get("/", (req,res)=>{
-<<<<<<< HEAD
-    res.render("landing");
-=======
-    res.render('home');
+    res.render('landing');
 });
 
 
@@ -102,7 +99,6 @@ app.get("/userLoginRegister",function(req,res)
         {
     res.render('userLoginRegister');
     
->>>>>>> d604bf8757433cc945a7f82a9f71de7da05bb973
 });
 
 app.get("/events", (req,res)=>{
