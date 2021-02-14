@@ -83,7 +83,8 @@ const audianceSchema = new mongoose.Schema({
     audiEmail:String,
     audiPhNum:Number,
     audiAge:Number,
-    audiAddress:String
+    audiAddress:String,
+    eventId:String
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -232,6 +233,10 @@ app.get("/events", (req,res)=>{
         }
     })
 });
+app.get("/users/register", (req,res)=>{
+    res.render("createEvent");
+})
+
 
 /*=======================================================================
                          ANALYTICS ROUTE
@@ -251,13 +256,20 @@ app.get("/cities/:city", (req,res)=>{
     })
 });
 
-app.get("/cities/:city/:event", (req,res)=> {
+
+app.get("/cities/:city/:event/booking",(req,res)=>{
+    const requestedCity = req.params.city;
     const requestedEvent = req.params.event;
-    res.json({
-        status: "ok",
+    Event.find({city: requestedCity, eventName:requestedEvent},(err,foundEvent)=>{
+        if(err){
+            console.log(err);
+        }else{
+        }
     })
 
-})
+});
+
+
 /*=======================================================================
                          REGISTER ROUTES
 ========================================================================*/

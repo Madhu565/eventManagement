@@ -1,4 +1,42 @@
 <%- include('partials/header') -%>
-<h1>Let's Begin</h1>
-<a href ="/login">abcd</a>
+
+
+
+<div class="header">
+<nav>
+<h1>GrabMySeat</h1>
+
+<form action="/users/register" method="GET">
+    <button type="submit" class="login-btn">ORGANISE</button>
+</form>
+</nav>
+<div class="landing-image">
+    <%- include('partials/undraw') -%>
+</div>
+<div class="city">
+    <div class="kolkata">
+        <%- include('partials/svg') -%>
+        <h4>Kolkata</h4>
+    </div>
+    <div class="Delhi">
+        <%- include('partials/svgD') -%>
+        <h4>Delhi</h4>
+    </div>
+    <div class="Bengaluru">
+        <%- include('partials/svgB') -%>
+        <h4>Bengaluru</h4>
+    </div>
+    <div class="Hyderabad">
+        <%- include('partials/sygH') -%>
+        <h4>Hyderabad</h4>
+    </div>
+    <div class="Mumbai">
+        <%- include('partials/svgM') -%>
+        <h4>Mumbai</h4>
+    </div>
+    
+</div>
+
+</div>
 <%- include('partials/footer') -%>
+
