@@ -51,7 +51,8 @@ const eventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     picture:String,
-    city:String
+    city:String,
+    image: String
 });
 
 
@@ -84,7 +85,8 @@ const audianceSchema = new mongoose.Schema({
     audiPhNum:Number,
     audiAge:Number,
     audiAddress:String,
-    eventId:String
+    eventId:String,
+    gender: String
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -141,11 +143,21 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
-        var name = req.user.name;
-        console.log(req.user);
-        res.render('organiser', {passedname: name});
+        Event.find({username:req.user.username},function(err,foundEvents)
+        
+        {
+            if(err)console.log(err)
+            else{
+                var name = req.user.name;
+                res.render('organiser', {passedname: name,foundEvents})
+                console.log(foundEvents);
+            }
+        })
+        
+        // console.log(req.user);
+        // res.render('organiser', {passedname: name});
     } else {
-        res.redirect('/users/login');
+        res.redirect('/login');
     }
 });
 
@@ -180,6 +192,7 @@ app.post("/createEvent", upload, function(req,res){
 
     //var imageFile = req.file.filename;
     const event = new Event({
+    username:req.body.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
@@ -193,7 +206,7 @@ app.post("/createEvent", upload, function(req,res){
     image: req.file.filename
     });
    // event.save();
-    res.redirect("/organiser");
+    //res.redirect("/organiser");
 
     event.save(function(err, doc){
         if(err){
@@ -242,9 +255,52 @@ app.get("/users/register", (req,res)=>{
                          ANALYTICS ROUTE
 =======================================================================*/
 app.get("/analytics", function(req, res){
-    res.render("analytics");
+    Audiance.find({}, function(err, foundAudience){
+        if(err){
+            console.log(err);
+        }else {
+            res.render("analytics", {foundAudience});
+        }
+        
+    })
+    
 });
 
+
+app.get("/analytics-data", function(req, res){
+    let male = 0, female = 0; 
+    Audiance.find({}, function(err, foundAudience){
+        if(err){
+            console.log(err);
+        }else{
+            
+            foundAudience.forEach(function(audience){
+                console.log("Audience number 1")
+                console.log(audience.gender);
+                if(audience.gender === "Male"){
+                    male = male+1;
+                } else if(audience.gender === "Female") {
+                    female = female + 1;
+                    console.log(female);
+                }
+
+                res.json({
+                    male: male,
+                    female: female
+                  });
+            });
+        }
+
+        console.log(foundAudience);
+    })
+
+    
+})
+
+
+/*=======================================================================
+                         CITY
+========================================================================*/
 app.get("/cities/:city", (req,res)=>{
     const requestedCity = req.params.city;
     Event.find({city:requestedCity},(err,foundEvents)=>{
@@ -376,7 +432,6 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 
 app.get("/login",(req,res)=>{
-    console.log(req);
     res.render('login');
 })
 
@@ -397,6 +452,10 @@ app.post('/login', function (req, res) {
     });
 });
 
+
+
+
+
 /*=======================================================================
                          LOGOUT
 ========================================================================*/
@@ -404,6 +463,10 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
+
+////// ORGANIZER'S EVENTS
+
+
 
 
 app.listen(3000 , ()=>{
