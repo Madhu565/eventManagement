@@ -58,6 +58,7 @@ Landing-Page
     }
     
     .Bengaluru{
+
         color:white;
         width: 200pt;
         display: flex;
@@ -72,8 +73,8 @@ Landing-Page
         
         }
         
-        .Hyderabad{
-            color:white;
+    .Hyderabad{
+
         width: 200pt;
         display: flex;
         flex-direction: column;
@@ -105,7 +106,7 @@ Landing-Page
         min-height: 8vh;
         background-color:black;
     }
-    h1{
+    .header h1{
         color: white;
         font-family: Roboto;
         font-size: 30px;
@@ -187,3 +188,16 @@ Booking-Page(Individual-event)
 /* /////////////////////////////////////////////////////////
 Checkout-Page(Audience)
 ///////////////////////////////////////////////////////// */
+
+
+
+/* /////////////////////////////////////////////////////////
+Checkout-Page(Audience)
+///////////////////////////////////////////////////////// */
+.analysis{
+    display: flex;
+}
+
+#calendar_basic{
+    margin: auto;
+}

@@ -1,6 +1,9 @@
 <%- include('partials/header') -%>
     <h1>Create Event</h1>
+    
     <form action="/createEvent" method="post" enctype="multipart/form-data">
+        <label for="startDate">User Name</label>
+        <input type="text" placeholder="User Name" name="username"><br><br>
         <label for="startDate">Event Name</label>
         <input type="text" placeholder="Event Name" name="Name"><br><br>
 
