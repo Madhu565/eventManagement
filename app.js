@@ -66,9 +66,7 @@ const audiance = new Audiance({
 
 
 app.get("/", (req,res)=>{
-    res.json({
-        status: "ok"
-    })
+    res.render("home");
 })
 
 app.listen(3000 , ()=>{
