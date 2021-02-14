@@ -5,6 +5,8 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const multer = require("multer");
 var path = require("path");
+var Chart = require('chart.js');
+
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -119,7 +121,12 @@ app.post("/createEvent", upload, function(req,res){
     });
 })
 
-
+/*=======================================================================
+                         ANALYTICS ROUTE
+========================================================================*/
+app.get("/analytics", function(req, res){
+    res.render("analytics");
+});
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
