@@ -25,10 +25,8 @@ const event = new Event({
 });
 //event.save();
 app.get("/", (req,res)=>{
-    res.json({
-        status: "ok"
-    })
-})
+    res.render("home");
+});
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
