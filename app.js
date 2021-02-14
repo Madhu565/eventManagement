@@ -58,8 +58,10 @@ const audianceSchema = new mongoose.Schema({
     audiName: String,
     audiEmail:String,
     audiPhNum:Number,
-    audiAge:Number,
-    audiAddress:String
+    audiAge:Number,        
+    audiAddress:String,
+    audiGender:String,
+    tickets:Number
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -163,51 +165,59 @@ app.post("/createEvent", upload, function(req,res){
     });
 })
 /*=======================================================================
-                         AUDIANCE ROUTE
+                         AUDIENCE ROUTE
 ========================================================================*/
 app.get("/audianceDetails",function(req,res){
     res.render("audiDetailsInput");
 })
 
 app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
     const audiance = new Audiance({
-    audiName: req.body.Name,
+    audiName: req.body.AudiName,
     audiEmail:req.body.email,
     audiPhNum:req.body.ph_num,
     audiAge:req.body.age,
-    audiAddress:req.body.address
+    audiAddress:req.body.address,
+    audiGender:req.body.gender,
+    tickets:req.body.tickets
 });
 audiance.save();
 res.render("audiBookConfirm");
 });
 
-app.get("/events", (req,res)=>{
-    Event.find({},(err,foundEvents)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.render("events",{foundEvents});
-        }
-    })
-});
+    // app.get("/events", (req,res)=>{
+    //     Event.find({},(err,foundEvents)=>{
+    //         if(err){
+    //             console.log(err);
+    //         }else{
+    //             res.render("events",{foundEvents});
+    //         }
+    //     })
+    // });
 
-app.get("/:city", (req,res)=>{
-    const requestedCity = req.params.city;
-    Event.find({city:requestedCity},(err,foundEvents)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.render("events",{foundEvents});
-        }
-    })
-});
+    app.get("/:city", (req,res)=>{
+        const requestedCity = req.params.city;
+        Event.find({city:requestedCity},(err,foundEvents)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.render("events",{foundEvents});
+            }
+        })
+    });
 
 app.get("/:city/:event", (req,res)=> {
     const requestedEvent = req.params.event;
-    res.json({
-        status: "ok",
-    })
+    const requestedCity = req.params.city;
+    var image= requestedEvent.image;
+    Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render("eventDetails",{foundEvent,image})
+        }
+    }
+    )
 })
 
 /*=======================================================================
