@@ -69,7 +69,32 @@ app.get("/createEvent", function(req, res){
     res.render("createEvent");
 });
 
-app.post("/createEvent", function(req,res){
+app.get("/pictures", function(req, res){
+    Event.find({ image: { $ne: null } }, function (err, foundEvents) {
+        if (err) {
+            console.log(err);
+        } else {
+            if (foundEvents) {
+                res.render("pictures", {passedEvents: foundEvents});
+                };
+            }
+        
+    });
+})
+
+var Storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+    }
+});
+ 
+var upload = multer({ storage: Storage }).single('file');
+
+
+app.post("/createEvent", upload, function(req,res){
+
+    //var imageFile = req.file.filename;
     const event = new Event({
     eventName: req.body.Name,
     description: req.body.description,
@@ -81,11 +106,17 @@ app.post("/createEvent", function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    //image: req.body.picture
+    image: req.file.filename
     });
 
-    event.save();
-    res.redirect("/organiser");
+    event.save(function(err, doc){
+        if(err){
+            throw err;
+        }
+        else{
+            res.redirect("/organiser");
+        }
+    });
 })
 
 
