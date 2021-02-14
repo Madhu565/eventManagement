@@ -11,17 +11,36 @@ app.use(express.static("public"));
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 
 const eventSchema = new mongoose.Schema({
-    placeName: String,
-    hostings:Number,
-    id: String 
+    organizerName: String,
+    eventName: String,
+    description: String,
+    location: String,
+    tolalCapacity: Number,
+    startDate: String,
+    startTime: String,
+    endDate: String,
+    endTime: String,
+    price:Number,
+    picture:String,
+    city:String
 });
 
 const Event = mongoose.model("Event", eventSchema);
 
 const event = new Event({
-    placeName: "kolkata",
-    hostings:"300",
-    id: "01"
+    organizerName: "bppimt",
+    eventName: "Tech Guru",
+    description: "This is the annual tech fest of bppimt",
+    location: "haldiram",
+    tolalCapacity: "200",
+    startDate: "20-2-21",
+    startTime: "10 am",
+    endDate: "25-2-21",
+    endTime: "10pm",
+    price:"400",
+    picture:"",
+    city:"kolkata"
+
 });
 //event.save();
 app.get("/", (req,res)=>{
