@@ -12,6 +12,8 @@ const multer = require("multer");
 
 
 var path = require("path");
+var Chart = require('chart.js');
+
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -229,6 +231,13 @@ app.get("/events", (req,res)=>{
             res.render("events",{foundEvents});
         }
     })
+});
+
+/*=======================================================================
+                         ANALYTICS ROUTE
+=======================================================================*/
+app.get("/analytics", function(req, res){
+    res.render("analytics");
 });
 
 app.get("/:city", (req,res)=>{
