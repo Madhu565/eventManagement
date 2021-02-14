@@ -1,0 +1,39 @@
+<%- include('partials/header') -%>
+<h1>REGISTER</h1>
+<form action="register" method="POST">
+    <div>
+        <label for="name">Name</label>
+        <input
+        name="name"
+        placeholder="Enter Name"
+        value="<% typeof name != 'undefined' ? name : '' %>"
+        />
+    </div>
+    <div>
+        <label for="email">E-Mail</label>
+        <input
+        name="email"
+        placeholder="Enter E-Mail"
+        value="<% typeof email != 'undefined' ? email : '' %>"
+        />
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input
+        name="password"
+        placeholder="Enter Password"
+        value="<% typeof email != 'undefined' ? password : '' %>"
+        />
+    </div>
+    <div>
+        <label for="password2">Confirm Password</label>
+        <input
+        name="password2"
+        placeholder="Enter Password"
+        value="<% typeof email != 'undefined' ? password2 : '' %>"
+        />
+    </div>
+    <button type ="submit" >Register</button>
+</form>
+<p>Have an account?<a href="/users/login">Login</a></p>
+<%- include('partials/footer') -%>
