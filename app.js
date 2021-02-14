@@ -25,7 +25,7 @@ const event = new Event({
 });
 //event.save();
 app.get("/", (req,res)=>{
-    res.render("home");
+    res.render("landing");
 });
 
 app.listen(3000 , ()=>{
