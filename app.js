@@ -23,12 +23,17 @@ const event = new Event({
     hostings:"300",
     id: "01"
 });
-event.save();
+//event.save();
 app.get("/", (req,res)=>{
-    res.json({
-        status: "ok"
-    })
-})
+    res.render('home');
+});
+
+
+app.get("/userLoginRegister",function(req,res)
+        {
+    res.render('userLoginRegister');
+    
+});
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")

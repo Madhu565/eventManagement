@@ -1,0 +1,101 @@
+/* /////////////////////////////////////////////////////////
+Landing-Page
+///////////////////////////////////////////////////////// */
+.header{
+    height:100%;
+    background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url(../image/event.jpg);
+    background-size: cover;
+    background-position:fixed;
+    background-attachment: fixed;
+    color: white;
+    
+}
+.header h1{
+    text-align: center;
+    font-size: 55px;
+    padding-top: 100px;
+}
+.city{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 400px;
+}
+.kolkata{
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.kolkata:hover g{
+    fill: skyblue;
+    transition: 0.5s;
+
+}
+.Delhi{
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    .Delhi:hover g{
+        fill: skyblue;
+        transition: 0.5s;
+    
+    }
+    .login-btn{
+        width: 300px;
+        padding: 8px 0;
+        outline:none !important;
+        border: 2px solid #fff;
+        border-radius: 50px;
+        background: transparent;
+        color: white;
+        float: right;
+        font-size: 20px;
+        transition: 0.5s;
+        margin-right: 20px;
+    }
+    .login-btn:hover {
+        color: #000;
+        background-color: white;
+    }
+
+.login-btn:active {
+  background-color: white;
+  box-shadow: 0 5px black;
+  transform: translateY(4px);
+}
+    
+    
+
+
+/* /////////////////////////////////////////////////////////
+Login-Page
+///////////////////////////////////////////////////////// */
+
+
+/* /////////////////////////////////////////////////////////
+Create-Event-Page(Admin)
+///////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////
+Analyitics-Page(Admin)
+///////////////////////////////////////////////////////// */
+
+
+/* /////////////////////////////////////////////////////////
+Events-Page(Audience)
+///////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////
+Booking-Page(Individual-event)
+///////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////
+Checkout-Page(Audience)
+///////////////////////////////////////////////////////// */
