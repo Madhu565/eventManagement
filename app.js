@@ -11,6 +11,9 @@ app.use(express.static("public"));
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 
 
+/*=======================================================================
+                            EVENT SCHEMA
+========================================================================*/
 
 const eventSchema = new mongoose.Schema({
     organizerName: String,
@@ -27,6 +30,7 @@ const eventSchema = new mongoose.Schema({
     city:String
 });
 const Event = mongoose.model("Event", eventSchema);
+
 const event = new Event({
     organizerName: "bppimt",
     eventName: "Tech Guru",
@@ -43,6 +47,10 @@ const event = new Event({
 
 });
 //event.save();
+
+/*=======================================================================
+                            AUDIANCE SCHEMA
+========================================================================*/
 const audianceSchema = new mongoose.Schema({
     audiName: String,
     audiEmail:String,
@@ -65,9 +73,68 @@ const audiance = new Audiance({
 
 
 
+
+
+/*=======================================================================
+                         ORGANISER SCHEMA
+========================================================================*/
+
+const organiserSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    name: String
+});
+
+const Organiser = mongoose.model("Organiser", organiserSchema);
+
+const organiser = new Organiser({
+    username: "helloworld",
+    password: "nice",
+    name: "Squad"
+});
+//organiser.save();
+
+
+/*=======================================================================
+                         HOME ROUTE
+========================================================================*/
+
 app.get("/", (req,res)=>{
     res.render("home");
 })
+
+
+/*=======================================================================
+                         ORGANISER ROUTE
+========================================================================*/
+app.get("/organiser", function(req, res){
+    res.render("organiser");
+});
+
+app.get("/createEvent", function(req, res){
+    res.render("createEvent");
+});
+
+app.post("/createEvent", function(req,res){
+    const event = new Event({
+    eventName: req.body.Name,
+    description: req.body.description,
+    location: req.body.location,
+    tolalCapacity: req.body.capacity,
+    startDate: req.body.startDate,
+    startTime: req.body.startTime,
+    endDate: req.body.endDate,
+    endTime: req.body.endTime,
+    price:req.body.price,
+    city:req.body.city,
+    //image: req.body.picture
+    });
+
+    event.save();
+    res.redirect("/organiser");
+})
+
+
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
