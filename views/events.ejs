@@ -1,0 +1,11 @@
+<%- include('partials/header') -%>
+<div class="events">
+<%  foundEvents.forEach(foundEvent => { %>
+        <div class="event-box">
+            <img src="/images/funkYou.jpg" alt="<%=foundEvent.eventName%>" srcset="">
+            <p><%=foundEvent.eventName.toUpperCase()%></p>
+            <a href="/<%=foundEvent.city%>/<%= foundEvent.eventName %> ">explore</a>
+        </div>
+<% }) %>
+</div>
+<%- include('partials/footer') -%>

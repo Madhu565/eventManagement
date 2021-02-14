@@ -1,9 +1,121 @@
 /* /////////////////////////////////////////////////////////
 Landing-Page
 ///////////////////////////////////////////////////////// */
-h1{
-    color: red;
+
+
+.city{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
 }
+.kolkata{
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.kolkata:hover g{
+    fill: orange;
+    transition: 0.5s;
+
+}
+.Delhi{
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    .Delhi g{
+        fill: black;
+    }
+    .Delhi:hover g{
+        fill: orange;
+        transition: 0.5s;
+    
+    }
+    
+    Bengaluru{
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    .Bengaluru:hover g{
+        fill: orange;
+        transition: 0.5s;
+    
+    }
+    .Hyderabad{
+        width: 200pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+        .Hyderabad:hover g{
+            fill: orange;
+            transition: 0.5s;
+        
+        }
+        .Mumbai{
+            width: 200pt;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            }
+            .Mumbai:hover g{
+                fill: orange;
+                transition: 0.5s;
+            
+            }
+    nav{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 8vh;
+        background-color:black;
+    }
+    h1{
+        color: white;
+        font-family: Roboto;
+        font-size: 30px;
+        letter-spacing: 2px;
+        margin-left: 50px;
+    }
+    .login-btn{
+        width: 150px;
+        padding: 8px 0;
+        outline:none !important;
+        border: none;
+        border-radius:50px;
+        background: orange;
+        color: white;
+        float: right;
+        font-size: 20px;
+        transition: 0.5s;
+        font-family: Roboto;
+        margin-right: 50px;
+        letter-spacing: 2px;
+    }
+    .login-btn:hover {
+        color:white;
+        background-color: transparent;
+    }
+
+.login-btn:active {
+  background-color: white;
+  box-shadow: 0 5px black;
+  transform: translateY(4px);
+}   
+
+
 /* /////////////////////////////////////////////////////////
 Login-Page
 ///////////////////////////////////////////////////////// */
@@ -21,6 +133,29 @@ Analyitics-Page(Admin)
 /* /////////////////////////////////////////////////////////
 Events-Page(Audience)
 ///////////////////////////////////////////////////////// */
+.events{
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+.event-box{
+    width: 500px;
+    height: 600px;
+    background-color:#e7e6e1 ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px;
+
+}
+.event-box img{
+    width: 500px;
+    height: 500px;
+    border-radius: 0 0 15px;
+}
 
 /* /////////////////////////////////////////////////////////
 Booking-Page(Individual-event)
