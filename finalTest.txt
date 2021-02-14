@@ -1,9 +1,76 @@
-here we go
-come to me
-hoegache bhaaaaaaaai
-hoegache bhaaaaaaaai
-54321
-7654321098735
-ttggauwey66
-cvbj
-mjbhh
+const event = new Event({
+//     organizerName: "abcd",
+//     eventName: "Elixer",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"mumbai"
+// });
+
+// const event1 = new Event({
+//     organizerName: "ac",
+//     eventName: "Elixer1",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"mumbai"
+// });
+// const event2 = new Event({
+//     organizerName: "ab",
+//     eventName: "Elixer2",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"kolkata"
+// });
+// const event3 = new Event({
+//     organizerName: "bc",
+//     eventName: "Elixer3",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"bengaluru"
+// });
+// const event4 = new Event({
+//     organizerName: "cd",
+//     eventName: "Elixer4",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"hyderabad"
+// });
+// event.save();
+// event1.save();
+// event2.save();
+// event3.save();
+// event4.save();

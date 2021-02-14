@@ -13,15 +13,7 @@ Landing-Page
     justify-content: center;
     align-items: center;
 }
-.kolkata svg{
-    margin-bottom: 0px;
-}
-.kolkata h1{
-    margin-top: 0px;
-}
-.kolkata g{
-    margin-bottom: 0;
-}
+
 .kolkata:hover g{
     fill: skyblue;
     transition: 0.5s;
@@ -72,7 +64,25 @@ Analyitics-Page(Admin)
 /* /////////////////////////////////////////////////////////
 Events-Page(Audience)
 ///////////////////////////////////////////////////////// */
-
+.events{
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.event-box{
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.event-box img{
+    width: 500px;
+    height: 500px;
+    border-radius: 15px;
+}
 /* /////////////////////////////////////////////////////////
 Booking-Page(Individual-event)
 ///////////////////////////////////////////////////////// */
