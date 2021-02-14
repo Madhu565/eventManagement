@@ -63,13 +63,7 @@ const audianceSchema = new mongoose.Schema({
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
 
-const audiance = new Audiance({
-    audiName: "lyaba",
-    audiEmail:"lyababagchi@gmail",
-    audiPhNum:1234,
-    audiAge:22,
-    audiAddress:"bahuihati"
-});
+
 
 //audiance.save();
 
@@ -135,6 +129,26 @@ app.post("/createEvent", function(req,res){
     event.save();
     res.redirect("/organiser");
 })
+
+/*=======================================================================
+                         AUDIANCE DETAILS ROUTE
+========================================================================*/
+app.get("/audianceDetails",function(req,res){
+    res.render("audiDetailsInput");
+})
+
+app.post("/audianceDetails", function(req,res){
+    console.log(req.body.AudiName)
+    const audiance = new Audiance({
+    audiName: req.body.Name,
+    audiEmail:req.body.email,
+    audiPhNum:req.body.ph_num,
+    audiAge:req.body.age,
+    audiAddress:req.body.address
+});
+audiance.save();
+res.render("audiBookConfirm");
+});
 
 
 
