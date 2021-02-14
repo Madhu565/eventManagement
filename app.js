@@ -23,11 +23,9 @@ const event = new Event({
     hostings:"300",
     id: "01"
 });
-event.save();
+//event.save();
 app.get("/", (req,res)=>{
-    res.json({
-        status: "ok"
-    })
+    res.render("home");
 })
 
 app.listen(3000 , ()=>{
