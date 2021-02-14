@@ -25,7 +25,14 @@ const event = new Event({
 });
 //event.save();
 app.get("/", (req,res)=>{
-    res.render("home");
+    res.render('home');
+});
+
+
+app.get("/userLoginRegister",function(req,res)
+        {
+    res.render('userLoginRegister');
+    
 });
 
 app.listen(3000 , ()=>{
