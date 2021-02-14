@@ -40,6 +40,19 @@ Landing-Page
     
     }
     
+.Bengaluru{
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    .Bengaluru:hover g{
+        fill: skyblue;
+        transition: 0.5s;
+    
+    }
+        
 
 
 /* /////////////////////////////////////////////////////////
