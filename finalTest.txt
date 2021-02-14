@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+here we go
+come to me
+hoegache bhaaaaaaaai
+hoegache bhaaaaaaaai
+54321
+7654321098735
+ttggauwey66
+cvbj
+mjbhh
+changes from manjuli
+=======
 const event = new Event({
 //     organizerName: "abcd",
 //     eventName: "Elixer",
@@ -74,3 +86,4 @@ const event = new Event({
 // event2.save();
 // event3.save();
 // event4.save();
+>>>>>>> 8d8d40774987c6047c8e624dcb23b5f717719b7f
