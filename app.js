@@ -256,8 +256,7 @@ app.get("/cities/:city", (req,res)=>{
     })
 });
 
-app.get("/cities/:city/:event", (req,res)=> {
-});
+
 app.get("/cities/:city/:event/booking",(req,res)=>{
     const requestedCity = req.params.city;
     const requestedEvent = req.params.event;
@@ -280,10 +279,8 @@ app.get("/userLoginRegister",function(req,res)
     
 });
 
-app.get('/users/register', function (req, res) {
-        
-                res.render('register');
-
+app.get('/register', function (req, res) {
+    res.render('register');
 });
 // app.post("/users/register", (req,res)=>{
 //     const { name,email,password,password2 }=req.body;
@@ -351,7 +348,7 @@ app.get('/users/register', function (req, res) {
 
 
 
-app.post('/users/register', function (req, res) {
+app.post('/register', function (req, res) {
     Organiser.register(
         {   
             username: req.body.username,
@@ -364,7 +361,7 @@ app.post('/users/register', function (req, res) {
         function (err, organiser) {
             if (err) {
                 console.log(err);
-                res.redirect('/users/register');
+                res.redirect('/register');
             } else {
                 passport.authenticate('local')(req, res, function () {
                     res.redirect('/organiser');
@@ -378,11 +375,12 @@ app.post('/users/register', function (req, res) {
                          ORGANIZER LOGIN
 ========================================================================*/
 
-app.get("/users/login",(req,res)=>{
+app.get("/login",(req,res)=>{
+    console.log(req);
     res.render('login');
 })
 
-app.post('/users/login', function (req, res) {
+app.post('/login', function (req, res) {
     const organiser = new Organiser({
         username: req.body.username,
         password: req.body.password,
@@ -392,7 +390,7 @@ app.post('/users/login', function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            passport.authenticate('local', {failureRedirect: '/users/login'})(req, res, function () {
+            passport.authenticate('local', {failureRedirect: '/login'})(req, res, function () {
                 res.redirect("/organiser")
             });
         }
