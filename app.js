@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
-const bcrypt =require('bcrypt');
 const multer = require("multer");
 //const LocalStrategy = require('passport-local').Strategy;
 
