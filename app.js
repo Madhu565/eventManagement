@@ -10,6 +10,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 
+
+
 const eventSchema = new mongoose.Schema({
     organizerName: String,
     eventName: String,
@@ -24,9 +26,7 @@ const eventSchema = new mongoose.Schema({
     picture:String,
     city:String
 });
-
 const Event = mongoose.model("Event", eventSchema);
-
 const event = new Event({
     organizerName: "bppimt",
     eventName: "Tech Guru",
@@ -43,6 +43,28 @@ const event = new Event({
 
 });
 //event.save();
+const audianceSchema = new mongoose.Schema({
+    audiName: String,
+    audiEmail:String,
+    audiPhNum:Number,
+    audiAge:Number,
+    audiAddress:String
+});
+
+const Audiance = mongoose.model("AudianceDetail", audianceSchema);
+
+const audiance = new Audiance({
+    audiName: "lyaba",
+    audiEmail:"lyababagchi@gmail",
+    audiPhNum:1234,
+    audiAge:22,
+    audiAddress:"bahuihati"
+});
+
+//audiance.save();
+
+
+
 app.get("/", (req,res)=>{
     res.json({
         status: "ok"
