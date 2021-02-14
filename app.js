@@ -31,6 +31,7 @@ const eventSchema = new mongoose.Schema({
     picture:String,
     city:String
 });
+
 const Event = mongoose.model("Event", eventSchema);
 
 const event = new Event({
@@ -96,7 +97,7 @@ const organiser = new Organiser({
 ========================================================================*/
 
 app.get("/", (req,res)=>{
-    res.render("home");
+    res.render("landing");
 })
 
 
@@ -111,7 +112,32 @@ app.get("/createEvent", function(req, res){
     res.render("createEvent");
 });
 
-app.post("/createEvent", function(req,res){
+app.get("/pictures", function(req, res){
+    Event.find({ image: { $ne: null } }, function (err, foundEvents) {
+        if (err) {
+            console.log(err);
+        } else {
+            if (foundEvents) {
+                res.render("pictures", {passedEvents: foundEvents});
+                };
+            }
+        
+    });
+})
+
+var Storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+    }
+});
+ 
+var upload = multer({ storage: Storage }).single('file');
+
+
+app.post("/createEvent", upload, function(req,res){
+
+    //var imageFile = req.file.filename;
     const event = new Event({
     eventName: req.body.Name,
     description: req.body.description,
@@ -123,16 +149,19 @@ app.post("/createEvent", function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    //image: req.body.picture
+    image: req.file.filename
     });
 
-    event.save();
-    res.redirect("/organiser");
+    event.save(function(err, doc){
+        if(err){
+            throw err;
+        }
+        else{
+            res.redirect("/organiser");
+        }
+    });
 })
 
-/*=======================================================================
-                         AUDIANCE DETAILS ROUTE
-========================================================================*/
 app.get("/audianceDetails",function(req,res){
     res.render("audiDetailsInput");
 })
@@ -150,7 +179,44 @@ audiance.save();
 res.render("audiBookConfirm");
 });
 
+app.get("/", (req,res)=>{
+    res.render('landing');
+});
 
+
+app.get("/userLoginRegister",function(req,res)
+        {
+    res.render('userLoginRegister');
+    
+});
+
+app.get("/events", (req,res)=>{
+    Event.find({},(err,foundEvents)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render("events",{foundEvents});
+        }
+    })
+});
+
+app.get("/:city", (req,res)=>{
+    const requestedCity = req.params.city;
+    Event.find({city:requestedCity},(err,foundEvents)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render("events",{foundEvents});
+        }
+    })
+});
+
+app.get("/:city/:event", (req,res)=> {
+    const requestedEvent = req.params.event;
+    res.json({
+        status: "ok",
+    })
+})
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")

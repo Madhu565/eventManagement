@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 here we go
 come to me
 hoegache bhaaaaaaaai
@@ -8,3 +9,81 @@ ttggauwey66
 cvbj
 mjbhh
 changes from manjuli
+=======
+const event = new Event({
+//     organizerName: "abcd",
+//     eventName: "Elixer",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"mumbai"
+// });
+
+// const event1 = new Event({
+//     organizerName: "ac",
+//     eventName: "Elixer1",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"mumbai"
+// });
+// const event2 = new Event({
+//     organizerName: "ab",
+//     eventName: "Elixer2",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"kolkata"
+// });
+// const event3 = new Event({
+//     organizerName: "bc",
+//     eventName: "Elixer3",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"bengaluru"
+// });
+// const event4 = new Event({
+//     organizerName: "cd",
+//     eventName: "Elixer4",
+//     description: "Consert",
+//     location: "cricket Stadium",
+//     tolalCapacity: "400",
+//     startDate: "20-03-2021",
+//     startTime: "16:00 hrs",
+//     endDate: "21-03-2021",
+//     endTime: "19:00 hrs",
+//     price:"400 ",
+//     picture:"",
+//     city:"hyderabad"
+// });
+// event.save();
+// event1.save();
+// event2.save();
+// event3.save();
+// event4.save();
+>>>>>>> 8d8d40774987c6047c8e624dcb23b5f717719b7f
