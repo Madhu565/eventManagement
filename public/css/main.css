@@ -6,25 +6,13 @@
 /* /////////////////////////////////////////////////////////
 Landing-Page
 ///////////////////////////////////////////////////////// */
-.header{
-    height:100%;
-    /* background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url(../image/event.jpg); */
-    background-size: cover;
-    background-position:fixed;
-    background-attachment: fixed;
-    color: white;
-    
-}
-.header h1{
-    text-align: center;
-    font-size: 55px;
-    padding-top: 100px;
-}
+
+
 .city{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 400px;
+    margin-top: 100px;
 }
 .kolkata{
     width: 200pt;
@@ -36,7 +24,7 @@ Landing-Page
 }
 
 .kolkata:hover g{
-    fill: skyblue;
+    fill: orange;
     transition: 0.5s;
 
 }
@@ -47,37 +35,16 @@ Landing-Page
     justify-content: center;
     align-items: center;
     }
+    .Delhi g{
+        fill: black;
+    }
     .Delhi:hover g{
-        fill: skyblue;
+        fill: orange;
         transition: 0.5s;
     
     }
-    .login-btn{
-        width: 300px;
-        padding: 8px 0;
-        outline:none !important;
-        border: 2px solid #fff;
-        border-radius: 50px;
-        background: transparent;
-        color: white;
-        float: right;
-        font-size: 20px;
-        transition: 0.5s;
-        margin-right: 20px;
-    }
-    .login-btn:hover {
-        color: #000;
-        background-color: white;
-    }
-
-.login-btn:active {
-  background-color: white;
-  box-shadow: 0 5px black;
-  transform: translateY(4px);
-}
     
-    
-.Bengaluru{
+    Bengaluru{
     width: 200pt;
     display: flex;
     flex-direction: column;
@@ -85,35 +52,75 @@ Landing-Page
     align-items: center;
     }
     .Bengaluru:hover g{
-        fill: skyblue;
+        fill: orange;
         transition: 0.5s;
     
     }
-       
-.Hyderabad{
-    width: 200pt;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    .Hyderabad{
+        width: 200pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+        .Hyderabad:hover g{
+            fill: orange;
+            transition: 0.5s;
+        
+        }
+        .Mumbai{
+            width: 200pt;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            }
+            .Mumbai:hover g{
+                fill: orange;
+                transition: 0.5s;
+            
+            }
+    nav{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 8vh;
+        background-color:black;
     }
-    .Hyderabad:hover g{
-        fill: skyblue;
+    h1{
+        color: white;
+        font-family: Roboto;
+        font-size: 30px;
+        letter-spacing: 2px;
+        margin-left: 50px;
+    }
+    .login-btn{
+        width: 150px;
+        padding: 8px 0;
+        outline:none !important;
+        border: none;
+        border-radius:50px;
+        background: orange;
+        color: white;
+        float: right;
+        font-size: 20px;
         transition: 0.5s;
-    
+        font-family: Roboto;
+        margin-right: 50px;
+        letter-spacing: 2px;
     }
-.Mumbai{
-    width: 200pt;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    .login-btn:hover {
+        color:white;
+        background-color: transparent;
     }
-    .Mumbai:hover g{
-        fill: skyblue;
-        transition: 0.5s;
-    
-    }
+
+.login-btn:active {
+  background-color: white;
+  box-shadow: 0 5px black;
+  transform: translateY(4px);
+}   
+
+
 /* /////////////////////////////////////////////////////////
 Login-Page
 ///////////////////////////////////////////////////////// */
@@ -153,6 +160,7 @@ Events-Page(Audience)
     height: 200px;
     border-radius: 0 0 15px;
 }
+
 /* /////////////////////////////////////////////////////////
 Booking-Page(Individual-event)
 ///////////////////////////////////////////////////////// */

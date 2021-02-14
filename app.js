@@ -12,6 +12,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 
+
+/*=======================================================================
+                            EVENT SCHEMA
+========================================================================*/
+
 const eventSchema = new mongoose.Schema({
     organizerName: String,
     eventName: String,
@@ -24,13 +29,48 @@ const eventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     picture:String,
-    city:String,
-    image: String
+    city:String
 });
 
-
-
 const Event = mongoose.model("Event", eventSchema);
+
+const event = new Event({
+    organizerName: "bppimt",
+    eventName: "Tech Guru",
+    description: "This is the annual tech fest of bppimt",
+    location: "haldiram",
+    tolalCapacity: "200",
+    startDate: "20-2-21",
+    startTime: "10 am",
+    endDate: "25-2-21",
+    endTime: "10pm",
+    price:"400",
+    picture:"",
+    city:"kolkata"
+
+});
+//event.save();
+
+/*=======================================================================
+                            AUDIANCE SCHEMA
+========================================================================*/
+const audianceSchema = new mongoose.Schema({
+    audiName: String,
+    audiEmail:String,
+    audiPhNum:Number,
+    audiAge:Number,
+    audiAddress:String
+});
+
+const Audiance = mongoose.model("AudianceDetail", audianceSchema);
+
+
+
+//audiance.save();
+
+
+
+
 
 /*=======================================================================
                          ORGANISER SCHEMA
@@ -55,9 +95,11 @@ const organiser = new Organiser({
 /*=======================================================================
                          HOME ROUTE
 ========================================================================*/
+
 app.get("/", (req,res)=>{
     res.render("landing");
 })
+
 
 
 /*=======================================================================
@@ -120,16 +162,24 @@ app.post("/createEvent", upload, function(req,res){
         }
     });
 })
+/*=======================================================================
+                         AUDIANCE ROUTE
+========================================================================*/
+app.get("/audianceDetails",function(req,res){
+    res.render("audiDetailsInput");
+})
 
-app.get("/", (req,res)=>{
-    res.render('landing');
+app.post("/audianceDetails", function(req,res){
+    console.log(req.body.AudiName)
+    const audiance = new Audiance({
+    audiName: req.body.Name,
+    audiEmail:req.body.email,
+    audiPhNum:req.body.ph_num,
+    audiAge:req.body.age,
+    audiAddress:req.body.address
 });
-
-
-app.get("/userLoginRegister",function(req,res)
-        {
-    res.render('userLoginRegister');
-    
+audiance.save();
+res.render("audiBookConfirm");
 });
 
 app.get("/events", (req,res)=>{
@@ -159,6 +209,16 @@ app.get("/:city/:event", (req,res)=> {
         status: "ok",
     })
 })
+
+/*=======================================================================
+                         ajebaje ROUTE
+========================================================================*/
+app.get("/userLoginRegister",function(req,res)
+        {
+    res.render('userLoginRegister');
+    
+});
+
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
