@@ -101,6 +101,7 @@ app.get("/", (req,res)=>{
 })
 
 
+
 /*=======================================================================
                          ORGANISER ROUTE
 ========================================================================*/
@@ -161,7 +162,9 @@ app.post("/createEvent", upload, function(req,res){
         }
     });
 })
-
+/*=======================================================================
+                         AUDIANCE ROUTE
+========================================================================*/
 app.get("/audianceDetails",function(req,res){
     res.render("audiDetailsInput");
 })
@@ -177,17 +180,6 @@ app.post("/audianceDetails", function(req,res){
 });
 audiance.save();
 res.render("audiBookConfirm");
-});
-
-app.get("/", (req,res)=>{
-    res.render('landing');
-});
-
-
-app.get("/userLoginRegister",function(req,res)
-        {
-    res.render('userLoginRegister');
-    
 });
 
 app.get("/events", (req,res)=>{
@@ -217,6 +209,16 @@ app.get("/:city/:event", (req,res)=> {
         status: "ok",
     })
 })
+
+/*=======================================================================
+                         ajebaje ROUTE
+========================================================================*/
+app.get("/userLoginRegister",function(req,res)
+        {
+    res.render('userLoginRegister');
+    
+});
+
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
