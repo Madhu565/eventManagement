@@ -58,8 +58,7 @@ const eventSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-    Booked:Number,
-
+    Booked:Number
 });
 
 
@@ -204,8 +203,10 @@ app.post("/createEvent", upload, function(req,res){
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
         contentType: 'image/png'
-    }
+    },
+    Booked: req.body.booked
     });
+    
    // event.save();
     //res.redirect("/organiser");
 
@@ -239,33 +240,70 @@ app.get("/users/register", (req,res)=>{
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
+// app.get("/analytics", function(req, res){
+
+//     let malecount = 0, femalecount = 0; 
+//     Audiance.find({}, function(err, foundAudience){
+//         if(err){
+//             console.log(err);
+//         }else{
+//             foundAudience.forEach(function(audience){
+//                 if(audience.gender === "Male"){
+//                     malecount = malecount+1;
+//                 } if(audience.gender === "Female") {
+//                     femalecount = femalecount + 1;
+//                 }
+
+
+//             });
+
+//             res.render("analytics", {male: malecount, female: femalecount});
+//         }
+//     })
+
+
 app.get("/analytics", function(req, res){
 
-    let malecount = 0, femalecount = 0; 
-    Audiance.find({}, function(err, foundAudience){
+    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
+    Event.find({},function(err,foundEvent){
         if(err){
             console.log(err);
-        }else{
-            foundAudience.forEach(function(audience){
-                if(audience.gender === "Male"){
-                    malecount = malecount+1;
-                } if(audience.gender === "Female") {
-                    femalecount = femalecount + 1;
-                }
-
-
-            });
-
-            res.render("analytics", {male: malecount, female: femalecount});
+        }
+        else{
+            arr = foundEvent;
+          //  console.log(arr);
+            
         }
     })
-
-
-
-
-
+    .then(()=>{
+        console.log(arr[0].Booked);
+        Audiance.find({}, function(err, foundAudience){
+            if(err){
+                console.log(err);
+            }else{
+                foundAudience.forEach(function(audience){
+                    if(audience.gender === "Male"){
+                        malecount = malecount+1;
+                    } if(audience.gender === "Female") {
+                        femalecount = femalecount + 1;
+                    } if(audience.audiAge>=0 && audience.audiAge<=14){
+                        childrenCount = childrenCount+1;
+                    }if(audience.audiAge>14 && audience.audiAge<=24){
+                        teenagerCount = teenagerCount+1;
+                    }if(audience.audiAge>24 && audience.audiAge<=64){
+                        middleAgedCount = middleAgedCount+1;
+                    }if(audience.audiAge>64){
+                        seniorCitizenCount = seniorCitizenCount+1;
+                    }
     
-});
+    
+                });
+    
+                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount});
+            }
+        })  
+    });
+    })
 
 
 app.get("/analytics-data", function(req, res){
@@ -288,7 +326,7 @@ app.get("/cities/:city", (req,res)=>{
     
 });
 app.post("/audiDetailsInput",(req,res)=>{
-    let bookings = 0
+    
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
     
     const audiance = new Audiance({
@@ -326,7 +364,10 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
-            res.render("audiDetailsInput",{foundEvent});
+            var capacity = foundEvent[0].tolalCapacity;
+            var booked = foundEvent[0].Booked; 
+            var remain = (capacity-booked);
+            res.render("audiDetailsInput",{foundEvent, remain});
         }
     })
 
