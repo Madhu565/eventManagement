@@ -5,7 +5,18 @@
         google.charts.setOnLoadCallback(drawChart2);
         google.charts.setOnLoadCallback(drawChart3);
         google.charts.setOnLoadCallback(drawChart4);
-    
+
+
+
+        
+          var msgFromServer;
+          $.get( "/analytics-data", function( data ) {
+              msgFromServer = data.text;
+              alert( "Received data from server!" );
+              console.log(msgFromServer);
+          });
+        
+
         function drawChart() {
           var num = 0.50;
           var num1 = 0.50;
