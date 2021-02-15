@@ -8,6 +8,7 @@ const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt =require('bcrypt');
 const multer = require("multer");
+var fs = require('fs');
 //const LocalStrategy = require('passport-local').Strategy;
 
 
@@ -52,7 +53,11 @@ const eventSchema = new mongoose.Schema({
     price:Number,
     picture:String,
     city:String,
-    image: String
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 
@@ -166,12 +171,12 @@ app.get("/createEvent", function(req, res){
 });
 
 app.get("/pictures", function(req, res){
-    Event.find({ image: { $ne: null } }, function (err, foundEvents) {
+    Event.find({ image: { $ne: null } }, function (err, items) {
         if (err) {
             console.log(err);
         } else {
-            if (foundEvents) {
-                res.render("pictures", {passedEvents: foundEvents});
+            if (items) {
+                res.render("pictures", { items: items });
                 };
             }
         
@@ -181,7 +186,7 @@ app.get("/pictures", function(req, res){
 var Storage = multer.diskStorage({
     destination: "./public/uploads/",
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+        cb(null, file.fieldname + '_' + Date.now());
     }
 });
  
@@ -190,9 +195,11 @@ var upload = multer({ storage: Storage }).single('file');
 
 app.post("/createEvent", upload, function(req,res){
 
+
+    console.log(req.user);
     //var imageFile = req.file.filename;
     const event = new Event({
-    username:req.body.username,
+    username:req.user.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
@@ -203,7 +210,11 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    image: req.file.filename
+    image: 
+    {
+        data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+        contentType: 'image/png'
+    }
     });
    // event.save();
     //res.redirect("/organiser");
@@ -275,14 +286,38 @@ app.get("/users/register", (req,res)=>{
                          ANALYTICS ROUTE
 =======================================================================*/
 app.get("/analytics", function(req, res){
+
+    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0; 
     Audiance.find({}, function(err, foundAudience){
         if(err){
             console.log(err);
-        }else {
-            res.render("analytics", {foundAudience});
+        }else{
+            foundAudience.forEach(function(audience){
+                if(audience.gender === "Male"){
+                    malecount = malecount+1;
+                } if(audience.gender === "Female") {
+                    femalecount = femalecount + 1;
+                } if(audience.audiAge>=0 && audience.audiAge<=14){
+                    childrenCount = childrenCount+1;
+                }if(audience.audiAge>14 && audience.audiAge<=24){
+                    teenagerCount = teenagerCount+1;
+                }if(audience.audiAge>24 && audience.audiAge<=64){
+                    middleAgedCount = middleAgedCount+1;
+                }if(audience.audiAge>64){
+                    seniorCitizenCount = seniorCitizenCount+1;
+                }
+
+
+            });
+
+            res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount});
         }
-        
     })
+
+
+
+
+
     
 });
 
@@ -471,6 +506,9 @@ app.post('/login', function (req, res) {
         }
     });
 });
+
+
+
 
 
 /*=======================================================================
