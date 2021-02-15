@@ -57,8 +57,7 @@ const eventSchema = new mongoose.Schema({
     {
         data: Buffer,
         contentType: String
-    }
-
+    },
     Booked:Number,
 
 });
