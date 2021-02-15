@@ -302,8 +302,10 @@ app.get("/analytics/:id", function(req, res){
         }
     })
     .then(()=>{
+
         
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
+
             if(err){
                 console.log(err);
             }else{
