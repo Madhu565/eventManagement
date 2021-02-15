@@ -12,7 +12,7 @@
         <th>SL. No</th>
         <th>Event Name</th>
         <th>Show stats</th>
-        <!-- <th>Delete Event</th> -->
+        <th>Delete Event</th>
     </tr>
     <% var count=1%>
     <%foundEvents.forEach(function(Event){%>
@@ -22,12 +22,13 @@
             <td style="height: 100%;">
             <form action="/newindex" method="POST" >
                     <input style="display: none;" value="<%=Event.username%>" name ="username">
-                    <button type="submit">Show Stats</i></button>
+                    <button type="submit">Show Stats</button>
             </form></td>
-            <!-- <form action="/newindex" method="POST" >
-                <input style="display: none;" value="<%=Event.username%>" name ="username">
-                <button type="submit">DELETE</i></button>
-            </form></td> -->
+            <td style="height: 100%;">
+            <form action="/delete" method="POST" >
+                <input style="display: none;" value="<%=Event._id%>" name ="id">
+                <button type="submit">DELETE</button>
+            </form></td>
 
             </tr>
             <% }) %>

@@ -143,14 +143,14 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
-        Event.find({username:req.user.username},function(err,foundEvents)
+        Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
         
         {
             if(err)console.log(err)
             else{
                 var name = req.user.name;
                 res.render('organiser', {passedname: name,foundEvents})
-                console.log(foundEvents);
+                // console.log(foundEvents);
             }
         })
         
@@ -217,6 +217,26 @@ app.post("/createEvent", upload, function(req,res){
         }
     });
 })
+
+///Deleteing event for organizer
+
+app.post("/delete",function(req,res){
+    var delid= req.body.id
+   // console.log(delid);
+
+   Event.deleteOne({_id:delid},function(err){
+    if (err) console.log(err);
+    // res.deleteOne(delid);
+   });  
+
+   res.redirect('organiser');
+})
+
+
+
+
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
@@ -453,9 +473,6 @@ app.post('/login', function (req, res) {
 });
 
 
-
-
-
 /*=======================================================================
                          LOGOUT
 ========================================================================*/
@@ -463,10 +480,6 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
-
-////// ORGANIZER'S EVENTS
-
-
 
 
 app.listen(3000 , ()=>{
