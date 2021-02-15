@@ -13,6 +13,7 @@ const multer = require("multer");
 var fs = require('fs');
 var path = require("path");
 var Chart = require('chart.js');
+const { assert } = require('console');
 
 
 const app = express();
@@ -56,8 +57,8 @@ const eventSchema = new mongoose.Schema({
     {
         data: Buffer,
         contentType: String
-    }
-   
+    },
+    Booked:Number,
 });
 
 
@@ -148,7 +149,6 @@ app.get("/", (req,res)=>{
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
         var name = req.user.name;
-        console.log(req.user);
         res.render('organiser', {passedname: name});
     } else {
         res.redirect('/login');
@@ -200,7 +200,8 @@ app.post("/createEvent", upload, function(req,res){
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
         contentType: 'image/png'
-    }
+    },
+    Booked: 0
     });
    // event.save();
     // res.redirect("/organiser");
@@ -217,9 +218,21 @@ app.post("/createEvent", upload, function(req,res){
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-app.get("/audianceDetails",function(req,res){
-    res.render("audiDetailsInput");
-})
+// app.get("/audianceDetails",function(req,res){
+//     res.render("audiDetailsInput");
+// })
+
+// app.post("/audianceDetails", function(req,res){
+//     console.log(req.body.AudiName)
+//     const audiance = new Audiance({
+//     audiName: req.body.Name,
+//     audiEmail:req.body.email,
+//     audiPhNum:req.body.ph_num,
+//     audiAge:req.body.age,
+//     audiAddress:req.body.address,
+//     eventId:String,
+//     noOfTickets:Number,
+//     gender:String
 
 app.post("/audiDetailsInput",(req,res)=>{
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
@@ -240,7 +253,7 @@ app.post("/audiDetailsInput",(req,res)=>{
   
 app.get("/cities/:city", (req,res)=>{
     const requestedCity = req.params.city;
-    Event.find({city:requestedCity.toLowerCase()},(err,foundEvents)=>{
+    Event.find({city:requestedCity},(err,foundEvents)=>{
         if(err){
             console.log(err);
         }else{
@@ -251,16 +264,39 @@ app.get("/cities/:city", (req,res)=>{
 app.get("/cities/:city/:event", (req,res)=> {
     const requestedEvent = req.params.event;
     const requestedCity = req.params.city;
-    var image= requestedEvent.image;
+   
     Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
         if(err){
             console.log(err);
         }else{
-            res.render("eventDetails",{foundEvent,passedimage:image})
+            
+            res.render("eventDetails",{foundEvent})
+            
         }
-    }
-    )
-})
+    })
+
+});
+
+app.post("/audiDetailsInput",(req,res)=>{
+    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    const audiance = new Audiance({
+        audiName: AudiName,
+        audiEmail:email,
+        audiPhNum:ph_num,
+        audiAge:age,
+        audiAddress:address,
+        eventId:id,
+        noOfTickets:tickets,
+        gender:gender
+       });
+       Event.findOneAndUpdate({_id: id},{Booked:tickets}).then(()=>{
+           Event.findOne({_id:id}).then(res => {
+               assert(res.Booked === tickets);
+           })
+       })
+    audiance.save();   
+    res.render("audiBookConfirm")
+});
 
 app.get("/cities/:city/:event/booking",(req,res)=>{
     const requestedCity = req.params.city;
@@ -269,6 +305,7 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
+            console.log(foundEvent)
             res.render("audiDetailsInput",{foundEvent});
         }
     })
@@ -388,7 +425,6 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 
 app.get("/login",(req,res)=>{
-    console.log(req);
     res.render('login');
 })
 
