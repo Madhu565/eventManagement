@@ -1,23 +1,32 @@
 <%- include('partials/header') -%>
-<h1>Login Page</h1>
-<form action="/users/login" method="POST">
-<div>
-<label for="username">User Name</label>
-<input
-    type="text"
-    name="username"
-    placeholder="Enter UserName"
-/>
-</div>
-<div>
-    <label for="password">Password</label>
-    <input
-        type="password"
-        name="password"
-        placeholder="Enter Password"
-    />
+
+<form action="/login" method="POST">
+    <div class="login-form">
+        <div class="login-card">
+            <div class="login-img">
+                <%- include('partials/login_svg') -%>
+            </div>
+            <div class="login-credentials">
+                <div class="login-username">
+                    <label for="username">User Name</label>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter UserName"
+                    />
+                </div>
+                <div class="login-password">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter Password"
+                    />
+                </div>
+                <button type ="submit" >Login</button>
+                <p>Don't have an account?<a href="/register">Register</a></p>
+                </div>
+        </div>
     </div>
-    <button type ="submit" >Login</button>
 </form>
-<p>Don't have an account?<a href="/users/register">Register</a></p>
 <%- include('partials/footer') -%>
