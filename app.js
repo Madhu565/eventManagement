@@ -16,7 +16,6 @@ var Chart = require('chart.js');
 const { assert } = require('console');
 const { isBuffer } = require('util');
 
-
 const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -52,6 +51,7 @@ const eventSchema = new mongoose.Schema({
     endDate: String,
     endTime: String,
     price:Number,
+    picture:String,
     city:String,
     image: 
     {
@@ -92,9 +92,7 @@ const audianceSchema = new mongoose.Schema({
     audiAge:Number,
     audiAddress:String,
     eventId:String,
-    noOfTickets:Number,
-    gender:String,
-
+    gender: String
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -151,8 +149,19 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
-        var name = req.user.name;
-        res.render('organiser', {passedname: name});
+        Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
+        
+        {
+            if(err)console.log(err)
+            else{
+                var name = req.user.name;
+                res.render('organiser', {passedname: name,foundEvents})
+                // console.log(foundEvents);
+            }
+        })
+        
+        // console.log(req.user);
+        // res.render('organiser', {passedname: name});
     } else {
         res.redirect('/login');
     }
@@ -187,8 +196,10 @@ var upload = multer({ storage: Storage }).single('file');
 
 app.post("/createEvent", upload, function(req,res){
 
+
     //var imageFile = req.file.filename;
     const event = new Event({
+    username:req.user.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
@@ -199,6 +210,7 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
+    Booked:req.body.booked,
     image: 
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
@@ -210,7 +222,6 @@ app.post("/createEvent", upload, function(req,res){
    // event.save();
     //res.redirect("/organiser");
 
-
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -220,9 +231,46 @@ app.post("/createEvent", upload, function(req,res){
         }
     });
 })
+
+///Deleteing event for organizer
+
+app.post("/delete",function(req,res){
+    var delid= req.body.id
+   // console.log(delid);
+
+   Event.deleteOne({_id:delid},function(err){
+    if (err) console.log(err);
+    // res.deleteOne(delid);
+   });  
+
+   res.redirect('organiser');
+})
+
+
+
+
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
+app.get("/audianceDetails",function(req,res){
+    res.render("audiDetailsInput");
+})
+
+// app.post("/audianceDetails", function(req,res){
+//     console.log(req.body.AudiName)
+//     const audiance = new Audiance({
+//     audiName: req.body.Name,
+//     audiEmail:req.body.email,
+//     audiPhNum:req.body.ph_num,
+//     audiAge:req.body.age,
+//     audiAddress:req.body.address
+// });
+// audiance.save();
+// res.render("audiBookConfirm");
+// });
+
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
         if(err){
@@ -240,28 +288,6 @@ app.get("/users/register", (req,res)=>{
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
-// app.get("/analytics", function(req, res){
-
-//     let malecount = 0, femalecount = 0; 
-//     Audiance.find({}, function(err, foundAudience){
-//         if(err){
-//             console.log(err);
-//         }else{
-//             foundAudience.forEach(function(audience){
-//                 if(audience.gender === "Male"){
-//                     malecount = malecount+1;
-//                 } if(audience.gender === "Female") {
-//                     femalecount = femalecount + 1;
-//                 }
-
-
-//             });
-
-//             res.render("analytics", {male: malecount, female: femalecount});
-//         }
-//     })
-
-
 app.get("/analytics", function(req, res){
 
     let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
@@ -276,7 +302,7 @@ app.get("/analytics", function(req, res){
         }
     })
     .then(()=>{
-        console.log(arr[0].Booked);
+        console.log(arr[3].Booked);
         Audiance.find({}, function(err, foundAudience){
             if(err){
                 console.log(err);
@@ -303,12 +329,17 @@ app.get("/analytics", function(req, res){
             }
         })  
     });
-    })
+});
 
 
-app.get("/analytics-data", function(req, res){
+
     
-})
+    
+    
+    
+
+   
+
 
 
 /*=======================================================================

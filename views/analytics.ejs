@@ -18,17 +18,23 @@
     </div>
     <div class="analysis">
         <div id="myPieChart" style="width: 500px; height: 500px;"></div>
-        <!--<div id="myPieChart2" style="width: 500px; height: 500px;"></div>-->
+        <!--<div id="myPieChart2" style="width: 500px; height: 500px;"></div>  //uncomment  -->
         <div id="barchart_values" style="width: 900px; height: 300px;"></div>
     </div>
     <br><br><br><br>
     <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
 
-    
+    <!-- <div id="demo">
+
+    </div> -->
     <script>
         var male = "<%= male %>";
-        var female = "<%= female %>"
-        // document.getElementById("demo").innerHTML = male;
+        var female = "<%= female %>";
+        var children = Number("<%= children %>");
+        var teenager = Number("<%= teenager %>");
+        var middleAged = Number("<%= middleAged %>");
+        var seniorCitizen = Number("<%= seniorCitizen %>");
+        // document.getElementById("demo").innerHTML = children;
         // document.getElementById("demo1").innerHTML = female;
         var mper = male/(male+female);
         var fper = female/(male+female);
@@ -49,13 +55,15 @@
           chart.draw(data, null);
         }
 
+
+
         function drawChart3() {
         var data = google.visualization.arrayToDataTable([
             ["Age", "Number", { role: "style" } ],
-            ["0-14 Yrs", 11, "#b87333"],
-            ["15-24 Yrs", 22, "silver"],
-            ["25-64 Yrs", 78, "gold"],
-            ["65+ Yrs", 24, "color: #e5e4e2"]
+            ["0-14 Yrs", children, "#b87333"],
+            ["15-24 Yrs", teenager, "silver"],
+            ["25-64 Yrs", middleAged, "gold"],
+            ["65+ Yrs", seniorCitizen, "color: #e5e4e2"]
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -77,7 +85,7 @@
             chart.draw(view, options);
         }
 
-
+        
 
 
     </script>
