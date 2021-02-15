@@ -105,3 +105,7 @@
 
        chart.draw(dataTable, options);
    }
+
+   const data = getElementById('bookings');
+
+ 

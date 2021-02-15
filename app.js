@@ -13,6 +13,7 @@ const multer = require("multer");
 var path = require("path");
 var Chart = require('chart.js');
 const { assert } = require('console');
+const { isBuffer } = require('util');
 
 
 const app = express();
@@ -261,8 +262,10 @@ app.get("/cities/:city", (req,res)=>{
             res.render("events",{foundEvents});
         }
     })
+    
 });
 app.post("/audiDetailsInput",(req,res)=>{
+    let bookings = 0
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
     const audiance = new Audiance({
         audiName: AudiName,
@@ -274,14 +277,22 @@ app.post("/audiDetailsInput",(req,res)=>{
         noOfTickets:tickets,
         gender:gender
        });
-       Event.findOneAndUpdate({_id: id},{Booked:tickets}).then(()=>{
-           Event.findOne({_id:id}).then(res => {
-               assert(res.Booked === tickets);
-           })
-       })
     audiance.save();   
-    res.render("audiBookConfirm")
+    Audiance.find({eventId:id},(err,foundAudience)=>{
+        if(err){
+            console.log(err);
+        }else{
+            foundAudience.forEach(audiance => {
+                bookings += (audiance.noOfTickets);
+            })
+            res.json({
+                bookings : bookings,
+                eventId: id,
+            })
+        }
+    })  
 });
+
 
 app.get("/cities/:city/:event/booking",(req,res)=>{
     const requestedCity = req.params.city;
@@ -290,7 +301,6 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
-            console.log(foundEvent)
             res.render("audiDetailsInput",{foundEvent});
         }
     })
