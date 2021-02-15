@@ -8,6 +8,7 @@ const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt =require('bcrypt');
 const multer = require("multer");
+var fs = require('fs');
 //const LocalStrategy = require('passport-local').Strategy;
 
 
@@ -51,7 +52,12 @@ const eventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     picture:String,
-    city:String
+    city:String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 
@@ -84,7 +90,8 @@ const audianceSchema = new mongoose.Schema({
     audiPhNum:Number,
     audiAge:Number,
     audiAddress:String,
-    eventId:String
+    eventId:String,
+    gender: String
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -145,7 +152,7 @@ app.get("/organiser", function(req, res){
         console.log(req.user);
         res.render('organiser', {passedname: name});
     } else {
-        res.redirect('/users/login');
+        res.redirect('/login');
     }
 });
 
@@ -154,12 +161,12 @@ app.get("/createEvent", function(req, res){
 });
 
 app.get("/pictures", function(req, res){
-    Event.find({ image: { $ne: null } }, function (err, foundEvents) {
+    Event.find({ image: { $ne: null } }, function (err, items) {
         if (err) {
             console.log(err);
         } else {
-            if (foundEvents) {
-                res.render("pictures", {passedEvents: foundEvents});
+            if (items) {
+                res.render("pictures", { items: items });
                 };
             }
         
@@ -169,7 +176,7 @@ app.get("/pictures", function(req, res){
 var Storage = multer.diskStorage({
     destination: "./public/uploads/",
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+        cb(null, file.fieldname + '_' + Date.now());
     }
 });
  
@@ -190,10 +197,14 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    image: req.file.filename
+    image: 
+    {
+        data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+        contentType: 'image/png'
+    }
     });
    // event.save();
-    res.redirect("/organiser");
+    //res.redirect("/organiser");
 
     event.save(function(err, doc){
         if(err){
@@ -242,9 +253,42 @@ app.get("/users/register", (req,res)=>{
                          ANALYTICS ROUTE
 =======================================================================*/
 app.get("/analytics", function(req, res){
-    res.render("analytics");
+
+    let malecount = 0, femalecount = 0; 
+    Audiance.find({}, function(err, foundAudience){
+        if(err){
+            console.log(err);
+        }else{
+            foundAudience.forEach(function(audience){
+                if(audience.gender === "Male"){
+                    malecount = malecount+1;
+                } if(audience.gender === "Female") {
+                    femalecount = femalecount + 1;
+                }
+
+
+            });
+
+            res.render("analytics", {male: malecount, female: femalecount});
+        }
+    })
+
+
+
+
+
+    
 });
 
+
+app.get("/analytics-data", function(req, res){
+    
+})
+
+
+/*=======================================================================
+                         CITY
+========================================================================*/
 app.get("/cities/:city", (req,res)=>{
     const requestedCity = req.params.city;
     Event.find({city:requestedCity},(err,foundEvents)=>{
@@ -376,7 +420,6 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 
 app.get("/login",(req,res)=>{
-    console.log(req);
     res.render('login');
 })
 
@@ -396,6 +439,10 @@ app.post('/login', function (req, res) {
         }
     });
 });
+
+
+
+
 
 /*=======================================================================
                          LOGOUT

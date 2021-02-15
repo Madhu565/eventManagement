@@ -11,12 +11,50 @@
   
 </head>
 <body>
+    <div id="demo">
+        <h2>
+
+        </h2>
+    </div>
     <div class="analysis">
         <div id="myPieChart" style="width: 500px; height: 500px;"></div>
-        <div id="myPieChart2" style="width: 500px; height: 500px;"></div>
-        <div id="barchart_values" style="width: 900px; height: 300px;"></div>
+        <!--<div id="myPieChart2" style="width: 500px; height: 500px;"></div>
+        <div id="barchart_values" style="width: 900px; height: 300px;"></div>-->
     </div>
     <br><br><br><br>
     <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
 
-    <%- include('partials/footer') -%>
+    
+    <script>
+        var male = "<%= male %>";
+        var female = "<%= female %>"
+        // document.getElementById("demo").innerHTML = male;
+        // document.getElementById("demo1").innerHTML = female;
+        var mper = male/(male+female);
+        var fper = female/(male+female);
+
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart3);
+
+        function drawChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Gender');
+          data.addColumn('number', 'Percentage');
+          data.addRows([
+            ['Male', mper],
+            ['Female', fper],
+          ]);
+          var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+          chart.draw(data, null);
+        }
+
+
+
+        
+
+
+    </script>
+
+</body>
+</html>
