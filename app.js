@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
-const bcrypt =require('bcrypt');
 const multer = require("multer");
 var fs = require('fs');
 //const LocalStrategy = require('passport-local').Strategy;
@@ -14,7 +13,8 @@ var fs = require('fs');
 
 var path = require("path");
 var Chart = require('chart.js');
-
+const { assert } = require('console');
+const { isBuffer } = require('util');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -196,7 +196,6 @@ var upload = multer({ storage: Storage }).single('file');
 app.post("/createEvent", upload, function(req,res){
 
 
-    console.log(req.user);
     //var imageFile = req.file.filename;
     const event = new Event({
     username:req.user.username,
