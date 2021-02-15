@@ -288,10 +288,10 @@ app.get("/users/register", (req,res)=>{
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
-app.get("/analytics", function(req, res){
-
+app.get("/analytics/:id", function(req, res){
+    const requestedId=req.params.id;
     let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
-    Event.find({},function(err,foundEvent){
+    Event.find({_id:requestedId},function(err,foundEvent){
         if(err){
             console.log(err);
         }
@@ -302,11 +302,14 @@ app.get("/analytics", function(req, res){
         }
     })
     .then(()=>{
-        console.log(arr[3].Booked);
-        Audiance.find({}, function(err, foundAudience){
+
+        
+        Audiance.find({eventId:requestedId}, function(err, foundAudience){
+
             if(err){
                 console.log(err);
             }else{
+                console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
@@ -325,7 +328,7 @@ app.get("/analytics", function(req, res){
     
                 });
     
-                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount});
+                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount,booking:arr[0].Booked,cap:arr[0].tolalCapacity});
             }
         })  
     });
