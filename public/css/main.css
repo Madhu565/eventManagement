@@ -1,15 +1,34 @@
+*{
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+}
 /* /////////////////////////////////////////////////////////
 Landing-Page
 ///////////////////////////////////////////////////////// */
 
-
+.landing-image{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0efea;
+    height: 60vh;
+}
+.landing-image svg{
+    height: 550px;
+    width: 550px;
+}
 .city{
+    background-color: #141414;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 100px;
+    align-items: baseline;
+    padding: 5px;
+    margin: 0;
+    height: 35vh;
 }
 .kolkata{
+    color:white;
     width: 200pt;
     display: flex;
     flex-direction: column;
@@ -24,34 +43,38 @@ Landing-Page
 
 }
 .Delhi{
+    color:white;
     width: 200pt;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     }
-    .Delhi g{
-        fill: black;
-    }
+
     .Delhi:hover g{
         fill: orange;
         transition: 0.5s;
     
     }
     
-    Bengaluru{
-    width: 200pt;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    }
-    .Bengaluru:hover g{
-        fill: orange;
-        transition: 0.5s;
-    
-    }
+    .Bengaluru{
+
+        color:white;
+        width: 200pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .Bengaluru:hover g{
+            fill: orange;
+            transition: 0.5s;
+        
+        }
+        
     .Hyderabad{
+        color: white;
         width: 200pt;
         display: flex;
         flex-direction: column;
@@ -64,6 +87,7 @@ Landing-Page
         
         }
         .Mumbai{
+            color:white;
             width: 200pt;
             display: flex;
             flex-direction: column;
@@ -82,7 +106,7 @@ Landing-Page
         min-height: 8vh;
         background-color:black;
     }
-    h1{
+    .landing-header h1{
         color: white;
         font-family: Roboto;
         font-size: 30px;
@@ -139,11 +163,11 @@ Events-Page(Audience)
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-family: 'Roboto', sans-serif;
 }
 .event-box{
-    width: 500px;
-    height: 600px;
+    margin: 10px;
+    width: 300px;
+    height: 400px;
     background-color:#e7e6e1 ;
     display: flex;
     flex-direction: column;
@@ -152,10 +176,14 @@ Events-Page(Audience)
 
 }
 .event-box img{
-    width: 500px;
-    height: 500px;
+    width: 300px;
+    height: 300px;
     border-radius: 0 0 15px;
 }
+/* /////////////////////////////////////////////////////////
+Events Details-Page(Audience)
+///////////////////////////////////////////////////////// */
+
 
 /* /////////////////////////////////////////////////////////
 Booking-Page(Individual-event)
@@ -164,3 +192,16 @@ Booking-Page(Individual-event)
 /* /////////////////////////////////////////////////////////
 Checkout-Page(Audience)
 ///////////////////////////////////////////////////////// */
+
+
+
+/* /////////////////////////////////////////////////////////
+Checkout-Page(Audience)
+///////////////////////////////////////////////////////// */
+.analysis{
+    display: flex;
+}
+
+#calendar_basic{
+    margin: auto;
+}

@@ -7,8 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <% passedEvents.forEach(function(event){ %>
-        <img src="/uploads/<%= event.image %>" style="width: 100%; margin: 5px auto;">
-    <% }) %>
+    <h1>Uploaded Images</h1>
+    <div>
+        <% items.forEach(function(image) { %>
+        <div>
+            <div>
+                <img src="data:image/<%=image.image.contentType%>;base64,<%=image.image.data.toString('base64')%>">
+            </div>
+        </div>
+        <% }) %>
+    </div>
 </body>
 </html>

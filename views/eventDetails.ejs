@@ -1,8 +1,10 @@
 <%- include('partials/header') -%>
 <div class="events">
+    <img src="data:passedimage/<%=passedimage.contentType%>;base64,<%=passedimage.data.toString('base64')%>">
     <%  foundEvent.forEach(foundEvent => { %>
+        
             <div class="event-details">
-                <img src="/uploads/<%= image %>" style="width: 100%; margin: 5px auto;">
+               
                 <p><%=foundEvent.eventName.toUpperCase()%></p>
                 <p><%=foundEvent.description%></p>
                 <p><%=foundEvent.location%></p>
@@ -13,7 +15,7 @@
                 <p><%=foundEvent.endTime%></p>
                 <p><%=foundEvent.price%></p>
                 <p><%=foundEvent.city%></p>
-                <p><%=foundEvent.image%></p>
+                <button type="submit">Book ticket</button>
             </div>
     <% }) %>
 </div>
