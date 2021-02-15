@@ -57,7 +57,8 @@ const eventSchema = new mongoose.Schema({
     {
         data: Buffer,
         contentType: String
-    }
+    },
+    Booked:Number
 });
 
 
@@ -209,6 +210,7 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
+    Booked:req.body.booked,
     image: 
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
@@ -254,18 +256,18 @@ app.get("/audianceDetails",function(req,res){
     res.render("audiDetailsInput");
 })
 
-app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
-    const audiance = new Audiance({
-    audiName: req.body.Name,
-    audiEmail:req.body.email,
-    audiPhNum:req.body.ph_num,
-    audiAge:req.body.age,
-    audiAddress:req.body.address
-});
-audiance.save();
-res.render("audiBookConfirm");
-});
+// app.post("/audianceDetails", function(req,res){
+//     console.log(req.body.AudiName)
+//     const audiance = new Audiance({
+//     audiName: req.body.Name,
+//     audiEmail:req.body.email,
+//     audiPhNum:req.body.ph_num,
+//     audiAge:req.body.age,
+//     audiAddress:req.body.address
+// });
+// audiance.save();
+// res.render("audiBookConfirm");
+// });
 
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
@@ -286,70 +288,54 @@ app.get("/users/register", (req,res)=>{
 =======================================================================*/
 app.get("/analytics", function(req, res){
 
-    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0; 
-    Audiance.find({}, function(err, foundAudience){
+    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
+    Event.find({},function(err,foundEvent){
         if(err){
             console.log(err);
-        }else{
-            foundAudience.forEach(function(audience){
-                if(audience.gender === "Male"){
-                    malecount = malecount+1;
-                } if(audience.gender === "Female") {
-                    femalecount = femalecount + 1;
-                } if(audience.audiAge>=0 && audience.audiAge<=14){
-                    childrenCount = childrenCount+1;
-                }if(audience.audiAge>14 && audience.audiAge<=24){
-                    teenagerCount = teenagerCount+1;
-                }if(audience.audiAge>24 && audience.audiAge<=64){
-                    middleAgedCount = middleAgedCount+1;
-                }if(audience.audiAge>64){
-                    seniorCitizenCount = seniorCitizenCount+1;
-                }
-
-
-            });
-
-            res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount});
         }
-    })
-
-
-
-
-
-    
-});
-
-
-app.get("/analytics-data", function(req, res){
-    let male = 0, female = 0; 
-    Audiance.find({}, function(err, foundAudience){
-        if(err){
-            console.log(err);
-        }else{
+        else{
+            arr = foundEvent;
+          //  console.log(arr);
             
-            foundAudience.forEach(function(audience){
-                console.log("Audience number 1")
-                console.log(audience.gender);
-                if(audience.gender === "Male"){
-                    male = male+1;
-                } else if(audience.gender === "Female") {
-                    female = female + 1;
-                    console.log(female);
-                }
-
-                res.json({
-                    male: male,
-                    female: female
-                  });
-            });
         }
-
-        console.log(foundAudience);
     })
-
+    .then(()=>{
+        console.log(arr);
+        Audiance.find({}, function(err, foundAudience){
+            if(err){
+                console.log(err);
+            }else{
+                foundAudience.forEach(function(audience){
+                    if(audience.gender === "Male"){
+                        malecount = malecount+1;
+                    } if(audience.gender === "Female") {
+                        femalecount = femalecount + 1;
+                    } if(audience.audiAge>=0 && audience.audiAge<=14){
+                        childrenCount = childrenCount+1;
+                    }if(audience.audiAge>14 && audience.audiAge<=24){
+                        teenagerCount = teenagerCount+1;
+                    }if(audience.audiAge>24 && audience.audiAge<=64){
+                        middleAgedCount = middleAgedCount+1;
+                    }if(audience.audiAge>64){
+                        seniorCitizenCount = seniorCitizenCount+1;
+                    }
     
-})
+    
+                });
+    
+                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount});
+            }
+        })
+    
+    
+    
+    
+    
+        
+    });
+    })
+   
+
 
 
 /*=======================================================================
@@ -364,6 +350,37 @@ app.get("/cities/:city", (req,res)=>{
             res.render("events",{foundEvents});
         }
     })
+    
+});
+app.post("/audiDetailsInput",(req,res)=>{
+    let bookings = 0
+    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    
+    const audiance = new Audiance({
+        audiName: AudiName,
+        audiEmail:email,
+        audiPhNum:ph_num,
+        audiAge:age,
+        audiAddress:address,
+        eventId:id,
+        noOfTickets:tickets,
+        gender:gender
+       });
+    audiance.save();  
+    console.log(id);
+    Event.findById(id, (err, event) => {
+        if (err) return handleError(err);
+    
+        event.Booked = Number(event.Booked) + Number(tickets);
+    
+        event.save((err, updatedevent) => {
+            if (err) return handleError(err);
+            else{
+                console.log("success");
+            }
+        });
+    });
+    
 });
 
 

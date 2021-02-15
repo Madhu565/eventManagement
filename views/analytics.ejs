@@ -24,9 +24,9 @@
     <br><br><br><br>
     <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
 
-    <div id="demo">
+    <!-- <div id="demo">
 
-    </div>
+    </div> -->
     <script>
         var male = "<%= male %>";
         var female = "<%= female %>";
@@ -34,7 +34,7 @@
         var teenager = Number("<%= teenager %>");
         var middleAged = Number("<%= middleAged %>");
         var seniorCitizen = Number("<%= seniorCitizen %>");
-        document.getElementById("demo").innerHTML = children;
+        // document.getElementById("demo").innerHTML = children;
         // document.getElementById("demo1").innerHTML = female;
         var mper = male/(male+female);
         var fper = female/(male+female);
@@ -84,7 +84,7 @@
             var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
             chart.draw(view, options);
         }
-        
+
         
 
 
