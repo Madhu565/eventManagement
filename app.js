@@ -6,14 +6,15 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
-const bcrypt =require('bcrypt');
 const multer = require("multer");
+var fs = require('fs');
 //const LocalStrategy = require('passport-local').Strategy;
 
 
 var path = require("path");
 var Chart = require('chart.js');
-
+const { assert } = require('console');
+const { isBuffer } = require('util');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -51,7 +52,13 @@ const eventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     picture:String,
-    city:String
+    city:String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    Booked:Number
 });
 
 
@@ -84,7 +91,8 @@ const audianceSchema = new mongoose.Schema({
     audiPhNum:Number,
     audiAge:Number,
     audiAddress:String,
-    eventId:String
+    eventId:String,
+    gender: String
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -141,11 +149,21 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
-        var name = req.user.name;
-        console.log(req.user);
-        res.render('organiser', {passedname: name});
+        Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
+        
+        {
+            if(err)console.log(err)
+            else{
+                var name = req.user.name;
+                res.render('organiser', {passedname: name,foundEvents})
+                // console.log(foundEvents);
+            }
+        })
+        
+        // console.log(req.user);
+        // res.render('organiser', {passedname: name});
     } else {
-        res.redirect('/users/login');
+        res.redirect('/login');
     }
 });
 
@@ -154,12 +172,12 @@ app.get("/createEvent", function(req, res){
 });
 
 app.get("/pictures", function(req, res){
-    Event.find({ image: { $ne: null } }, function (err, foundEvents) {
+    Event.find({ image: { $ne: null } }, function (err, items) {
         if (err) {
             console.log(err);
         } else {
-            if (foundEvents) {
-                res.render("pictures", {passedEvents: foundEvents});
+            if (items) {
+                res.render("pictures", { items: items });
                 };
             }
         
@@ -169,7 +187,7 @@ app.get("/pictures", function(req, res){
 var Storage = multer.diskStorage({
     destination: "./public/uploads/",
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+        cb(null, file.fieldname + '_' + Date.now());
     }
 });
  
@@ -178,8 +196,10 @@ var upload = multer({ storage: Storage }).single('file');
 
 app.post("/createEvent", upload, function(req,res){
 
+
     //var imageFile = req.file.filename;
     const event = new Event({
+    username:req.user.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
@@ -190,10 +210,17 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    image: req.file.filename
+    Booked:req.body.booked,
+    image: 
+    {
+        data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+        contentType: 'image/png'
+    },
+    Booked: req.body.booked
     });
+    
    // event.save();
-    res.redirect("/organiser");
+    //res.redirect("/organiser");
 
     event.save(function(err, doc){
         if(err){
@@ -204,6 +231,26 @@ app.post("/createEvent", upload, function(req,res){
         }
     });
 })
+
+///Deleteing event for organizer
+
+app.post("/delete",function(req,res){
+    var delid= req.body.id
+   // console.log(delid);
+
+   Event.deleteOne({_id:delid},function(err){
+    if (err) console.log(err);
+    // res.deleteOne(delid);
+   });  
+
+   res.redirect('organiser');
+})
+
+
+
+
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
@@ -211,18 +258,18 @@ app.get("/audianceDetails",function(req,res){
     res.render("audiDetailsInput");
 })
 
-app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
-    const audiance = new Audiance({
-    audiName: req.body.Name,
-    audiEmail:req.body.email,
-    audiPhNum:req.body.ph_num,
-    audiAge:req.body.age,
-    audiAddress:req.body.address
-});
-audiance.save();
-res.render("audiBookConfirm");
-});
+// app.post("/audianceDetails", function(req,res){
+//     console.log(req.body.AudiName)
+//     const audiance = new Audiance({
+//     audiName: req.body.Name,
+//     audiEmail:req.body.email,
+//     audiPhNum:req.body.ph_num,
+//     audiAge:req.body.age,
+//     audiAddress:req.body.address
+// });
+// audiance.save();
+// res.render("audiBookConfirm");
+// });
 
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
@@ -241,10 +288,64 @@ app.get("/users/register", (req,res)=>{
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
-app.get("/analytics", function(req, res){
-    res.render("analytics");
+app.get("/analytics/:id", function(req, res){
+    const requestedId=req.params.id;
+    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
+    Event.find({_id:requestedId},function(err,foundEvent){
+        if(err){
+            console.log(err);
+        }
+        else{
+            arr = foundEvent;
+          //  console.log(arr);
+            
+        }
+    })
+    .then(()=>{
+        
+        Audiance.find({eventId:requestedId}, function(err, foundAudience){
+            if(err){
+                console.log(err);
+            }else{
+                console.log(arr[0].tolalCapacity);
+                foundAudience.forEach(function(audience){
+                    if(audience.gender === "Male"){
+                        malecount = malecount+1;
+                    } if(audience.gender === "Female") {
+                        femalecount = femalecount + 1;
+                    } if(audience.audiAge>=0 && audience.audiAge<=14){
+                        childrenCount = childrenCount+1;
+                    }if(audience.audiAge>14 && audience.audiAge<=24){
+                        teenagerCount = teenagerCount+1;
+                    }if(audience.audiAge>24 && audience.audiAge<=64){
+                        middleAgedCount = middleAgedCount+1;
+                    }if(audience.audiAge>64){
+                        seniorCitizenCount = seniorCitizenCount+1;
+                    }
+    
+    
+                });
+    
+                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount,booking:arr[0].Booked,cap:arr[0].tolalCapacity});
+            }
+        })  
+    });
 });
 
+
+
+    
+    
+    
+    
+
+   
+
+
+
+/*=======================================================================
+                         CITY
+========================================================================*/
 app.get("/cities/:city", (req,res)=>{
     const requestedCity = req.params.city;
     Event.find({city:requestedCity},(err,foundEvents)=>{
@@ -254,6 +355,37 @@ app.get("/cities/:city", (req,res)=>{
             res.render("events",{foundEvents});
         }
     })
+    
+});
+app.post("/audiDetailsInput",(req,res)=>{
+    
+    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    
+    const audiance = new Audiance({
+        audiName: AudiName,
+        audiEmail:email,
+        audiPhNum:ph_num,
+        audiAge:age,
+        audiAddress:address,
+        eventId:id,
+        noOfTickets:tickets,
+        gender:gender
+       });
+    audiance.save();  
+    console.log(id);
+    Event.findById(id, (err, event) => {
+        if (err) return handleError(err);
+    
+        event.Booked = Number(event.Booked) + Number(tickets);
+    
+        event.save((err, updatedevent) => {
+            if (err) return handleError(err);
+            else{
+                console.log("success");
+            }
+        });
+    });
+    
 });
 
 
@@ -264,6 +396,10 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
+            var capacity = foundEvent[0].tolalCapacity;
+            var booked = foundEvent[0].Booked; 
+            var remain = (capacity-booked);
+            res.render("audiDetailsInput",{foundEvent, remain});
         }
     })
 
@@ -376,7 +512,6 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 
 app.get("/login",(req,res)=>{
-    console.log(req);
     res.render('login');
 })
 
@@ -396,6 +531,10 @@ app.post('/login', function (req, res) {
         }
     });
 });
+
+
+
+
 
 /*=======================================================================
                          LOGOUT
