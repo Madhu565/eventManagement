@@ -222,27 +222,6 @@ app.post("/createEvent", upload, function(req,res){
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-// app.get("/audianceDetails",function(req,res){
-//     res.render("audiDetailsInput");
-// })
-
-// app.post("/audianceDetails", function(req,res){
-//     console.log(req.body.AudiName)
-//     const audiance = new Audiance({
-//     audiName: req.body.Name,
-//     audiEmail:req.body.email,
-//     audiPhNum:req.body.ph_num,
-//     audiAge:req.body.age,
-//     audiAddress:req.body.address,
-//     eventId:String,
-//     noOfTickets:Number,
-//     gender:String
-
-// });
-// audiance.save();
-// res.render("audiBookConfirm");
-// });
-
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
         if(err){
@@ -311,6 +290,7 @@ app.get("/cities/:city", (req,res)=>{
 app.post("/audiDetailsInput",(req,res)=>{
     let bookings = 0
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    
     const audiance = new Audiance({
         audiName: AudiName,
         audiEmail:email,
@@ -321,20 +301,21 @@ app.post("/audiDetailsInput",(req,res)=>{
         noOfTickets:tickets,
         gender:gender
        });
-    audiance.save();   
-    Audiance.find({eventId:id},(err,foundAudience)=>{
-        if(err){
-            console.log(err);
-        }else{
-            foundAudience.forEach(audiance => {
-                bookings += (audiance.noOfTickets);
-            })
-            res.json({
-                bookings : bookings,
-                eventId: id,
-            })
-        }
-    })  
+    audiance.save();  
+    console.log(id);
+    Event.findById(id, (err, event) => {
+        if (err) return handleError(err);
+    
+        event.Booked = Number(event.Booked) + Number(tickets);
+    
+        event.save((err, updatedevent) => {
+            if (err) return handleError(err);
+            else{
+                console.log("success");
+            }
+        });
+    });
+    
 });
 
 
