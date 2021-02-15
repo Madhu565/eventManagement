@@ -12,6 +12,7 @@ const multer = require("multer");
 
 var path = require("path");
 var Chart = require('chart.js');
+const { assert } = require('console');
 
 
 const app = express();
@@ -49,8 +50,9 @@ const eventSchema = new mongoose.Schema({
     endDate: String,
     endTime: String,
     price:Number,
-    picture:String,
-    city:String
+    image:String,
+    city:String,
+    Booked:Number,
 });
 
 
@@ -83,7 +85,9 @@ const audianceSchema = new mongoose.Schema({
     audiPhNum:Number,
     audiAge:Number,
     audiAddress:String,
-    eventId:String
+    eventId:String,
+    noOfTickets:Number,
+    gender:String,
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -141,10 +145,9 @@ app.get("/", (req,res)=>{
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
         var name = req.user.name;
-        console.log(req.user);
         res.render('organiser', {passedname: name});
     } else {
-        res.redirect('/users/login');
+        res.redirect('/login');
     }
 });
 
@@ -189,10 +192,11 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    image: req.file.filename
+    image: req.file.filename,
+    Booked: 0
     });
    // event.save();
-    res.redirect("/organiser");
+    // res.redirect("/organiser");
 
     event.save(function(err, doc){
         if(err){
@@ -206,22 +210,26 @@ app.post("/createEvent", upload, function(req,res){
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-app.get("/audianceDetails",function(req,res){
-    res.render("audiDetailsInput");
-})
+// app.get("/audianceDetails",function(req,res){
+//     res.render("audiDetailsInput");
+// })
 
-app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
-    const audiance = new Audiance({
-    audiName: req.body.Name,
-    audiEmail:req.body.email,
-    audiPhNum:req.body.ph_num,
-    audiAge:req.body.age,
-    audiAddress:req.body.address
-});
-audiance.save();
-res.render("audiBookConfirm");
-});
+// app.post("/audianceDetails", function(req,res){
+//     console.log(req.body.AudiName)
+//     const audiance = new Audiance({
+//     audiName: req.body.Name,
+//     audiEmail:req.body.email,
+//     audiPhNum:req.body.ph_num,
+//     audiAge:req.body.age,
+//     audiAddress:req.body.address,
+//     eventId:String,
+//     noOfTickets:Number,
+//     gender:String
+
+// });
+// audiance.save();
+// res.render("audiBookConfirm");
+// });
 
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
@@ -254,7 +262,26 @@ app.get("/cities/:city", (req,res)=>{
         }
     })
 });
-
+app.post("/audiDetailsInput",(req,res)=>{
+    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    const audiance = new Audiance({
+        audiName: AudiName,
+        audiEmail:email,
+        audiPhNum:ph_num,
+        audiAge:age,
+        audiAddress:address,
+        eventId:id,
+        noOfTickets:tickets,
+        gender:gender
+       });
+       Event.findOneAndUpdate({_id: id},{Booked:tickets}).then(()=>{
+           Event.findOne({_id:id}).then(res => {
+               assert(res.Booked === tickets);
+           })
+       })
+    audiance.save();   
+    res.render("audiBookConfirm")
+});
 
 app.get("/cities/:city/:event/booking",(req,res)=>{
     const requestedCity = req.params.city;
@@ -263,6 +290,8 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
+            console.log(foundEvent)
+            res.render("audiDetailsInput",{foundEvent});
         }
     })
 
@@ -375,7 +404,6 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 
 app.get("/login",(req,res)=>{
-    console.log(req);
     res.render('login');
 })
 
