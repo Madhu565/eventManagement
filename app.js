@@ -215,8 +215,10 @@ app.post("/createEvent", upload, function(req,res){
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
         contentType: 'image/png'
-    }
+    },
+    Booked: req.body.booked
     });
+    
    // event.save();
     //res.redirect("/organiser");
 
@@ -286,10 +288,10 @@ app.get("/users/register", (req,res)=>{
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
-app.get("/analytics", function(req, res){
-
+app.get("/analytics/:id", function(req, res){
+    const requestedId=req.params.id;
     let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
-    Event.find({},function(err,foundEvent){
+    Event.find({_id:requestedId},function(err,foundEvent){
         if(err){
             console.log(err);
         }
@@ -300,11 +302,12 @@ app.get("/analytics", function(req, res){
         }
     })
     .then(()=>{
-        console.log(arr);
-        Audiance.find({}, function(err, foundAudience){
+        
+        Audiance.find({eventId:requestedId}, function(err, foundAudience){
             if(err){
                 console.log(err);
             }else{
+                console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
@@ -323,17 +326,19 @@ app.get("/analytics", function(req, res){
     
                 });
     
-                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount});
+                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount,booking:arr[0].Booked,cap:arr[0].tolalCapacity});
             }
-        })
-    
-    
-    
-    
-    
-        
+        })  
     });
-    })
+});
+
+
+
+    
+    
+    
+    
+
    
 
 
@@ -353,7 +358,7 @@ app.get("/cities/:city", (req,res)=>{
     
 });
 app.post("/audiDetailsInput",(req,res)=>{
-    let bookings = 0
+    
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
     
     const audiance = new Audiance({
@@ -391,6 +396,10 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
+            var capacity = foundEvent[0].tolalCapacity;
+            var booked = foundEvent[0].Booked; 
+            var remain = (capacity-booked);
+            res.render("audiDetailsInput",{foundEvent, remain});
         }
     })
 

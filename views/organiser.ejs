@@ -20,10 +20,11 @@
             <td><%=count++ %></td>
             <td><%=Event.eventName%></td>
             <td style="height: 100%;">
-            <form action="/newindex" method="POST" >
-                    <input style="display: none;" value="<%=Event.username%>" name ="username">
-                    <button type="submit">Show Stats</button>
-            </form></td>
+            <!-- <form action="/analytics" method="GET" >
+                    <input style="display: none;" value="<%=Event._id%>" name ="id">
+                    <a href="/analytics/:<%=Event._id%>"><button>Show Stats</button></a> 
+            </form></td> -->
+            <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
             <td style="height: 100%;">
             <form action="/delete" method="POST" >
                 <input style="display: none;" value="<%=Event._id%>" name ="id">
