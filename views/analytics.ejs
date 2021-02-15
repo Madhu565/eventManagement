@@ -18,8 +18,8 @@
     </div>
     <div class="analysis">
         <div id="myPieChart" style="width: 500px; height: 500px;"></div>
-        <!--<div id="myPieChart2" style="width: 500px; height: 500px;"></div>
-        <div id="barchart_values" style="width: 900px; height: 300px;"></div>-->
+        <!--<div id="myPieChart2" style="width: 500px; height: 500px;"></div>-->
+        <div id="barchart_values" style="width: 900px; height: 300px;"></div>
     </div>
     <br><br><br><br>
     <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
@@ -49,9 +49,35 @@
           chart.draw(data, null);
         }
 
+        function drawChart3() {
+        var data = google.visualization.arrayToDataTable([
+            ["Age", "Number", { role: "style" } ],
+            ["0-14 Yrs", 11, "#b87333"],
+            ["15-24 Yrs", 22, "silver"],
+            ["25-64 Yrs", 78, "gold"],
+            ["65+ Yrs", 24, "color: #e5e4e2"]
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+            var options = {
+            title: "Age group of attendees",
+            width: 600,
+            height: 400,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+            };
+            var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+            chart.draw(view, options);
+        }
 
 
-        
 
 
     </script>

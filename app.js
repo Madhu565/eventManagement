@@ -57,7 +57,8 @@ const eventSchema = new mongoose.Schema({
     {
         data: Buffer,
         contentType: String
-    }
+    },
+    booked: String
 });
 
 
@@ -223,16 +224,16 @@ app.get("/audianceDetails",function(req,res){
 })
 
 app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
+    //console.log(req.body.AudiName)
     const audiance = new Audiance({
-    audiName: req.body.Name,
-    audiEmail:req.body.email,
-    audiPhNum:req.body.ph_num,
-    audiAge:req.body.age,
-    audiAddress:req.body.address
-});
-audiance.save();
-res.render("audiBookConfirm");
+        audiName: req.body.Name,
+        audiEmail:req.body.email,
+        audiPhNum:req.body.ph_num,
+        audiAge:req.body.age,
+        audiAddress:req.body.address
+    });
+    audiance.save();
+    res.render("audiBookConfirm");
 });
 
 app.get("/events", (req,res)=>{
