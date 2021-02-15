@@ -7,11 +7,9 @@ const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
+var fs = require('fs');
 //const LocalStrategy = require('passport-local').Strategy;
-
-
 var path = require("path");
-var Chart = require('chart.js');
 
 
 const app = express();
@@ -44,13 +42,19 @@ const eventSchema = new mongoose.Schema({
     description: String,
     location: String,
     tolalCapacity: Number,
-    startDate: String,
+    startDate: Number,
     startTime: String,
-    endDate: String,
+    endDate: Number,
     endTime: String,
     price:Number,
-    picture:String,
-    city:String
+    city:String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    Booked:Number,
+
 });
 
 
@@ -82,7 +86,11 @@ const audianceSchema = new mongoose.Schema({
     audiEmail:String,
     audiPhNum:Number,
     audiAge:Number,
-    audiAddress:String
+    audiAddress:String,
+    eventId:String,
+    noOfTickets:Number,
+    gender:String,
+
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -108,12 +116,8 @@ const organiserSchema = new mongoose.Schema({
 });
 
 organiserSchema.plugin(passportLocalMongoose);
-
 const Organiser = mongoose.model("Organiser", organiserSchema);
-
-
 passport.use(Organiser.createStrategy());
-
 passport.serializeUser(Organiser.serializeUser());
 passport.deserializeUser(Organiser.deserializeUser());
 
@@ -123,13 +127,40 @@ const organiser = new Organiser({
     name: "Squad"
 });
 //organiser.save();
+/*=======================================================================
+                         Functions
+========================================================================*/
+function dateToNumber(car){
+    let str=[]
+    for(let i = 0; i<car.length ; i++){
+        if(car[i] == '-'){
+            continue;
+        }else{
+            str.push(car[i]);
+        }
+    }
+    let newStr = str.join('');
+    let newNumber =  Number(newStr);
+    return newNumber;
+}
+function handleError(e){
+    console.log(e);
+}
 
-
+function today(){
+    let date = new Date;
+    let day = (date.getDate())
+    let month = (date.getMonth()+1)
+    let year = (date.getFullYear())
+    let exactDate = month <10 ? `${year}-0${month}-${day}` :`${year}-0${month}-${day}`
+return exactDate;
+}
 /*=======================================================================
                          HOME ROUTE
 ========================================================================*/
 
 app.get("/", (req,res)=>{
+    console.log(dateToNumber(today()));
     res.render("landing");
 })
 
@@ -140,10 +171,9 @@ app.get("/", (req,res)=>{
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
         var name = req.user.name;
-        console.log(req.user);
         res.render('organiser', {passedname: name});
     } else {
-        res.redirect('/users/login');
+        res.redirect('/login');
     }
 });
 
@@ -152,12 +182,12 @@ app.get("/createEvent", function(req, res){
 });
 
 app.get("/pictures", function(req, res){
-    Event.find({ image: { $ne: null } }, function (err, foundEvents) {
+    Event.find({ image: { $ne: null } }, function (err, items) {
         if (err) {
             console.log(err);
         } else {
-            if (foundEvents) {
-                res.render("pictures", {passedEvents: foundEvents});
+            if (items) {
+                res.render("pictures", { items: items });
                 };
             }
         
@@ -167,7 +197,7 @@ app.get("/pictures", function(req, res){
 var Storage = multer.diskStorage({
     destination: "./public/uploads/",
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+        cb(null, file.fieldname + '_' + Date.now());
     }
 });
  
@@ -182,17 +212,19 @@ app.post("/createEvent", upload, function(req,res){
     description: req.body.description,
     location: req.body.location,
     tolalCapacity: req.body.capacity,
-    startDate: req.body.startDate,
+    startDate: dateToNumber(req.body.startDate),
     startTime: req.body.startTime,
-    endDate: req.body.endDate,
+    endDate: dateToNumber(req.body.endDate),
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    image: req.file.filename
+    Booked:0,
+    image: 
+    {
+        data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+        contentType: 'image/png'
+    }
     });
-   // event.save();
-    res.redirect("/organiser");
-
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -205,23 +237,6 @@ app.post("/createEvent", upload, function(req,res){
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-app.get("/audianceDetails",function(req,res){
-    res.render("audiDetailsInput");
-})
-
-app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
-    const audiance = new Audiance({
-    audiName: req.body.Name,
-    audiEmail:req.body.email,
-    audiPhNum:req.body.ph_num,
-    audiAge:req.body.age,
-    audiAddress:req.body.address
-});
-audiance.save();
-res.render("audiBookConfirm");
-});
-
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
         if(err){
@@ -231,15 +246,47 @@ app.get("/events", (req,res)=>{
         }
     })
 });
+app.get("/users/register", (req,res)=>{
+    res.render("createEvent");
+})
+
 
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
 app.get("/analytics", function(req, res){
-    res.render("analytics");
+
+    let malecount = 0, femalecount = 0; 
+    Audiance.find({}, function(err, foundAudience){
+        if(err){
+            console.log(err);
+        }else{
+            foundAudience.forEach(function(audience){
+                if(audience.gender === "Male"){
+                    malecount = malecount+1;
+                } if(audience.gender === "Female") {
+                    femalecount = femalecount + 1;
+                }
+
+
+            });
+
+            res.render("analytics", {male: malecount, female: femalecount});
+        }
+    })
+
 });
 
-app.get("/:city", (req,res)=>{
+
+app.get("/analytics-data", function(req, res){
+    
+})
+
+
+/*=======================================================================
+                         CITY
+========================================================================*/
+app.get("/cities/:city", (req,res)=>{
     const requestedCity = req.params.city;
     Event.find({city:requestedCity},(err,foundEvents)=>{
         if(err){
@@ -248,15 +295,56 @@ app.get("/:city", (req,res)=>{
             res.render("events",{foundEvents});
         }
     })
+    
+});
+app.post("/audiDetailsInput",(req,res)=>{
+    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    
+    const audiance = new Audiance({
+        audiName: AudiName,
+        audiEmail:email,
+        audiPhNum:ph_num,
+        audiAge:age,
+        audiAddress:address,
+        eventId:id,
+        noOfTickets:tickets,
+        gender:gender
+       });
+
+    audiance.save();   
+       
+   console.log(id);
+    Event.findById(id, (err, event) => {
+        if (err) return handleError(err);
+    
+        event.Booked = Number(event.Booked) + Number(tickets);
+    
+        event.save((err, updatedevent) => {
+            if (err) return handleError(err);
+            else{
+                console.log("success");
+            }
+        });
+    });
+    
+
 });
 
-app.get("/:city/:event", (req,res)=> {
+
+app.get("/cities/:city/:event/booking",(req,res)=>{
+    const requestedCity = req.params.city;
     const requestedEvent = req.params.event;
-    res.json({
-        status: "ok",
+    Event.find({city: requestedCity, eventName:requestedEvent},(err,foundEvent)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render("audiDetailsInput",{foundEvent});
+        }
     })
 
-})
+});
+
+
 /*=======================================================================
                          REGISTER ROUTES
 ========================================================================*/
@@ -266,10 +354,8 @@ app.get("/userLoginRegister",function(req,res)
     
 });
 
-app.get('/users/register', function (req, res) {
-        
-                res.render('register');
-
+app.get('/register', function (req, res) {
+    res.render('register');
 });
 // app.post("/users/register", (req,res)=>{
 //     const { name,email,password,password2 }=req.body;
@@ -337,7 +423,7 @@ app.get('/users/register', function (req, res) {
 
 
 
-app.post('/users/register', function (req, res) {
+app.post('/register', function (req, res) {
     Organiser.register(
         {   
             username: req.body.username,
@@ -350,7 +436,7 @@ app.post('/users/register', function (req, res) {
         function (err, organiser) {
             if (err) {
                 console.log(err);
-                res.redirect('/users/register');
+                res.redirect('/register');
             } else {
                 passport.authenticate('local')(req, res, function () {
                     res.redirect('/organiser');
@@ -364,11 +450,11 @@ app.post('/users/register', function (req, res) {
                          ORGANIZER LOGIN
 ========================================================================*/
 
-app.get("/users/login",(req,res)=>{
+app.get("/login",(req,res)=>{
     res.render('login');
 })
 
-app.post('/users/login', function (req, res) {
+app.post('/login', function (req, res) {
     const organiser = new Organiser({
         username: req.body.username,
         password: req.body.password,
@@ -378,12 +464,16 @@ app.post('/users/login', function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            passport.authenticate('local', {failureRedirect: '/users/login'})(req, res, function () {
+            passport.authenticate('local', {failureRedirect: '/login'})(req, res, function () {
                 res.redirect("/organiser")
             });
         }
     });
 });
+
+
+
+
 
 /*=======================================================================
                          LOGOUT
@@ -397,3 +487,5 @@ app.get('/logout', function (req, res) {
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 })
+
+
