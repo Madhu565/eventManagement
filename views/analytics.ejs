@@ -23,7 +23,29 @@
     </div>
     <br><br><br><br>
     <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+    <div>
+        <table>
+            <tr>
+                <th>SL. NO</th>
+                <th>AUDIENCE NAME</th> 
+                <th>PHONE NO.</th>
+                <th>EMAIL ID</th>
+            </tr>
+            <% var count=1%>
+            <%passedAudience.forEach(function(AUDIANCE){%>
+        
+             <tr>
+                 <td><%=count++ %></td>
+    
+                <td><%=AUDIANCE.audiName%></td>
+                
+                <td><%=AUDIANCE.audiPhNum%></td>
 
+                <td><%=AUDIANCE.audiEmail%></td>
+             </tr>
+            <% }) %>
+        </table>
+    </div>
     
     <script>
         var male = "<%= male %>";
@@ -48,6 +70,7 @@
           var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
           chart.draw(data, null);
         }
+        
 
 
 
