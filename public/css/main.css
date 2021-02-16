@@ -150,6 +150,7 @@ Login-Page
     align-items: center;
     width: 100vw;
     height:100vh;
+    overflow: hidden;
   
 }
 .login-card{
@@ -313,67 +314,6 @@ Register
 Create-Event-Page(Admin)
 ///////////////////////////////////////////////////////// */
 
-h1{
-    font-size: 40px;
-    font-family: Roboto;
-    margin-left: 40%;
-    text-transform: uppercase;
-    color: black;
-}
-.submitForm{
-    max-width: 600px;
-    margin: 1rem auto;
-    border: 2px solid black;
-    padding: 1rem;
-    border-radius: 5px;
-    
-}
-label{
-    display: inline-block;
-    padding: 0rem 0 .25rem;
-    text-transform: uppercase;
-    font-size: 14px;
-    color:black;
-    font-size: 20px;
-    font-family: Roboto;
-    width: 240px;
-}
-input{
-
-width: 300px;
-height: 16px;
-border:2px solid black;
-border-radius: 5px;
-font-size: 16px;
-padding: 0.25rem;
-font-family: Roboto;
-}
-.btn{
-    display: block;
-    width: 100px;
-    height: 30px;
-    background: orangered;
-    margin-top: 10px;
-    border: none;
-    font-size: 20px;
-    transition: 0.5s;
-    font-family: Roboto;
-    color: white;
-    margin: 1rem 0;
-    border-radius: 5px;
-    margin-left: 250px;
-}
-.btn:hover {
-    color:black;
-    background-color: orange;
-}
-
-.btn:active {
-background-color: white;
-box-shadow: 0 5px black;
-transform: translateY(4px);
-}   
-
 /* /////////////////////////////////////////////////////////
 Analyitics-Page(Admin)
 ///////////////////////////////////////////////////////// */
@@ -386,6 +326,7 @@ Events-Page(Audience)
     background-position: center;
     background-attachment: fixed;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
 }

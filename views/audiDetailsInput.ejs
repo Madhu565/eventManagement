@@ -26,11 +26,15 @@
                 <option >Others</option>
             </select><br></br>
         
+
+        
+         <h1><%= remain %></h1>
         <label for="tickets">How many tickets ? </label>
-        <input type="number" min="1" placeholder="No. of tickets" name=tickets><br></br>
+        <input type="number" min="1" max="<%= remain %>" placeholder="No. of tickets" name=tickets><br></br>
 
         
 
         <button type="submit">Submit</button>
     </form>
-<%- include('partials/footer') -%>
+</body>
+</html>
