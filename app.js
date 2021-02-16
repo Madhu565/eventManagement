@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
-const bcrypt =require('bcrypt');
 const multer = require("multer");
 var fs = require('fs');
 var nodemailer=require('nodemailer');
@@ -16,6 +15,8 @@ var nodemailer=require('nodemailer');
 var path = require("path");
 var Chart = require('chart.js');
 const { getMaxListeners } = require('process');
+const { assert } = require('console');
+const { isBuffer } = require('util');
 
 
 const app = express();
@@ -53,13 +54,14 @@ const eventSchema = new mongoose.Schema({
     endDate: String,
     endTime: String,
     price:Number,
-    picture:String,
     city:String,
     image: 
     {
         data: Buffer,
         contentType: String
-    }
+    },
+    Booked:Number,
+
 });
 
 
@@ -93,7 +95,9 @@ const audianceSchema = new mongoose.Schema({
     audiAge:Number,
     audiAddress:String,
     eventId:String,
-    gender: String
+    noOfTickets:Number,
+    gender:String,
+
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -151,7 +155,6 @@ app.get("/", (req,res)=>{
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
         var name = req.user.name;
-        console.log(req.user);
         res.render('organiser', {passedname: name});
     } else {
         res.redirect('/login');
@@ -208,6 +211,7 @@ app.post("/createEvent", upload, function(req,res){
    // event.save();
     //res.redirect("/organiser");
 
+
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -224,41 +228,19 @@ app.get("/audianceDetails",function(req,res){
     res.render("audiDetailsInput");
 })
 
-app.post("/audianceDetails", function(req,res){
-    console.log(req.body.AudiName)
-    const audiance = new Audiance({
-    audiName: req.body.Name,
-    audiEmail:req.body.email,
-    audiPhNum:req.body.ph_num,
-    audiAge:req.body.age,
-    audiAddress:req.body.address
+// app.post("/audianceDetails", function(req,res){
+//     console.log(req.body.AudiName)
+//     const audiance = new Audiance({
+//     audiName: req.body.Name,
+//     audiEmail:req.body.email,
+//     audiPhNum:req.body.ph_num,
+//     audiAge:req.body.age,
+//     audiAddress:req.body.address
     
-});
-audiance.save();
-var transporter=nodemailer.createTransport({
-    service:'gmail',
-    auth:{
-        user:'grabmyseatSquad@gmail.com',
-        pass:'SQUAD12345'
-    }
-});
+// });
+//audiance.save();
 
-var mailOptions={
-    from:'grabmyseatSquad@gmail.com',
-    to: req.body.email ,
-    subject:'Test Email',
-    text:'Thanks for contacting GRAB MY SEAT'
-};
-transporter.sendMail(mailOptions,function(error,info){
-    if(error){
-        console.log('error');
-    }
-    else{
-        console.log('Email sent:'+info.response);
-    }
-});
-res.render("audiBookConfirm");
-});
+
 
 app.get("/events", (req,res)=>{
     Event.find({},(err,foundEvents)=>{
@@ -323,6 +305,64 @@ app.get("/cities/:city", (req,res)=>{
             res.render("events",{foundEvents});
         }
     })
+    
+});
+app.post("/audiDetailsInput",(req,res)=>{
+    let bookings = 0
+    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    
+    const audiance = new Audiance({
+        audiName: AudiName,
+        audiEmail:email,
+        audiPhNum:ph_num,
+        audiAge:age,
+        audiAddress:address,
+        eventId:id,
+        noOfTickets:tickets,
+        gender:gender
+       });
+    audiance.save();  
+
+    console.log(id);
+    Event.findById(id, (err, event) => {
+        if (err) {
+            console.log('Error');
+        }
+    
+        event.Booked = Number(event.Booked) + Number(tickets);
+    
+        event.save((err, updatedevent) => {
+            if (err) {
+                console.log('Error');
+            }
+            else{
+                console.log("success");
+            }
+        });
+    });
+    
+    var transporter=nodemailer.createTransport({
+        service:'gmail',
+        auth:{
+            user:'grabmyseatSquad@gmail.com',
+            pass:'SQUAD12345'
+        }
+    });
+    
+    var mailOptions={
+        from:'grabmyseatSquad@gmail.com',
+        to: req.body.email ,
+        subject:'Test Email',
+        text:'Thanks for contacting GRAB MY SEAT'
+    };
+    transporter.sendMail(mailOptions,function(error,info){
+        if(error){
+            console.log('error');
+        }
+        else{
+            console.log('Email sent:'+info.response);
+        }
+    });
 });
 
 
@@ -333,6 +373,7 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
+            res.render("audiDetailsInput",{foundEvent});
         }
     })
 
