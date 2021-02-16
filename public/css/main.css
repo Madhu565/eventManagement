@@ -150,6 +150,7 @@ Login-Page
     align-items: center;
     width: 100vw;
     height:100vh;
+    overflow: hidden;
   
 }
 .login-card{
@@ -320,6 +321,7 @@ Events-Page(Audience)
     background-position: center;
     background-attachment: fixed;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
 }

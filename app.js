@@ -6,15 +6,10 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
-//const bcrypt =require('bcrypt');
 const multer = require("multer");
-//const LocalStrategy = require('passport-local').Strategy;
-
 var fs = require('fs');
+//const LocalStrategy = require('passport-local').Strategy;
 var path = require("path");
-var Chart = require('chart.js');
-const { assert } = require('console');
-
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -46,12 +41,11 @@ const eventSchema = new mongoose.Schema({
     description: String,
     location: String,
     tolalCapacity: Number,
-    startDate: String,
+    startDate: Number,
     startTime: String,
-    endDate: String,
+    endDate: Number,
     endTime: String,
     price:Number,
-    image:String,
     city:String,
     image: 
     {
@@ -59,6 +53,7 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
+
 });
 
 
@@ -94,7 +89,7 @@ const audianceSchema = new mongoose.Schema({
     eventId:String,
     noOfTickets:Number,
     gender:String,
-   
+
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -102,6 +97,9 @@ const Audiance = mongoose.model("AudianceDetail", audianceSchema);
 
 
 //audiance.save();
+
+
+
 
 
 /*=======================================================================
@@ -117,12 +115,8 @@ const organiserSchema = new mongoose.Schema({
 });
 
 organiserSchema.plugin(passportLocalMongoose);
-
 const Organiser = mongoose.model("Organiser", organiserSchema);
-
-
 passport.use(Organiser.createStrategy());
-
 passport.serializeUser(Organiser.serializeUser());
 passport.deserializeUser(Organiser.deserializeUser());
 
@@ -132,13 +126,40 @@ const organiser = new Organiser({
     name: "Squad"
 });
 //organiser.save();
+/*=======================================================================
+                         Functions
+========================================================================*/
+function dateToNumber(car){
+    let str=[]
+    for(let i = 0; i<car.length ; i++){
+        if(car[i] == '-'){
+            continue;
+        }else{
+            str.push(car[i]);
+        }
+    }
+    let newStr = str.join('');
+    let newNumber =  Number(newStr);
+    return newNumber;
+}
+function handleError(e){
+    console.log(e);
+}
 
-
+function today(){
+    let date = new Date;
+    let day = (date.getDate())
+    let month = (date.getMonth()+1)
+    let year = (date.getFullYear())
+    let exactDate = month <10 ? `${year}-0${month}-${day}` :`${year}-0${month}-${day}`
+return exactDate;
+}
 /*=======================================================================
                          HOME ROUTE
 ========================================================================*/
 
 app.get("/", (req,res)=>{
+    console.log(dateToNumber(today()));
     res.render("landing");
 })
 
@@ -148,8 +169,19 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
-        var name = req.user.name;
-        res.render('organiser', {passedname: name});
+        Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
+        
+        {
+            if(err)console.log(err)
+            else{
+                var name = req.user.name;
+                res.render('organiser', {passedname: name,foundEvents})
+                // console.log(foundEvents);
+            }
+        })
+        
+        // console.log(req.user);
+        // res.render('organiser', {passedname: name});
     } else {
         res.redirect('/login');
     }
@@ -175,7 +207,7 @@ app.get("/pictures", function(req, res){
 var Storage = multer.diskStorage({
     destination: "./public/uploads/",
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+        cb(null, file.fieldname + '_' + Date.now());
     }
 });
  
@@ -184,28 +216,27 @@ var upload = multer({ storage: Storage }).single('file');
 
 app.post("/createEvent", upload, function(req,res){
 
+
     //var imageFile = req.file.filename;
     const event = new Event({
+    username:req.user.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
     tolalCapacity: req.body.capacity,
-    startDate: req.body.startDate,
+    startDate: dateToNumber(req.body.startDate),
     startTime: req.body.startTime,
-    endDate: req.body.endDate,
+    endDate: dateToNumber(req.body.endDate),
     endTime: req.body.endTime,
     price:req.body.price,
-    city:req.body.city.toLowerCase(),
+    city:req.body.city,
+    Booked:0,
     image: 
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
         contentType: 'image/png'
-    },
-    Booked: 0
+    }
     });
-   // event.save();
-    // res.redirect("/organiser");
-
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -215,41 +246,29 @@ app.post("/createEvent", upload, function(req,res){
         }
     });
 })
+
+///Deleteing event for organizer
+
+app.post("/delete",function(req,res){
+    var delid= req.body.id
+   // console.log(delid);
+
+   Event.deleteOne({_id:delid},function(err){
+    if (err) console.log(err);
+    // res.deleteOne(delid);
+   });  
+
+   res.redirect('organiser');
+})
+
+
+
+
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-// app.get("/audianceDetails",function(req,res){
-//     res.render("audiDetailsInput");
-// })
-
-// app.post("/audianceDetails", function(req,res){
-//     console.log(req.body.AudiName)
-//     const audiance = new Audiance({
-//     audiName: req.body.Name,
-//     audiEmail:req.body.email,
-//     audiPhNum:req.body.ph_num,
-//     audiAge:req.body.age,
-//     audiAddress:req.body.address,
-//     eventId:String,
-//     noOfTickets:Number,
-//     gender:String
-
-app.post("/audiDetailsInput",(req,res)=>{
-    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
-    const audiance = new Audiance({
-        audiName: AudiName,
-        audiEmail:email,
-        audiPhNum:ph_num,
-        audiAge:age,
-        audiAddress:address,
-        eventId:id,
-        noOfTickets:tickets,
-        gender:gender
-       });
-    audiance.save();   
-    res.render("audiBookConfirm")
-});
-
   
 app.get("/cities/:city", (req,res)=>{
     const requestedCity = req.params.city;
@@ -274,11 +293,86 @@ app.get("/cities/:city/:event", (req,res)=> {
             
         }
     })
-
 });
 
+/*=======================================================================
+                         ANALYTICS ROUTE
+=======================================================================*/
+app.get("/analytics/:id", function(req, res){
+    const requestedId=req.params.id;
+    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
+    Event.find({_id:requestedId},function(err,foundEvent){
+        if(err){
+            console.log(err);
+        }
+        else{
+            arr = foundEvent;
+          //  console.log(arr);
+            
+        }
+    })
+    .then(()=>{
+
+        
+        Audiance.find({eventId:requestedId}, function(err, foundAudience){
+
+            if(err){
+                console.log(err);
+            }else{
+                console.log(arr[0].tolalCapacity);
+                foundAudience.forEach(function(audience){
+                    if(audience.gender === "Male"){
+                        malecount = malecount+1;
+                    } if(audience.gender === "Female") {
+                        femalecount = femalecount + 1;
+                    } if(audience.audiAge>=0 && audience.audiAge<=14){
+                        childrenCount = childrenCount+1;
+                    }if(audience.audiAge>14 && audience.audiAge<=24){
+                        teenagerCount = teenagerCount+1;
+                    }if(audience.audiAge>24 && audience.audiAge<=64){
+                        middleAgedCount = middleAgedCount+1;
+                    }if(audience.audiAge>64){
+                        seniorCitizenCount = seniorCitizenCount+1;
+                    }
+    
+    
+                });
+    
+                res.render("analytics", {male: malecount, female: femalecount, children: childrenCount, teenager: teenagerCount, middleAged: middleAgedCount, seniorCitizen: seniorCitizenCount,booking:arr[0].Booked,cap:arr[0].tolalCapacity});
+            }
+        })  
+    });
+});
+
+
+
+    
+    
+    
+    
+
+   
+
+
+
+/*=======================================================================
+                         CITY
+========================================================================*/
+app.get("/cities/:city", (req,res)=>{
+    const requestedCity = req.params.city;
+    Event.find({city:requestedCity},(err,foundEvents)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render("events",{foundEvents});
+        }
+    })
+    
+});
 app.post("/audiDetailsInput",(req,res)=>{
+    
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
+    
     const audiance = new Audiance({
         audiName: AudiName,
         audiEmail:email,
@@ -289,14 +383,24 @@ app.post("/audiDetailsInput",(req,res)=>{
         noOfTickets:tickets,
         gender:gender
        });
-       Event.findOneAndUpdate({_id: id},{Booked:tickets}).then(()=>{
-           Event.findOne({_id:id}).then(res => {
-               assert(res.Booked === tickets);
-           })
-       })
-    audiance.save();   
-    res.render("audiBookConfirm")
+    audiance.save();  
+    console.log(id);
+    Event.findById(id, (err, event) => {
+        if (err) return handleError(err);
+    
+        event.Booked = Number(event.Booked) + Number(tickets);
+    
+        event.save((err, updatedevent) => {
+            if (err) return handleError(err);
+            else{
+                console.log("success");
+            }
+        });
+    });
+    
+
 });
+
 
 app.get("/cities/:city/:event/booking",(req,res)=>{
     const requestedCity = req.params.city;
@@ -305,17 +409,13 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
         if(err){
             console.log(err);
         }else{
-            console.log(foundEvent)
-            res.render("audiDetailsInput",{foundEvent});
+            var capacity = foundEvent[0].tolalCapacity;
+            var booked = foundEvent[0].Booked; 
+            var remain = (capacity-booked);
+            res.render("audiDetailsInput",{foundEvent, remain});
         }
     })
-});
 
-/*=======================================================================
-                         ANALYTICS ROUTE
-=======================================================================*/
-app.get("/analytics", function(req, res){
-    res.render("analytics");
 });
 
 
@@ -445,6 +545,10 @@ app.post('/login', function (req, res) {
     });
 });
 
+
+
+
+
 /*=======================================================================
                          LOGOUT
 ========================================================================*/
@@ -457,3 +561,5 @@ app.get('/logout', function (req, res) {
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 })
+
+
