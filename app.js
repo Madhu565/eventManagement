@@ -8,6 +8,7 @@ const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
 var fs = require('fs');
+var nodemailer=require('nodemailer');
 //const LocalStrategy = require('passport-local').Strategy;
 var path = require("path");
 
@@ -384,21 +385,47 @@ app.post("/audiDetailsInput",(req,res)=>{
         gender:gender
        });
     audiance.save();  
+
     console.log(id);
     Event.findById(id, (err, event) => {
-        if (err) return handleError(err);
+        if (err) {
+            console.log('Error');
+        }
     
         event.Booked = Number(event.Booked) + Number(tickets);
     
         event.save((err, updatedevent) => {
-            if (err) return handleError(err);
+            if (err) {
+                console.log('Error');
+            }
             else{
                 console.log("success");
             }
         });
     });
     
-
+    var transporter=nodemailer.createTransport({
+        service:'gmail',
+        auth:{
+            user:'grabmyseatSquad@gmail.com',
+            pass:'SQUAD12345'
+        }
+    });
+    
+    var mailOptions={
+        from:'grabmyseatSquad@gmail.com',
+        to: req.body.email ,
+        subject:'Test Email',
+        text:'Thanks for contacting GRAB MY SEAT'
+    };
+    transporter.sendMail(mailOptions,function(error,info){
+        if(error){
+            console.log('error');
+        }
+        else{
+            console.log('Email sent:'+info.response);
+        }
+    });
 });
 
 
@@ -514,6 +541,28 @@ app.post('/register', function (req, res) {
             } else {
                 passport.authenticate('local')(req, res, function () {
                     res.redirect('/organiser');
+                    var transporter=nodemailer.createTransport({
+                        service:'gmail',
+                        auth:{
+                            user:'grabmyseatSquad@gmail.com',
+                            pass:'SQUAD12345'
+                        }
+                    });
+                    
+                    var mailOptions={
+                        from:'grabmyseatSquad@gmail.com',
+                        to:req.body.email,
+                        subject:'Test Email',
+                        text:'Thanks for contacting GRAB MY SEAT'
+                    };
+                    transporter.sendMail(mailOptions,function(error,info){
+                        if(error){
+                            console.log('error');
+                        }
+                        else{
+                            console.log('Email sent:'+info.response);
+                        }
+                    });
                 });
             }
         }
