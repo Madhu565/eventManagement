@@ -9,12 +9,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
 var fs = require('fs');
 //const LocalStrategy = require('passport-local').Strategy;
-
-
 var path = require("path");
-var Chart = require('chart.js');
-const { assert } = require('console');
-const { isBuffer } = require('util');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -46,19 +41,19 @@ const eventSchema = new mongoose.Schema({
     description: String,
     location: String,
     tolalCapacity: Number,
-    startDate: String,
+    startDate: Number,
     startTime: String,
-    endDate: String,
+    endDate: Number,
     endTime: String,
     price:Number,
-    picture:String,
     city:String,
     image: 
     {
         data: Buffer,
         contentType: String
     },
-    Booked:Number
+    Booked:Number,
+
 });
 
 
@@ -92,7 +87,9 @@ const audianceSchema = new mongoose.Schema({
     audiAge:Number,
     audiAddress:String,
     eventId:String,
-    gender: String
+    noOfTickets:Number,
+    gender:String,
+
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -118,12 +115,8 @@ const organiserSchema = new mongoose.Schema({
 });
 
 organiserSchema.plugin(passportLocalMongoose);
-
 const Organiser = mongoose.model("Organiser", organiserSchema);
-
-
 passport.use(Organiser.createStrategy());
-
 passport.serializeUser(Organiser.serializeUser());
 passport.deserializeUser(Organiser.deserializeUser());
 
@@ -133,13 +126,40 @@ const organiser = new Organiser({
     name: "Squad"
 });
 //organiser.save();
+/*=======================================================================
+                         Functions
+========================================================================*/
+function dateToNumber(car){
+    let str=[]
+    for(let i = 0; i<car.length ; i++){
+        if(car[i] == '-'){
+            continue;
+        }else{
+            str.push(car[i]);
+        }
+    }
+    let newStr = str.join('');
+    let newNumber =  Number(newStr);
+    return newNumber;
+}
+function handleError(e){
+    console.log(e);
+}
 
-
+function today(){
+    let date = new Date;
+    let day = (date.getDate())
+    let month = (date.getMonth()+1)
+    let year = (date.getFullYear())
+    let exactDate = month <10 ? `${year}-0${month}-${day}` :`${year}-0${month}-${day}`
+return exactDate;
+}
 /*=======================================================================
                          HOME ROUTE
 ========================================================================*/
 
 app.get("/", (req,res)=>{
+    console.log(dateToNumber(today()));
     res.render("landing");
 })
 
@@ -204,24 +224,19 @@ app.post("/createEvent", upload, function(req,res){
     description: req.body.description,
     location: req.body.location,
     tolalCapacity: req.body.capacity,
-    startDate: req.body.startDate,
+    startDate: dateToNumber(req.body.startDate),
     startTime: req.body.startTime,
-    endDate: req.body.endDate,
+    endDate: dateToNumber(req.body.endDate),
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
-    Booked:req.body.booked,
+    Booked:0,
     image: 
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
         contentType: 'image/png'
-    },
-    Booked: req.body.booked
+    }
     });
-    
-   // event.save();
-    //res.redirect("/organiser");
-
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -254,25 +269,10 @@ app.post("/delete",function(req,res){
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-app.get("/audianceDetails",function(req,res){
-    res.render("audiDetailsInput");
-})
-
-// app.post("/audianceDetails", function(req,res){
-//     console.log(req.body.AudiName)
-//     const audiance = new Audiance({
-//     audiName: req.body.Name,
-//     audiEmail:req.body.email,
-//     audiPhNum:req.body.ph_num,
-//     audiAge:req.body.age,
-//     audiAddress:req.body.address
-// });
-// audiance.save();
-// res.render("audiBookConfirm");
-// });
-
-app.get("/events", (req,res)=>{
-    Event.find({},(err,foundEvents)=>{
+  
+app.get("/cities/:city", (req,res)=>{
+    const requestedCity = req.params.city;
+    Event.find({city:requestedCity},(err,foundEvents)=>{
         if(err){
             console.log(err);
         }else{
@@ -280,10 +280,20 @@ app.get("/events", (req,res)=>{
         }
     })
 });
-app.get("/users/register", (req,res)=>{
-    res.render("createEvent");
-})
-
+app.get("/cities/:city/:event", (req,res)=> {
+    const requestedEvent = req.params.event;
+    const requestedCity = req.params.city;
+   
+    Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
+        if(err){
+            console.log(err);
+        }else{
+            
+            res.render("eventDetails",{foundEvent})
+            
+        }
+    })
+});
 
 /*=======================================================================
                          ANALYTICS ROUTE
@@ -388,6 +398,7 @@ app.post("/audiDetailsInput",(req,res)=>{
         });
     });
     
+
 });
 
 
@@ -550,3 +561,5 @@ app.get('/logout', function (req, res) {
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 })
+
+

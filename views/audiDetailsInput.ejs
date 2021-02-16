@@ -31,7 +31,7 @@
          <h1><%= remain %></h1>
         <label for="tickets">How many tickets ? </label>
         <input type="number" min="1" max="<%= remain %>" placeholder="No. of tickets" name=tickets><br></br>
-
+        <input style="display: none;" value=<%= foundEvent[0]._id%> name="id">
         
 
         <button type="submit">Submit</button>
