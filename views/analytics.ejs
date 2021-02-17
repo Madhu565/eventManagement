@@ -11,22 +11,42 @@
   
 </head>
 <body>
-    <div id="demo">
-        <h2>
-
-        </h2>
-    </div>
+   
     <div class="analysis">
         <div id="myPieChart" style="width: 500px; height: 500px;"></div>
-        <!--<div id="myPieChart2" style="width: 500px; height: 500px;"></div>  //uncomment  -->
+        <div id="myPieChart2" style="width: 500px; height: 500px;"></div> 
         <div id="barchart_values" style="width: 900px; height: 300px;"></div>
     </div>
     <br><br><br><br>
     <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+    <div>
+        <table>
+            <tr>
+                <th>SL. NO</th>
+                <th>AUDIENCE NAME</th> 
+                <th>PHONE NO.</th>
+                <th>EMAIL ID</th>
+            </tr>
+            <% var count=1%>
+            <%passedAudience.forEach(function(AUDIANCE){%>
+        
+             <tr>
+                 <td><%=count++ %></td>
+    
+                <td><%=AUDIANCE.audiName%></td>
+                
+                <td><%=AUDIANCE.audiPhNum%></td>
 
-    <!-- <div id="demo">
+<<<<<<< HEAD
+                <td><%=AUDIANCE.audiEmail%></td>
+             </tr>
+            <% }) %>
+        </table>
+    </div>
+    
+=======
 
-    </div> -->
+>>>>>>> f9f409bbdf725bd152d715a120795d4d8b5327c8
     <script>
         var male = "<%= male %>";
         var female = "<%= female %>";
@@ -39,9 +59,18 @@
         var mper = male/(male+female);
         var fper = female/(male+female);
 
+        var capacity = "<%= cap %>";
+        var booked = "<%= booking %>";
+        var remain = capacity-booked;
+
+        var bookPer = booked/(booked+remain);
+        var remPer = remain/(booked+remain);
+
         google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart2);
         google.charts.setOnLoadCallback(drawChart3);
+        
 
         function drawChart() {
           var data = new google.visualization.DataTable();
@@ -54,8 +83,25 @@
           var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
           chart.draw(data, null);
         }
+        
 
+        
+        function drawChart2() {
+       
+        console.log(capacity);
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Seats');
+        data.addColumn('number', 'Percentage');
+        data.addRows([
+        ['Booked Seats', bookPer],
+        ['Remaining Seats', remPer],
+        ]);
 
+        // Instantiate and draw the chart.
+        var chart = new google.visualization.PieChart(document.getElementById('myPieChart2'));
+        chart.draw(data, null);
+        }
 
         function drawChart3() {
         var data = google.visualization.arrayToDataTable([

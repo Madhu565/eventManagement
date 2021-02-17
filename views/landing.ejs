@@ -1,16 +1,19 @@
 <%- include('partials/header') -%>
 
-<div class="header">
-<nav>
+
+<div class="landing-header">
+<nav class="landing-nav"> 
 <h1>GrabMySeat</h1>
 
 <form action="/login" method="GET">
     <button type="submit" class="login-btn">ORGANISE</button>
 </form>
-</nav>
+</nav >
+
 <div class="landing-image">
     <%- include('partials/undraw') -%>
 </div>
+
 <div class="city">
     <div class="kolkata">
         <%- include('partials/svg') -%>
@@ -25,7 +28,7 @@
         <h4>Bengaluru</h4>
     </div>
     <div class="Hyderabad">
-        <%- include('partials/sygH') -%>
+        <%- include('partials/svgH') -%>
         <h4>Hyderabad</h4>
     </div>
     <div class="Mumbai">
@@ -37,4 +40,5 @@
 
 </div>
 <%- include('partials/footer') -%>
+
 

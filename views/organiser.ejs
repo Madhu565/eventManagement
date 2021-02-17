@@ -1,36 +1,23 @@
 <%- include('partials/header') -%>
-<h1>Welcome <%= passedname %></h1>
-    <a href="/createEvent">Create Event</a>
-    <a href="/logout">LOG OUT</a>
-<h2>
-
-   Events created by you 
-
-</h2>
-<table>
-    <tr>
-        <th>SL. No</th>
-        <th>Event Name</th>
-        <th>Show stats</th>
-        <th>Delete Event</th>
-    </tr>
-    <% var count=1%>
+<div class="organiser">
+    <nav class="organiser-nav">
+        <h1>Dashboard</h1>
+        <div>
+            <a href="/createEvent"><button type="submit">Create Event</button></a>
+            <a href="/logout"><button>LOG OUT</button></a>
+        </div>
+    </nav>
+    <h1>Your Events</h1>
     <%foundEvents.forEach(function(Event){%>
-        <tr>
-            <td><%=count++ %></td>
-            <td><%=Event.eventName%></td>
-            <td style="height: 100%;">
-            <form action="/newindex" method="POST" >
-                    <input style="display: none;" value="<%=Event.username%>" name ="username">
-                    <button type="submit">Show Stats</button>
-            </form></td>
-            <td style="height: 100%;">
-            <form action="/delete" method="POST" >
-                <input style="display: none;" value="<%=Event._id%>" name ="id">
-                <button type="submit">DELETE</button>
-            </form></td>
-
-            </tr>
-            <% }) %>
-</table>
+    <div class="organiser-events">
+    <p><%= Event.eventName %> </p>
+    <div class="actions">
+        <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
+        <form action="/delete" method="POST" >
+            <input style="display: none;" value="<%=Event._id%>" name ="id">
+            <button type="submit">Delete</button>
+        </form></div>
+    </div>
+    <% }) %>
+    </div>
 <%- include('partials/footer') -%>
