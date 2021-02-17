@@ -2,6 +2,7 @@
     font-family: 'Poppins', sans-serif;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 /* /////////////////////////////////////////////////////////
 Landing-Page
@@ -17,6 +18,7 @@ Landing-Page
 .landing-image svg{
     height: 550px;
     width: 550px;
+    background-color: transparent;
 }
 .city{
     background-color: #141414;
@@ -100,13 +102,14 @@ Landing-Page
                 transition: 0.5s;
             
             }
-    nav{
+    .landing-nav{
         display: flex;
         justify-content: space-between;
         align-items: center;
         min-height: 8vh;
         background-color:black;
     }
+
     .landing-header h1{
         color: white;
         font-family: Roboto;
@@ -291,7 +294,7 @@ Register
     background-color: transparent;
     border-radius: 15px;
 }
-.register-credentials input{
+.register-credentials  input{
     width : 100%;
     height: 50px;
     border: none;
@@ -308,7 +311,96 @@ Register
 //////////////////////////////////////////////////////
 Create-Event-Page(Admin)
 ///////////////////////////////////////////////////////// */
+.organiser{
+    width: 100vw;
+    height: 100vh;
+    background-color: #2b2a3b;
+}
+.organiser-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9a826;
+    height: 10vh;
+}
+.organiser h1{
+    margin-left: 20px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
 
+}
+.organiser-nav a{
+    text-decoration: none;
+    color: white;
+}
+.organiser-nav div{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.organiser-nav button{
+    color: white;
+    margin-bottom: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-right: 20px;
+    width: 150px;
+    height: 60px;
+    border:none;
+    background-color: #2b2a3b;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48);
+-webkit-box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48);
+-moz-box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48)
+
+}
+
+.organiser-events{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 40%;
+    height: 20%;
+    margin: 20px;
+    border-radius: 10px;
+    background-image: url(../images/ZenBG\(1\)\ .png);
+    background-color: #f9a826;
+}
+
+.organiser-events p{
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    margin: 20px;
+}
+
+.actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: auto;
+    padding: 20px;
+
+}
+ 
+.actions button{
+    color: white;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    width: 150px;
+    height: 60px;
+    border:none;
+    background-color: #2b2a3b;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48);
+    -webkit-box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48);
+    -moz-box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48)
+}
 /* /////////////////////////////////////////////////////////
 Analyitics-Page(Admin)
 ///////////////////////////////////////////////////////// */
@@ -396,6 +488,116 @@ Booking-Page(Individual-event)
 /* /////////////////////////////////////////////////////////
 Checkout-Page(Audience)
 ///////////////////////////////////////////////////////// */
+
+.audiDetails-form{
+    background-color: #2b2a3b;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height:100vh;
+}
+.form-card{
+    display: flex;
+    width: 70%;
+    height: 80%;
+    color: white;
+}
+
+.form-img{
+    padding: 0;
+    background-color: #ffff;
+    color: #2b2a3b;
+    width:40%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    border-bottom-left-radius: 30px;
+}
+.form-img svg{
+    width:100%;
+}
+.form-img h3{
+    font-size: 40px;
+}
+
+.details-audience{
+    width: 60%;
+    padding: 10px;
+    background-color: #f9a826;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    border-top-right-radius: 30px;
+}
+.details-audience input{
+    width : 80%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    border-bottom:  2px solid white;
+    background-color: transparent;
+}
+.details-audience textarea{
+    width : 80%;
+    height: 50px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom:  2px solid white;
+    background-color: transparent;
+    resize: none;
+}
+
+.details-audience button{
+    color: white;
+    margin-left: auto;
+    margin-bottom: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-right: 20px;
+    width : 40%;
+    height: 40px;
+    border:none;
+    background-color: #2b2a3b;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48);
+-webkit-box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48);
+-moz-box-shadow: -1px -2px 50px 0px rgba(0,0,0,0.48)
+
+}
+
+.details-audience input:focus, textarea:focus, select:focus{
+    border: none;
+    border-bottom:  2px solid white;
+    outline: none;
+    fill: none;
+}
+.details-audience button:hover{
+    transition: 0.5s ease-in-out;
+    background-color: #f9a826;
+    border: 2px solid #2b2a3b;
+    transform: translateX(4px) 
+}
+.details-audience select{
+    color: black;
+    padding-left:10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-right: 20px;
+    width : 40%;
+    height: 40px;
+    border: 2px solid white;
+    background-color: transparent;
+    text-align: center;
+    border-radius: 15px;
+    
+
+}
+
+
 
 
 
