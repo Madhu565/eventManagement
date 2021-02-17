@@ -2,7 +2,7 @@
 <div class="events">
 <%  foundEvents.forEach(foundEvent => { %>
         <div class="event-box">
-            <img src="/images/funkYou.jpg" alt="<%=foundEvent.eventName%>" srcset="">
+            <img src="data:image/<%=foundEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
             <p><%=foundEvent.eventName.toUpperCase()%></p>
             
             <a href="/cities/<%=foundEvent.city%>/<%= foundEvent.eventName %> ">explore</a>
