@@ -1,0 +1,60 @@
+<%- include('partials/header') -%>
+<%- include ('partials/messages') -%>
+<form action="/register" method="POST">
+    <div class="register-form">
+        <div class="register-card">
+            <div class="register-img">
+                <%- include('partials/welcome') -%>
+            </div>
+            <div class="register-credentials">
+            <div>
+                <label for="username">Username</label>
+                <input
+                type="text"
+                name="username"
+                placeholder="Enter User Name"
+                value="<% typeof name != 'undefined' ? name : '' %>"
+                />
+            </div>
+            <div>
+                <label for="name">Name</label>
+                <input
+                type="text"
+                name="name"
+                placeholder="Enter Name"
+                value="<% typeof name != 'undefined' ? name : '' %>"
+                />
+            </div>
+            <div>
+                <label for="email">E-Mail</label>
+                <input
+                name="email"
+                placeholder="Enter E-Mail"
+                value="<% typeof email != 'undefined' ? email : '' %>"
+                />
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input
+                type="password"
+                name="password"
+                placeholder="Enter Password"
+                value="<% typeof email != 'undefined' ? password : '' %>"
+                />
+            </div>
+            <div>
+                <label for="password2">Confirm Password</label>
+                <input
+                type="password"
+                name="password2"
+                placeholder="Enter Password"
+                value="<% typeof email != 'undefined' ? password2 : '' %>"
+                />
+            </div>
+            <button type ="submit" >Register</button>
+            <p>Have an account?<a href="/login">Login</a></p>
+            </div>
+        </div>
+</form>
+
+<%- include('partials/footer') -%>

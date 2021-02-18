@@ -1,0 +1,38 @@
+<%- include('partials/header') -%>
+    <form action="/audiDetailsInput" method="post">
+        <div class="audiDetails-form">
+            <div class="form-card">
+            <div class="form-img">
+                <%- include('partials/wait') -%>
+                <h3>Fill Your Details</h3>
+            </div>
+            <div class="details-audience">
+                        <label for="Name">Name</label>
+                        <input required autocomplete="none" type="text" placeholder="Your Name" name="AudiName"><br><br>
+                
+                        <label for="Email Id">Email Id</label>
+                        <input required autocomplete="none" type="email" placeholder="Email Id" name="email"><br><br>
+                
+                        <label for="Age">Age</label>
+                        <input required autocomplete="none" type="number" min="1" placeholder="Age" name="age"><br><br>
+                        <label for="Phone Number">Phone Number</label>
+                        <input required autocomplete="none" type="tel" placeholder="Phone number" name="ph_num"><br><br>
+            
+                        <label for="Address">Address</label>
+                        <textarea required name="address" id="" cols="30"  rows="10"></textarea>
+                        <input required autocomplete="none" style="display: none;" value=<%= foundEvent[0]._id%> name="id">
+                        <label for="Gender">Gender</label>
+                        <select required name="gender">
+                            <option >Male</option>
+                            <option >Female</option>
+                        </select><br></br>
+                        
+                        <label for="tickets">How many tickets ? </label>
+                        <input required autocomplete="none" type="number" min="1" max="<%= remain %>" placeholder="No. of tickets" name=tickets><br></br>
+                        <button type="submit">Confirm</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<%- include('partials/header') -%>

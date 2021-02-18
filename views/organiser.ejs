@@ -1,0 +1,23 @@
+<%- include('partials/header') -%>
+<div class="organiser">
+    <nav class="organiser-nav">
+        <h1>Dashboard</h1>
+        <div>
+            <a href="/createEvent"><button type="submit">Create Event</button></a>
+            <a href="/logout"><button>LOG OUT</button></a>
+        </div>
+    </nav>
+    <h1>Your Events</h1>
+    <%foundEvents.forEach(function(Event){%>
+    <div class="organiser-events">
+    <p><%= Event.eventName %> </p>
+    <div class="actions">
+        <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
+        <form action="/delete" method="POST" >
+            <input style="display: none;" value="<%=Event._id%>" name ="id">
+            <button type="submit">Delete</button>
+        </form></div>
+    </div>
+    <% }) %>
+    </div>
+<%- include('partials/footer') -%>
