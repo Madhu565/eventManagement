@@ -17,7 +17,16 @@
         <div id="barchart_values" style="width: 900px; height: 300px;"></div>
     </div>
     <br><br><br><br>
-    <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+    <ul>
+      <% passedAudience.forEach(audience => { %>
+        <div style="display: flex; justify-content: space-around;">
+          <li><%= audience.audiName %></li>
+          <li><%= audience.audiEmail %></li>
+          <li><%= audience.audiPhNum %></li>
+          <li><%= audience.noOfTickets %></li>
+        </div>
+        <% }) %> 
+    </ul>
 
 
     <script>

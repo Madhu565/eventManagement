@@ -273,10 +273,11 @@ app.get("/analytics/:id", function(req, res){
     })
     .then(()=>{
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
-
+            console.log(foundAudience);
             if(err){
                 console.log(err);
             }else{
+                console.log(arr)
                 console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
@@ -292,10 +293,9 @@ app.get("/analytics/:id", function(req, res){
                     }if(audience.audiAge>64){
                         seniorCitizenCount = seniorCitizenCount+1;
                     }
-    
-    
                 });
                 res.render("analytics",{
+                    passedAudience:foundAudience,
                     male: malecount, 
                     female: femalecount, 
                     children: childrenCount, 
@@ -327,6 +327,15 @@ app.get("/cities/:city", (req,res)=>{
     })
     
 });
+app.get('/events',(req,res)=>{
+    Event.find({},(err,foundEvents)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.json(foundEvents)
+        }
+    })
+})
 app.post("/audiDetailsInput",(req,res)=>{
     
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body

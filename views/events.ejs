@@ -1,5 +1,9 @@
 <%- include('partials/header') -%>
 <div class="events">
+    <div>
+        <input id="search" type="text" name="Search" placeholder="search">
+     </div>>
+    <div id="matched-events"></div>
 <%  foundEvents.forEach(foundEvent => { %>
         <div class="event-box">
             <img src="data:image/<%=foundEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
@@ -9,4 +13,5 @@
         </div>
 <% }) %>
 </div>
+
 <%- include('partials/footer') -%>
