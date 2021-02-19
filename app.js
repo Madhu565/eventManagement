@@ -29,7 +29,7 @@ app.use(passport.session());
 
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 /*=======================================================================
-                             SCHEMAS
+                             EVENT SCHEMA
 ========================================================================*/
 const eventSchema = new mongoose.Schema({
     username:String,
@@ -94,6 +94,42 @@ passport.deserializeUser(Organiser.deserializeUser());
 
 
 /*=======================================================================
+                         COLLEGE EVENT SCHEMA
+========================================================================*/
+const collegeEventSchema = new mongoose.Schema({
+    username: String,
+    name: String,
+    description: String,
+    location: String,
+    startDate: Number,
+    startTime: String,
+    endDate: Number,
+    endTime: String,
+    price:Number,
+    collegeName: String,
+    type: String
+});
+
+const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
+
+const colEvent = new CollegeEvent({
+    username: "hello",
+    name: "world",
+    description: "nice",
+    location: "kolkata",
+    startDate: 210320,
+    startTime: "20:00",
+    endDate: 210320,
+    endTime: "21:00",
+    price: 200,
+    collegeName: "nice",
+    rules: "wow",
+    type: "quiz"
+});
+
+//colEvent.save();
+
+/*=======================================================================
                          Functions
 ========================================================================*/
 function dateToNumber(car){
@@ -126,6 +162,7 @@ return exactDate;
 ========================================================================*/
 
 app.get("/", (req,res)=>{
+    let current = req.url;
     console.log(dateToNumber(today()));
     res.render("landing");
 })
@@ -154,6 +191,23 @@ app.get("/organiser", function(req, res){
         });
 });
 
+
+/*=======================================================================
+                          EVENT IMAGE UPLOAD
+========================================================================*/
+
+var Storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now());
+    }
+});
+ 
+var upload = multer({ storage: Storage }).single('file');
+/*=======================================================================
+                         CREATE EVENT ROUTE
+========================================================================*/
+
 app.get("/createEvent", function(req, res){
     res.render("createEvent");
 });
@@ -170,15 +224,6 @@ app.get("/pictures", function(req, res){
         
     });
 })
-
-var Storage = multer.diskStorage({
-    destination: "./public/uploads/",
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now());
-    }
-});
- 
-var upload = multer({ storage: Storage }).single('file');
 
 
 app.post("/createEvent", upload, function(req,res){
@@ -224,6 +269,32 @@ app.post("/delete",function(req,res){
 
    res.redirect('organiser');
 })
+
+
+/*=======================================================================
+                         CREATE COLLEGE EVENT ROUTE
+========================================================================*/
+
+// app.post("/collegeEvent", function(req, res){
+//     const colEvent = new CollegeEvent({
+//         username: ,
+//         name: "world",
+//         description: "nice",
+//         location: "kolkata",
+//         startDate: 210320,
+//         startTime: "20:00",
+//         endDate: 210320,
+//         endTime: "21:00",
+//         price: 200,
+//         collegeName: "nice",
+//         rules: "wow",
+//         type: "quiz"
+//     });
+    
+//     //colEvent.save();
+// });
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
