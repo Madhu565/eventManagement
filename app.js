@@ -9,7 +9,6 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
 var fs = require('fs');
 var nodemailer=require('nodemailer');
-//const LocalStrategy = require('passport-local').Strategy;
 var path = require("path");
 const app = express();
 app.set('view engine', 'ejs');
@@ -50,13 +49,7 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
-
-
 });
-
-
-
-
 const Event = mongoose.model("Event", eventSchema);
 /*=======================================================================
                             AUDIANCE SCHEMA
@@ -213,9 +206,7 @@ app.post("/createEvent", upload, function(req,res){
     });
 })
 
-///Deleteing event for organizer
-
-app.post("/delete",function(req,res){
+ app.post("/delete",function(req,res){
     var delid= req.body.id
 
    Event.deleteOne({_id:delid},function(err){
@@ -378,7 +369,7 @@ app.post("/audiDetailsInput",(req,res)=>{
         service:'gmail',
         auth:{
             user:'grabmyseatSquad@gmail.com',
-            pass:'SQUAD12345'
+            pass:`${process.env.NODEMAILERPASSWORD}`
         }
     });
     
@@ -445,7 +436,7 @@ app.post('/register', function (req, res) {
                         service:'gmail',
                         auth:{
                             user:'grabmyseatSquad@gmail.com',
-                            pass:'SQUAD12345'
+                            pass:`${process.env.NODEMAILERPASSWORD}`
                         }
                     });
                     
@@ -499,8 +490,6 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
-
-
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 })
