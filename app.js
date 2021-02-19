@@ -240,11 +240,11 @@ app.get("/cities/:city", (req,res)=>{
     })
 });
 
-app.get("/cities/:city/:event", (req,res)=> {
-    const requestedEvent = req.params.event;
+app.get("/cities/:city/:eventId", (req,res)=> {
+    const requestedEvent = req.params.eventId;
     const requestedCity = req.params.city;
    
-    Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
+    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
         if(err){
             console.log(err);
         }else{
@@ -400,10 +400,11 @@ app.post("/audiDetailsInput",(req,res)=>{
 });
 
 
-app.get("/cities/:city/:event/booking",(req,res)=>{
+app.get("/cities/:city/:eventId/booking",(req,res)=>{
     const requestedCity = req.params.city;
-    const requestedEvent = req.params.event;
-    Event.find({city: requestedCity, eventName:requestedEvent},(err,foundEvent)=>{
+    const requestedEvent = req.params.eventId;
+    Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
+        console.log(foundEvent);
         if(err){
             console.log(err);
         }else{

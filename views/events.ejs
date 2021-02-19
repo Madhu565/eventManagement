@@ -9,7 +9,7 @@
             <img src="data:image/<%=foundEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
             <p><%=foundEvent.eventName.toUpperCase()%></p>
             
-            <a href="/cities/<%=foundEvent.city%>/<%= foundEvent.eventName %> ">explore</a>
+            <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%> ">explore</a>
         </div>
 <% }) %>
 </div>
