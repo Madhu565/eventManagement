@@ -311,11 +311,11 @@ app.get("/cities/:city", (req,res)=>{
     })
 });
 
-app.get("/cities/:city/:event", (req,res)=> {
-    const requestedEvent = req.params.event;
+app.get("/cities/:city/:eventId", (req,res)=> {
+    const requestedEvent = req.params.eventId;
     const requestedCity = req.params.city;
    
-    Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
+    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
         if(err){
             console.log(err);
         }else{
@@ -344,10 +344,11 @@ app.get("/analytics/:id", function(req, res){
     })
     .then(()=>{
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
-
+            console.log(foundAudience);
             if(err){
                 console.log(err);
             }else{
+                console.log(arr)
                 console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
@@ -363,10 +364,9 @@ app.get("/analytics/:id", function(req, res){
                     }if(audience.audiAge>64){
                         seniorCitizenCount = seniorCitizenCount+1;
                     }
-    
-    
                 });
                 res.render("analytics",{
+                    passedAudience:foundAudience,
                     male: malecount, 
                     female: femalecount, 
                     children: childrenCount, 
@@ -398,6 +398,15 @@ app.get("/cities/:city", (req,res)=>{
     })
     
 });
+app.get('/events',(req,res)=>{
+    Event.find({},(err,foundEvents)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.json(foundEvents)
+        }
+    })
+})
 app.post("/audiDetailsInput",(req,res)=>{
     
     const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
@@ -462,10 +471,11 @@ app.post("/audiDetailsInput",(req,res)=>{
 });
 
 
-app.get("/cities/:city/:event/booking",(req,res)=>{
+app.get("/cities/:city/:eventId/booking",(req,res)=>{
     const requestedCity = req.params.city;
-    const requestedEvent = req.params.event;
-    Event.find({city: requestedCity, eventName:requestedEvent},(err,foundEvent)=>{
+    const requestedEvent = req.params.eventId;
+    Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
+        console.log(foundEvent);
         if(err){
             console.log(err);
         }else{
