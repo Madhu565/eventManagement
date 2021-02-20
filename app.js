@@ -107,27 +107,16 @@ const collegeEventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     collegeName: String,
-    type: String
+    type: String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    rules: String
 });
 
 const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
-
-const colEvent = new CollegeEvent({
-    username: "hello",
-    name: "world",
-    description: "nice",
-    location: "kolkata",
-    startDate: 210320,
-    startTime: "20:00",
-    endDate: 210320,
-    endTime: "21:00",
-    price: 200,
-    collegeName: "nice",
-    rules: "wow",
-    type: "quiz"
-});
-
-//colEvent.save();
 
 /*=======================================================================
                          Functions
@@ -275,24 +264,39 @@ app.post("/delete",function(req,res){
                          CREATE COLLEGE EVENT ROUTE
 ========================================================================*/
 
-// app.post("/collegeEvent", function(req, res){
-//     const colEvent = new CollegeEvent({
-//         username: ,
-//         name: "world",
-//         description: "nice",
-//         location: "kolkata",
-//         startDate: 210320,
-//         startTime: "20:00",
-//         endDate: 210320,
-//         endTime: "21:00",
-//         price: 200,
-//         collegeName: "nice",
-//         rules: "wow",
-//         type: "quiz"
-//     });
+app.get("/collegeEvent", function(req, res){
+    res.render("collegeEvent");
+}) 
+
+app.post("/collegeEvent",upload, function(req, res){
+    const colEvent = new CollegeEvent({
+        username: req.body.username,
+        name: req.body.Name,
+        description: req.body.description,
+        location: req.body.location,
+        startDate: dateToNumber(req.body.startDate),
+        startTime:req.body.startingTime,
+        endDate: dateToNumber(req.body.endDate),
+        endTime:req.body.endTime ,
+        price: req.body.price,
+        collegeName: req.body.colName,
+        rules: req.body.rules,
+        type: req.body.type,
+        image: 
+        {
+            data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    });
     
-//     //colEvent.save();
-// });
+    colEvent.save(function(err, doc){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/createEvent");
+        }
+    });
+});
 
 
 /*=======================================================================
