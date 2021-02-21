@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 here we go
 come to me
 hoegache bhaaaaaaaai
@@ -9,7 +8,6 @@ ttggauwey66
 cvbj
 mjbhh
 changes from manjuli
-=======
 const event = new Event({
 //     organizerName: "abcd",
 //     eventName: "Elixer",
@@ -86,6 +84,7 @@ const event = new Event({
 // event2.save();
 // event3.save();
 // event4.save();
+<<<<<<< HEAD
 >>>>>>> 8d8d40774987c6047c8e624dcb23b5f717719b7f
 
 
@@ -122,3 +121,15 @@ Movies and dramas
     //             }
     //         });
     //     });
+=======
+
+<!-- <div id="preferredEvent"></div>
+    <%  foundEvent.forEach(prefEvent => { %>
+        <div class="event-box">
+            <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
+            <p><%=prefEvent.eventName.toUpperCase()%></p>
+        </div>
+<% }) %> -->
+<!-- </div> -->
+
+>>>>>>> 14423511dcaabfbbd420b2e3a80885b5f37ca6af

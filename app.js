@@ -52,7 +52,7 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
-
+    eventType:String
 
 });
 
@@ -114,27 +114,16 @@ const collegeEventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     collegeName: String,
-    type: String
+    type: String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    rules: String
 });
 
 const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
-
-const colEvent = new CollegeEvent({
-    username: "hello",
-    name: "world",
-    description: "nice",
-    location: "kolkata",
-    startDate: 210320,
-    startTime: "20:00",
-    endDate: 210320,
-    endTime: "21:00",
-    price: 200,
-    collegeName: "nice",
-    rules: "wow",
-    type: "quiz"
-});
-
-//colEvent.save();
 
 /*=======================================================================
                          Functions
@@ -180,15 +169,30 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
+        var name = req.user.name;
+        var arr = [];
         Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
-        
         {
             if(err)console.log(err)
             else{
                 var name = req.user.name;
-                res.render('organiser', {passedname: name,foundEvents})
+                arr = foundEvents
+                //res.render('organiser', {passedname: name,foundEvents})
             }
-        })
+
+
+        }).then(()=>{
+            CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
+                if(err){
+                    handleError(err);
+                } else{
+                    res.render('organiser', {passedname: name, arr, foundcolEvents});
+                }
+            })
+
+    })
+
+
         
     } else {
         res.redirect('/login');
@@ -248,6 +252,7 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
+    eventType:req.body.eventType,
     Booked:0,
     image: 
     {
@@ -255,6 +260,7 @@ app.post("/createEvent", upload, function(req,res){
         contentType: 'image/png'
     }
     });
+
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -274,6 +280,12 @@ app.post("/delete",function(req,res){
     if (err) console.log(err);
    });  
 
+   CollegeEvent.deleteOne({_id:delid}, function(err){
+       if(err){
+           handleError(err);
+       }
+   });
+   
    res.redirect('organiser');
 })
 
@@ -282,24 +294,39 @@ app.post("/delete",function(req,res){
                          CREATE COLLEGE EVENT ROUTE
 ========================================================================*/
 
-// app.post("/collegeEvent", function(req, res){
-//     const colEvent = new CollegeEvent({
-//         username: ,
-//         name: "world",
-//         description: "nice",
-//         location: "kolkata",
-//         startDate: 210320,
-//         startTime: "20:00",
-//         endDate: 210320,
-//         endTime: "21:00",
-//         price: 200,
-//         collegeName: "nice",
-//         rules: "wow",
-//         type: "quiz"
-//     });
+app.get("/collegeEventform", function(req, res){
+    res.render("collegeEventform");
+}) 
+
+app.post("/collegeEvent",upload, function(req, res){
+    const colEvent = new CollegeEvent({
+        username: req.body.username,
+        name: req.body.Name,
+        description: req.body.description,
+        location: req.body.location,
+        startDate: dateToNumber(req.body.startDate),
+        startTime:req.body.startingTime,
+        endDate: dateToNumber(req.body.endDate),
+        endTime:req.body.endTime ,
+        price: req.body.price,
+        collegeName: req.body.colName,
+        rules: req.body.rules,
+        type: req.body.type,
+        image: 
+        {
+            data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    });
     
-//     //colEvent.save();
-// });
+    colEvent.save(function(err, doc){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/createEvent");
+        }
+    });
+});
 
 /*=======================================================================
                          AUDIANCE ROUTE
@@ -332,6 +359,23 @@ app.get("/cities/:city/:eventId", (req,res)=> {
     })
 });
 
+/*=======================================================================
+                         AUDIANCE LANDING PAGE
+========================================================================*/
+
+
+//   app.get("/audiLand",function(req,res){
+//     // Event.find({eventType},function(err,foundEvent){
+//     //     if(err){
+//     //         console.log(err);
+//     //     }
+//     //     else{
+//     //         res.render('audiLanding',{passedEvent:foundEvent});
+//     //     }
+//     // }); 
+//     res.render('audiLanding');
+//  });
+
 
 /*=======================================================================
                          ANALYTICS ROUTE
@@ -350,12 +394,12 @@ app.get("/analytics/:id", function(req, res){
     })
     .then(()=>{
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
-            console.log(foundAudience);
+            //console.log(foundAudience);
             if(err){
                 console.log(err);
             }else{
-                console.log(arr)
-                console.log(arr[0].tolalCapacity);
+                // console.log(arr)
+                // console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
@@ -644,6 +688,23 @@ app.post('/login', function (req, res) {
         }
 });
 });
+
+
+
+
+/*=======================================================================
+                         COLLEGE EVENTS
+========================================================================*/
+app.get("/collegeEvents", function(req, res){
+    CollegeEvent.find({}, function(err, foundEvents){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("collegeEvents", {foundEvents});
+        }
+    })
+});
+
 /*=======================================================================
                          LOGOUT
 ========================================================================*/
