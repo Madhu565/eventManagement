@@ -3,7 +3,17 @@
     <nav class="organiser-nav">
         <h1>Dashboard</h1>
         <div>
-            <a href="/createEvent"><button type="submit">Create Event</button></a>
+            
+            <button class="trigger">Create Event</button>
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h3>Choose Event Type</h3>
+                    <a href="/collegeEventform"><button type="submit">College Events</button></a>
+                    <a href="/createEvent"><button type="submit">Other Events</button></a>
+
+                </div>
+            </div>
             <a href="/logout"><button>LOG OUT</button></a>
         </div>
     </nav>
@@ -20,4 +30,26 @@
     </div>
     <% }) %>
     </div>
+
+    
+
+<script>
+var modal = document.querySelector(".modal");
+    var trigger = document.querySelector(".trigger");
+    var closeButton = document.querySelector(".close-button");
+
+    function toggleModal() {
+        modal.classList.toggle("show-modal");
+    }
+
+    function windowOnClick(event) {
+        if (event.target === modal) {
+            toggleModal();
+        }
+    }
+
+    trigger.addEventListener("click", toggleModal);
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
+</script>
 <%- include('partials/footer') -%>

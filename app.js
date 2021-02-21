@@ -29,7 +29,7 @@ app.use(passport.session());
 
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 /*=======================================================================
-                             SCHEMAS
+                             EVENT SCHEMA
 ========================================================================*/
 const eventSchema = new mongoose.Schema({
     username:String,
@@ -94,6 +94,31 @@ passport.deserializeUser(Organiser.deserializeUser());
 
 
 /*=======================================================================
+                         COLLEGE EVENT SCHEMA
+========================================================================*/
+const collegeEventSchema = new mongoose.Schema({
+    username: String,
+    name: String,
+    description: String,
+    location: String,
+    startDate: Number,
+    startTime: String,
+    endDate: Number,
+    endTime: String,
+    price:Number,
+    collegeName: String,
+    type: String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    rules: String
+});
+
+const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
+
+/*=======================================================================
                          Functions
 ========================================================================*/
 function dateToNumber(car){
@@ -126,6 +151,7 @@ return exactDate;
 ========================================================================*/
 
 app.get("/", (req,res)=>{
+    let current = req.url;
     console.log(dateToNumber(today()));
     res.render("landing");
 })
@@ -154,6 +180,23 @@ app.get("/organiser", function(req, res){
         });
 });
 
+
+/*=======================================================================
+                          EVENT IMAGE UPLOAD
+========================================================================*/
+
+var Storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now());
+    }
+});
+ 
+var upload = multer({ storage: Storage }).single('file');
+/*=======================================================================
+                         CREATE EVENT ROUTE
+========================================================================*/
+
 app.get("/createEvent", function(req, res){
     res.render("createEvent");
 });
@@ -170,15 +213,6 @@ app.get("/pictures", function(req, res){
         
     });
 })
-
-var Storage = multer.diskStorage({
-    destination: "./public/uploads/",
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now());
-    }
-});
- 
-var upload = multer({ storage: Storage }).single('file');
 
 
 app.post("/createEvent", upload, function(req,res){
@@ -204,6 +238,7 @@ app.post("/createEvent", upload, function(req,res){
         contentType: 'image/png'
     }
     });
+
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -225,6 +260,47 @@ app.post("/delete",function(req,res){
 
    res.redirect('organiser');
 })
+
+
+/*=======================================================================
+                         CREATE COLLEGE EVENT ROUTE
+========================================================================*/
+
+app.get("/collegeEventform", function(req, res){
+    res.render("collegeEventform");
+}) 
+
+app.post("/collegeEvent",upload, function(req, res){
+    const colEvent = new CollegeEvent({
+        username: req.body.username,
+        name: req.body.Name,
+        description: req.body.description,
+        location: req.body.location,
+        startDate: dateToNumber(req.body.startDate),
+        startTime:req.body.startingTime,
+        endDate: dateToNumber(req.body.endDate),
+        endTime:req.body.endTime ,
+        price: req.body.price,
+        collegeName: req.body.colName,
+        rules: req.body.rules,
+        type: req.body.type,
+        image: 
+        {
+            data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    });
+    
+    colEvent.save(function(err, doc){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/createEvent");
+        }
+    });
+});
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
@@ -241,11 +317,11 @@ app.get("/cities/:city", (req,res)=>{
     })
 });
 
-app.get("/cities/:city/:event", (req,res)=> {
-    const requestedEvent = req.params.event;
+app.get("/cities/:city/:eventId", (req,res)=> {
+    const requestedEvent = req.params.eventId;
     const requestedCity = req.params.city;
    
-    Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
+    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
         if(err){
             console.log(err);
         }else{
@@ -418,10 +494,11 @@ app.post("/audiDetailsInput",(req,res)=>{
 });
 
 
-app.get("/cities/:city/:event/booking",(req,res)=>{
+app.get("/cities/:city/:eventId/booking",(req,res)=>{
     const requestedCity = req.params.city;
-    const requestedEvent = req.params.event;
-    Event.find({city: requestedCity, eventName:requestedEvent},(err,foundEvent)=>{
+    const requestedEvent = req.params.eventId;
+    Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
+        console.log(foundEvent);
         if(err){
             console.log(err);
         }else{
@@ -512,6 +589,19 @@ app.post('/login', function (req, res) {
 
 
 
+
+/*=======================================================================
+                         COLLEGE EVENTS
+========================================================================*/
+app.get("/collegeEvents", function(req, res){
+    CollegeEvent.find({}, function(err, foundEvents){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("collegeEvents", {foundEvents});
+        }
+    })
+});
 
 /*=======================================================================
                          LOGOUT

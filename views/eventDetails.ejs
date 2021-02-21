@@ -13,7 +13,7 @@
                 <p>Ends on :<%=foundEvent.endDate%>, <%=foundEvent.endTime%></p>
                 <p>Price : Rs<%=foundEvent.price%></p>
                 <p><%=foundEvent.city%></p>
-                <button type="submit">Book ticket</button>
+                <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%>/booking"><button type="submit">Book ticket</button></a>
             </div>
          </div>
             <p><%=foundEvent.description%></p> 
