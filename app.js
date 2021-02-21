@@ -49,11 +49,9 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
-<<<<<<< HEAD
-=======
     eventType:String
 
->>>>>>> 341ed144b091e43b62f006605699c5532ca9d15c
+
 });
 const Event = mongoose.model("Event", eventSchema);
 /*=======================================================================
@@ -136,7 +134,18 @@ function dateToNumber(car){
 function handleError(e){
     console.log(e);
 }
-
+function numberToDate(nbr){
+    let arr = []
+   for(let i= 0; i<nbr.length ; i++){
+       if(i == 3 || i == 5){
+           arr.push(nbr[i]);
+           arr.push("-");
+       }else{
+           arr.push(nbr[i]);
+       }
+   }
+   return arr.join(''); 
+}
 function today(){
     let date = new Date;
     let day = (date.getDate())
@@ -296,6 +305,13 @@ app.post("/collegeEvent",upload, function(req, res){
         }
     });
 });
+
+app.get("/collegeEvents/:id",(req,res)=>{
+    const requestedId = req.params.id;
+    CollegeEvent.find({_id: requestedId} , (err,foundEvent)=>{
+        res.render("collegeEvent",{foundEvent , startDate: numberToDate(String(foundEvent[0].startDate)), endDate: numberToDate(String(foundEvent[0].endDate))});
+    });
+})
 
 
 /*=======================================================================
