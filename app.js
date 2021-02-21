@@ -91,7 +91,7 @@ const organiserSchema = new mongoose.Schema({
     email:String,
     password: String,
     role:String,
-        
+    prefEvent:String
 });
 
 organiserSchema.plugin(passportLocalMongoose);
@@ -553,7 +553,8 @@ app.post('/audiregister', function (req, res) {
             username: req.body.username,
             name: req.body.name,
             email: req.body.email,
-            role:req.body.role
+            role:req.body.role,
+            prefEvent:req.body.preferred
         },
             req.body.password,
             function (err, organiser) {
@@ -577,11 +578,22 @@ app.post('/audiregister', function (req, res) {
 
 app.get("/audiLanding",function(req,res){
     if (req.isAuthenticated()){
-        res.render("audiLanding")
+        var prefEvent=req.user.prefEvent;
+        
+        Event.find({eventType:prefEvent},function(err,foundEvent){
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.render('audiLanding',{passedEvent:foundEvent});
+                
+            }
+        });
     }
     else{
         res.redirect("/audiLogin")
     }
+    
 });
 
 /*=======================================================================

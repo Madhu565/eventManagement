@@ -123,13 +123,6 @@ Movies and dramas
     //     });
 =======
 
-<!-- <div id="preferredEvent"></div>
-    <%  foundEvent.forEach(prefEvent => { %>
-        <div class="event-box">
-            <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
-            <p><%=prefEvent.eventName.toUpperCase()%></p>
-        </div>
-<% }) %> -->
-<!-- </div> -->
+
 
 >>>>>>> 14423511dcaabfbbd420b2e3a80885b5f37ca6af
