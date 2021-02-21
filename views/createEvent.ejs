@@ -61,6 +61,9 @@
     
     var minDate = document.getElementById("startingDate");
     minDate.min = new Date().toISOString().slice(0,10);
+
+    var endDate = document.getElementById("endingDate");
+    endDate.min = new Date().toISOString().slice(0,10);
 </script>
 
 <%- include('partials/footer') -%>

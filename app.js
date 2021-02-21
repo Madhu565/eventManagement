@@ -237,6 +237,7 @@ app.post("/createEvent", upload, function(req,res){
         contentType: 'image/png'
     }
     });
+
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -264,8 +265,8 @@ app.post("/delete",function(req,res){
                          CREATE COLLEGE EVENT ROUTE
 ========================================================================*/
 
-app.get("/collegeEvent", function(req, res){
-    res.render("collegeEvent");
+app.get("/collegeEventform", function(req, res){
+    res.render("collegeEventform");
 }) 
 
 app.post("/collegeEvent",upload, function(req, res){
@@ -566,6 +567,21 @@ app.post('/login', function (req, res) {
             });
         }
     });
+});
+
+
+
+/*=======================================================================
+                         COLLEGE EVENTS
+========================================================================*/
+app.get("/collegeEvents", function(req, res){
+    CollegeEvent.find({}, function(err, foundEvents){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("collegeEvents", {foundEvents});
+        }
+    })
 });
 /*=======================================================================
                          LOGOUT
