@@ -162,15 +162,30 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
+        var name = req.user.name;
+        var arr = [];
         Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
-        
         {
             if(err)console.log(err)
             else{
                 var name = req.user.name;
-                res.render('organiser', {passedname: name,foundEvents})
+                arr = foundEvents
+                //res.render('organiser', {passedname: name,foundEvents})
             }
-        })
+
+
+        }).then(()=>{
+            CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
+                if(err){
+                    handleError(err);
+                } else{
+                    res.render('organiser', {passedname: name, arr, foundcolEvents});
+                }
+            })
+
+    })
+
+
         
     } else {
         res.redirect('/login');
@@ -258,6 +273,12 @@ app.post("/delete",function(req,res){
     if (err) console.log(err);
    });  
 
+   CollegeEvent.deleteOne({_id:delid}, function(err){
+       if(err){
+           handleError(err);
+       }
+   });
+   
    res.redirect('organiser');
 })
 
@@ -367,12 +388,12 @@ app.get("/analytics/:id", function(req, res){
     })
     .then(()=>{
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
-            console.log(foundAudience);
+            //console.log(foundAudience);
             if(err){
                 console.log(err);
             }else{
-                console.log(arr)
-                console.log(arr[0].tolalCapacity);
+                // console.log(arr)
+                // console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
