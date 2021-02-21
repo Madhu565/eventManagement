@@ -213,7 +213,9 @@ var upload = multer({ storage: Storage }).single('file');
 ========================================================================*/
 
 app.get("/createEvent", function(req, res){
-    res.render("createEvent");
+    var username = req.user.username;
+    console.log(username);
+    res.render("createEvent", {username});
 });
 
 app.get("/pictures", function(req, res){
@@ -231,10 +233,8 @@ app.get("/pictures", function(req, res){
 
 
 app.post("/createEvent", upload, function(req,res){
-
-
     const event = new Event({
-    username:req.user.username,
+    username:req.body.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
@@ -288,7 +288,8 @@ app.post("/delete",function(req,res){
 ========================================================================*/
 
 app.get("/collegeEventform", function(req, res){
-    res.render("collegeEventform");
+    var username = req.user.username;
+    res.render("collegeEventform", {username});
 }) 
 
 app.post("/collegeEvent",upload, function(req, res){
