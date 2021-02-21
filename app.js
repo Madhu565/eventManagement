@@ -625,7 +625,6 @@ app.get("/audiLanding",function(req,res){
 
         });
         });
-        console.log(arr);
         function dynamicsort(property,order) {
             var sort_order = 1;
             if(order === "desc"){
