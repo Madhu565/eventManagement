@@ -56,12 +56,11 @@ const eventSchema = new mongoose.Schema({
 
 });
 
-
-
 const Event = mongoose.model("Event", eventSchema);
 
+
 /*=======================================================================
-                            AUDIANCE REGISTER SCHEMA
+                            EVENT BOOKING SCHEMA
 ========================================================================*/
 
 const audianceSchema = new mongoose.Schema({
@@ -74,11 +73,11 @@ const audianceSchema = new mongoose.Schema({
     gender:String,     
 });
 
-
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
 
+
 /*=======================================================================
-                         ORGANISER REGISTER SCHEMA
+                           REGISTER SCHEMA
 ========================================================================*/
 
 const organiserSchema = new mongoose.Schema({
@@ -343,37 +342,20 @@ app.post("/collegeEvent",upload, function(req, res){
 //     })
 // });
 
-// app.get("/cities/:city/:eventId", (req,res)=> {
-//     const requestedEvent = req.params.eventId;
-//     const requestedCity = req.params.city;
+app.get("/cities/:city/:eventId", (req,res)=> {
+    const requestedEvent = req.params.eventId;
+    const requestedCity = req.params.city;
    
-//     Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
-//         if(err){
-//             console.log(err);
-//         }else{
+    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
+        if(err){
+            console.log(err);
+        }else{
             
-//             res.render("eventDetails",{foundEvent})
+            res.render("eventDetails",{foundEvent})
             
-//         }
-//     })
-// });
-
-/*=======================================================================
-                         AUDIANCE LANDING PAGE
-========================================================================*/
-
-
-//   app.get("/audiLand",function(req,res){
-//     // Event.find({eventType},function(err,foundEvent){
-//     //     if(err){
-//     //         console.log(err);
-//     //     }
-//     //     else{
-//     //         res.render('audiLanding',{passedEvent:foundEvent});
-//     //     }
-//     // }); 
-//     res.render('audiLanding');
-//  });
+        }
+    })
+});
 
 
 /*=======================================================================
@@ -583,7 +565,29 @@ app.post('/audiregister', function (req, res) {
                 passport.authenticate('local')(req, res, function () {
                     if(req.user.role=="AUDIENCE"){
                     res.redirect('/audiLanding');}
-            
+                    
+                    var transporter=nodemailer.createTransport({
+                        service:'gmail',
+                        auth:{
+                            user:'grabmyseatsquad@gmail.com',
+                            pass:'SQUAD12345'
+                        }
+                    });
+                    
+                    var mailOptions={
+                        from:'grabmyseatsquad@gmail.com',
+                        to:req.body.email,
+                        subject:'Test Email',
+                        text:'Thanks for contacting GRAB MY SEAT'
+                    };
+                    transporter.sendMail(mailOptions,function(error,info){
+                        if(error){
+                            console.log('error');
+                        }
+                        else{
+                            console.log('Email sent:'+info.response);
+                        }
+                    });
                 });
             }
         });
