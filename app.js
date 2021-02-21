@@ -100,25 +100,32 @@ const collegeEventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     collegeName: String,
-    type: String
+    type: String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    Booked:Number
+
 });
 
 const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
 
-const colEvent = new CollegeEvent({
-    username: "hello",
-    name: "world",
-    description: "nice",
-    location: "kolkata",
-    startDate: 210320,
-    startTime: "20:00",
-    endDate: 210320,
-    endTime: "21:00",
-    price: 200,
-    collegeName: "nice",
-    rules: "wow",
-    type: "quiz"
-});
+// const colEvent = new CollegeEvent({
+//     username: "hello",
+//     name: "world",
+//     description: "nice",
+//     location: "kolkata",
+//     startDate: 210320,
+//     startTime: "20:00",
+//     endDate: 210320,
+//     endTime: "21:00",
+//     price: 200,
+//     collegeName: "nice",
+//     rules: "wow",
+//     type: "quiz"
+// });
 
 //colEvent.save();
 
@@ -267,22 +274,29 @@ app.post("/createEvent", upload, function(req,res){
 ========================================================================*/
 
 // app.post("/collegeEvent", function(req, res){
+//     const {colUsername,colEventName,colEventDescription,colLocation,startDate1,endDate1,colEventStartingTime,colEventPrice,colName,colEventEndingTime,type} = req.body;
+//    console.log(colUsername)
 //     const colEvent = new CollegeEvent({
-//         username: ,
-//         name: "world",
-//         description: "nice",
-//         location: "kolkata",
-//         startDate: 210320,
-//         startTime: "20:00",
-//         endDate: 210320,
-//         endTime: "21:00",
-//         price: 200,
-//         collegeName: "nice",
-//         rules: "wow",
-//         type: "quiz"
+//         username: colUsername,
+//         name: colEventName,
+//         description:colEventDescription,
+//         location: colLocation,
+//         startDate: dateToNumber(startDate1),
+//         startTime: colEventStartingTime,
+//         endDate: dateToNumber(endDate1),
+//         endTime: colEventEndingTime,
+//         price: colEventPrice,
+//         collegeName: colName,
+//         type: type,
+//         image: 
+//         {
+//             data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+//             contentType: 'image/png'
+//         },
+//         Booked:0
 //     });
     
-//     //colEvent.save();
+//     colEvent.save();
 // });
 
 
