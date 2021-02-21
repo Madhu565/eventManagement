@@ -487,34 +487,69 @@ Events-Page(Audience)
 /* /////////////////////////////////////////////////////////
 Events Details-Page(Audience)
 ///////////////////////////////////////////////////////// */
-.event-details img{
-    width:350px;
-    height:400px;
-}
 .event-details p{
     color: white;
 }
 .event-details{
-
-}
-.event-inner{
-    display: flex;
-    background-color: #2b2a3b;
+    font-size: 19px;
     
 }
-.image-inner{
-    width:40vw;
-    align-items: center;
-    justify-content: center;
-    margin: 60px;
+.event-details .event-name{
+    font-size: 30px;
 }
-.details{
-    width:60vw;
-   
+.bg-img{
+    width: 100vw;
+    background-color: black;
 }
 
-.event-details .event-name{
-    margin: 0 20px;
+.bg-img img{
+     position: absolute; 
+    top:0;
+    left:0;
+    width: 100%;
+    height: 70vh;
+   
+}
+ .description p{
+    color: black;
+}
+.bg-img img{
+    opacity: 0.7;
+}
+.image-inner img{
+    position: absolute;
+    width: 20%;
+    height: 50%;
+    top: 10%;
+    left: 10%;
+    
+}
+.details{
+    position: absolute;
+    top:15%;
+    left:35%
+}
+
+@media only screen and (max-width:850px){
+    .image-inner img{
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 40%;
+    }
+    .details{
+        position: absolute;
+        top:40%;
+        left:5%;
+             
+    }
+    .details p{
+        color:black
+    }
+    .bg-image {
+        display: none;
+    }
 }
 /* .event-details .image-bg{
     width: 100%;

@@ -51,4 +51,16 @@
         }
         }
     </script>
+    <br><br>
+    <h1>Handpicked Events for You</h1>
+    <br>
+    <div id="preferredEvent"></div>
+    <%  passedEvent.forEach(prefEvent => { %>
+        <div class="event-box">
+            <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=prefEvent.image.data.toString('base64')%>">
+            <p><%=prefEvent.eventName.toUpperCase()%></p>
+        </div>
+<% }) %> 
+ 
+
 <%- include('partials/footer') -%>
