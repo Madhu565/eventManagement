@@ -1,0 +1,59 @@
+<%- include('partials/header') -%>
+    <h1>AUDIENCE LANDING PAGE</h1>
+
+    <button id="myBtn">FILTER</button>
+
+        
+        <div id="myModal" class="modal">
+
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="city">
+                <div class="kolkata">
+                    <%- include('partials/svg') -%>
+                    <h4>Kolkata</h4>
+                </div>
+                <div class="Delhi">
+                    <%- include('partials/svgD') -%>
+                    <h4>Delhi</h4>
+                </div>
+                <div class="Bengaluru">
+                    <%- include('partials/svgB') -%>
+                    <h4>Bengaluru</h4>
+                </div>
+                <div class="Hyderabad">
+                    <%- include('partials/svgH') -%>
+                    <h4>Hyderabad</h4>
+                </div>
+                <div class="Mumbai">
+                    <%- include('partials/svgM') -%>
+                    <h4>Mumbai</h4>
+                </div>
+                
+            </div>
+        </div>
+
+        </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+
+        var btn = document.getElementById("myBtn");
+
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
+    </script>
+<%- include('partials/footer') -%>
