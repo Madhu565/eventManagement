@@ -1,0 +1,11 @@
+<%- include('partials/header') -%>
+<% foundEvent.forEach(event => { %>
+    <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" >
+    <p><%= event.name %></p>
+    <p><%= event.location %></p>
+    <p><%= event.description %></p>
+    <p><%= event.rules %></p>
+    <p><%= startDate %></p>
+    <p><%= endDate %></p>
+<%})%>
+<%- include('partials/footer') -%>
