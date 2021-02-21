@@ -469,7 +469,7 @@ app.post("/audiDetailsInput",(req,res)=>{
             console.log('Error');
         }
     
-        event.Booked = Number(event.Booked) + Number(tickets);
+        event.Booked = Number(event.Booked) + Number(req.body.tickets);
         event.BookedPer = ((Number(event.Booked))/event.tolalCapacity)*100;
         event.save((err, updatedevent) => {
             if (err) {
@@ -486,24 +486,24 @@ app.post("/audiDetailsInput",(req,res)=>{
     res.json({
         tickets:req.body.tickets,
     })
-    
+    console.log(req.body.audiEmail)
     var transporter=nodemailer.createTransport({
         service:'gmail',
         auth:{
-            user:'grabmyseatSquad@gmail.com',
-            pass:'SQUAD12345'
+            user:process.env.EMAIL,
+            pass:process.env.EMAIL_PASSWORD
         }
     });
     
     var mailOptions={
-        from:'grabmyseatSquad@gmail.com',
-        to: req.body.email ,
-        subject:'Test Email',
+        from:process.env.EMAIL,
+        to:req.body.audiEmail,
+        subject:'Booking Confirmation',
         text:'Thanks for contacting GRAB MY SEAT'
     };
     transporter.sendMail(mailOptions,function(error,info){
         if(error){
-            console.log('error');
+            console.log(error);
         }
         else{
             console.log('Email sent:'+info.response);
@@ -521,10 +521,9 @@ app.get("/cities/:city/:eventId/booking",(req,res)=>{
     const requestedCity = req.params.city;
     const requestedEvent = req.params.eventId;
    user=req.user;
-   console.log(user)
 
     Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
-        console.log(foundEvent);
+     
         if(err){
             console.log(err);
         }else{
@@ -573,16 +572,16 @@ app.post('/audiregister', function (req, res) {
                     var transporter=nodemailer.createTransport({
                         service:'gmail',
                         auth:{
-                            user:'grabmyseatsquad@gmail.com',
-                            pass:'SQUAD12345'
+                            user:process.env.EMAIL,
+                            pass:process.env.EMAIL_PASSWORD
                         }
                     });
                     
                     var mailOptions={
-                        from:'grabmyseatsquad@gmail.com',
+                        from:process.env.EMAIL,
                         to:req.body.email,
-                        subject:'Test Email',
-                        text:'Thanks for contacting GRAB MY SEAT'
+                        subject:'Succesfully Registered to Grab My Seat',
+                        text:'Thanks for registering in GRAB MY SEAT'
                     };
                     transporter.sendMail(mailOptions,function(error,info){
                         if(error){
@@ -629,14 +628,14 @@ app.get("/audiLanding",function(req,res){
                 console.log(err);
             }
             else{
-               console.log(arr);
+             
                 res.render('audiLanding',{passedEvent:foundEvent,arr});
                 
             }
 
         });
         });
-        console.log(arr);
+       
         function dynamicsort(property,order) {
             var sort_order = 1;
             if(order === "desc"){
@@ -718,15 +717,15 @@ app.post('/register', function (req, res) {
                     var transporter=nodemailer.createTransport({
                         service:'gmail',
                         auth:{
-                            user:'grabmyseatSquad@gmail.com',
-                            pass:'SQUAD12345'
+                            user:process.env.EMAIL,
+                            pass:process.env.EMAIL_PASSWORD
                         }
                     });
                     
                     var mailOptions={
-                        from:'grabmyseatSquad@gmail.com',
+                        from:process.env.EMAIL,
                         to:req.body.email,
-                        subject:'Test Email',
+                        subject:'Succesfully Registered as an Organiser in Grab My Seat',
                         text:'Thanks for contacting GRAB MY SEAT'
                     };
                     transporter.sendMail(mailOptions,function(error,info){
