@@ -87,3 +87,38 @@ const event = new Event({
 // event3.save();
 // event4.save();
 >>>>>>> 8d8d40774987c6047c8e624dcb23b5f717719b7f
+
+
+technical
+comedy
+Cultural
+Sports
+Movies and dramas
+
+
+   // app.get("/audiregister",function(req,res){
+    //     res.render("audiRegister");
+    // });
+
+    // app.post('/audiregister', function (req, res) {
+    //     Organiser.register(
+    //         {   
+    //             username: req.body.username,
+    //             name: req.body.name,
+    //             email: req.body.email,
+    //             role:req.body.role
+    //         },
+    //          req.body.password,
+    //          function (err, organiser) {
+    //             if (err) {
+    //                 console.log(err);
+    //                 res.redirect('/audiregister');
+    //             } else {
+    //                 passport.authenticate('local')(req, res, function () {
+    //                     if(req.user.role=="AUDIENCE"){
+    //                     res.redirect('/audiLanding');}
+                
+    //                 });
+    //             }
+    //         });
+    //     });

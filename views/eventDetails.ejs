@@ -20,6 +20,9 @@
             <div class="start-end">
                 <p>Starts on :<%=foundEvent.startDate%>, <%=foundEvent.startTime%></p>
                 <p>Ends on :<%=foundEvent.endDate%>, <%=foundEvent.endTime%></p>
+                <p>Price : Rs<%=foundEvent.price%></p>
+                <p><%=foundEvent.city%></p>
+                <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%>/booking"><button type="submit">Book ticket</button></a>
             </div>
 
             <p>Price : Rs<%=foundEvent.price%></p>

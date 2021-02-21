@@ -7,6 +7,8 @@ const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
+
+
 var fs = require('fs');
 var nodemailer=require('nodemailer');
 //const LocalStrategy = require('passport-local').Strategy;
@@ -29,7 +31,7 @@ app.use(passport.session());
 
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 /*=======================================================================
-                             SCHEMAS
+                            CREATE EVENT SCHEMA
 ========================================================================*/
 const eventSchema = new mongoose.Schema({
     username:String,
@@ -56,10 +58,9 @@ const eventSchema = new mongoose.Schema({
 
 
 
-
 const Event = mongoose.model("Event", eventSchema);
 /*=======================================================================
-                            AUDIANCE SCHEMA
+                            AUDIANCE REGISTER SCHEMA
 ========================================================================*/
 const audianceSchema = new mongoose.Schema({
     audiName: String,
@@ -70,20 +71,26 @@ const audianceSchema = new mongoose.Schema({
     eventId:String,
     noOfTickets:Number,
     gender:String,
-
+    username:String,
+    password:String,
+    
 });
 
+
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
+
+
+
 /*=======================================================================
-                         ORGANISER SCHEMA
+                         ORGANISER REGISTER SCHEMA
 ========================================================================*/
 
 const organiserSchema = new mongoose.Schema({
     username: String,
     name: String,
     email:String,
-    password: String
-    
+    password: String,
+    role:String 
 });
 
 organiserSchema.plugin(passportLocalMongoose);
@@ -92,6 +99,42 @@ passport.use(Organiser.createStrategy());
 passport.serializeUser(Organiser.serializeUser());
 passport.deserializeUser(Organiser.deserializeUser());
 
+
+/*=======================================================================
+                         COLLEGE EVENT SCHEMA
+========================================================================*/
+const collegeEventSchema = new mongoose.Schema({
+    username: String,
+    name: String,
+    description: String,
+    location: String,
+    startDate: Number,
+    startTime: String,
+    endDate: Number,
+    endTime: String,
+    price:Number,
+    collegeName: String,
+    type: String
+});
+
+const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
+
+const colEvent = new CollegeEvent({
+    username: "hello",
+    name: "world",
+    description: "nice",
+    location: "kolkata",
+    startDate: 210320,
+    startTime: "20:00",
+    endDate: 210320,
+    endTime: "21:00",
+    price: 200,
+    collegeName: "nice",
+    rules: "wow",
+    type: "quiz"
+});
+
+//colEvent.save();
 
 /*=======================================================================
                          Functions
@@ -126,6 +169,7 @@ return exactDate;
 ========================================================================*/
 
 app.get("/", (req,res)=>{
+    let current = req.url;
     console.log(dateToNumber(today()));
     res.render("landing");
 })
@@ -154,6 +198,23 @@ app.get("/organiser", function(req, res){
         });
 });
 
+
+/*=======================================================================
+                          EVENT IMAGE UPLOAD
+========================================================================*/
+
+var Storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now());
+    }
+});
+ 
+var upload = multer({ storage: Storage }).single('file');
+/*=======================================================================
+                         CREATE EVENT ROUTE
+========================================================================*/
+
 app.get("/createEvent", function(req, res){
     res.render("createEvent");
 });
@@ -170,15 +231,6 @@ app.get("/pictures", function(req, res){
         
     });
 })
-
-var Storage = multer.diskStorage({
-    destination: "./public/uploads/",
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now());
-    }
-});
- 
-var upload = multer({ storage: Storage }).single('file');
 
 
 app.post("/createEvent", upload, function(req,res){
@@ -224,6 +276,31 @@ app.post("/delete",function(req,res){
 
    res.redirect('organiser');
 })
+
+
+/*=======================================================================
+                         CREATE COLLEGE EVENT ROUTE
+========================================================================*/
+
+// app.post("/collegeEvent", function(req, res){
+//     const colEvent = new CollegeEvent({
+//         username: ,
+//         name: "world",
+//         description: "nice",
+//         location: "kolkata",
+//         startDate: 210320,
+//         startTime: "20:00",
+//         endDate: 210320,
+//         endTime: "21:00",
+//         price: 200,
+//         collegeName: "nice",
+//         rules: "wow",
+//         type: "quiz"
+//     });
+    
+//     //colEvent.save();
+// });
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
@@ -240,11 +317,11 @@ app.get("/cities/:city", (req,res)=>{
     })
 });
 
-app.get("/cities/:city/:event", (req,res)=> {
-    const requestedEvent = req.params.event;
+app.get("/cities/:city/:eventId", (req,res)=> {
+    const requestedEvent = req.params.eventId;
     const requestedCity = req.params.city;
    
-    Event.find({city:requestedCity,eventName:requestedEvent},(err,foundEvent)=>{
+    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
         if(err){
             console.log(err);
         }else{
@@ -400,10 +477,11 @@ app.post("/audiDetailsInput",(req,res)=>{
 });
 
 
-app.get("/cities/:city/:event/booking",(req,res)=>{
+app.get("/cities/:city/:eventId/booking",(req,res)=>{
     const requestedCity = req.params.city;
-    const requestedEvent = req.params.event;
-    Event.find({city: requestedCity, eventName:requestedEvent},(err,foundEvent)=>{
+    const requestedEvent = req.params.eventId;
+    Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
+        console.log(foundEvent);
         if(err){
             console.log(err);
         }else{
@@ -416,7 +494,76 @@ app.get("/cities/:city/:event/booking",(req,res)=>{
 
 });
 
+/*=======================================================================
+                         AUDIANCE-REGISTER ROUTE
+========================================================================*/
 
+app.get("/audiregister",function(req,res){
+    res.render("audiRegister");
+});
+
+app.post('/audiregister', function (req, res) {
+    Organiser.register(
+        {   
+            username: req.body.username,
+            name: req.body.name,
+            email: req.body.email,
+            role:req.body.role
+        },
+            req.body.password,
+            function (err, organiser) {
+            if (err) {
+                console.log(err);
+                res.redirect('/audiregister');
+            } else {
+                passport.authenticate('local')(req, res, function () {
+                    if(req.user.role=="AUDIENCE"){
+                    res.redirect('/audiLanding');}
+            
+                });
+            }
+        });
+    });
+
+
+/*=======================================================================
+                            AUDIENCE LANDING
+========================================================================*/
+
+app.get("/audiLanding",function(req,res){
+    if (req.isAuthenticated()){
+        res.render("audiLanding")
+    }
+    else{
+        res.redirect("/audiLogin")
+    }
+});
+
+/*=======================================================================
+                        AUDIENCE LOGIN
+========================================================================*/
+app.get("/audiLogin",function(req,res){
+    res.render("audiLogin")
+});
+
+app.post("/audiLogin", function(req,res){
+    const organiser = new Organiser({
+        username: req.body.username,
+        password: req.body.password,
+    });
+
+    req.login(organiser, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            passport.authenticate('local', {failureRedirect: '/audiLogin'})(req, res, function () {
+                if(req.user.role=="AUDIENCE"){
+                res.redirect("/audiLanding");
+            }
+            });
+        }
+    });
+});
 /*=======================================================================
                          REGISTER ROUTES
 ========================================================================*/
@@ -428,7 +575,8 @@ app.post('/register', function (req, res) {
         {   
             username: req.body.username,
             name: req.body.name,
-            email: req.body.email
+            email: req.body.email,
+            role:req.body.role
             
         },
          req.body.password,
@@ -439,7 +587,9 @@ app.post('/register', function (req, res) {
                 res.redirect('/register');
             } else {
                 passport.authenticate('local')(req, res, function () {
-                    res.redirect('/organiser');
+                    if(req.user.role == "ORGANISER"){                 
+                    res.redirect('/organiser'); }
+                   
                     var transporter=nodemailer.createTransport({
                         service:'gmail',
                         auth:{
@@ -473,7 +623,7 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 app.get("/login",(req,res)=>{
     res.render('login');
-})
+});
 
 app.post('/login', function (req, res) {
     const organiser = new Organiser({
@@ -484,12 +634,15 @@ app.post('/login', function (req, res) {
     req.login(organiser, function (err) {
         if (err) {
             console.log(err);
-        } else {
+        }
+        else {
             passport.authenticate('local', {failureRedirect: '/login'})(req, res, function () {
-                res.redirect("/organiser")
+                if(req.user.role=="ORGANISER"){
+                res.redirect("/organiser");
+            }
             });
         }
-    });
+});
 });
 /*=======================================================================
                          LOGOUT
@@ -502,6 +655,6 @@ app.get('/logout', function (req, res) {
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
-})
+});
 
 
