@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Hackathons</h2>
+    <% foundEvents.forEach(function(event){ %>
+        <% if(event.type == "Hackathon"){ %>
+            <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" style="width: 300px; height: 300px;">
+            <p><%= event.name %></p>
+            <p><%= event.type %></p>
+        <% } }) %>
+    <h2>Techincal Events</h2>
+    <% foundEvents.forEach(function(event){ %>
+        <% if(event.type == "Techincal Events"){ %>
+            <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" style="width: 300px; height: 300px;">
+            <p><%= event.name %></p>
+            <p><%= event.type %></p>
+        <% } }) %>
+    <h2>Creative and Cultural Events</h2>
+    <% foundEvents.forEach(function(event){ %>
+        <% if(event.type == "Creative and Cultural Events"){ %>
+            <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" style="width: 300px; height: 300px;">
+            <p><%= event.name %></p>
+            <p><%= event.type %></p>
+        <% } }) %>
+    <h2>Workshops and Webinars</h2>
+    <% foundEvents.forEach(function(event){ %>
+        <% if(event.type == "Workshops and Webinars"){ %>
+            <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" style="width: 300px; height: 300px;">
+            <p><%= event.name %></p>
+            <p><%= event.type %></p>
+        <% } }) %>
+</body>
+</html>
