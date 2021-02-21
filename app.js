@@ -50,7 +50,7 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
-
+    eventType:String
 
 });
 
@@ -230,6 +230,7 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
+    eventType:req.body.eventType,
     Booked:0,
     image: 
     {
@@ -329,6 +330,23 @@ app.get("/cities/:city/:eventId", (req,res)=> {
             
         }
     })
+});
+
+/*=======================================================================
+                         AUDIANCE LANDING PAGE
+========================================================================*/
+
+
+app.get("/audiLand",function(req,res){
+    // Event.find({eventType},function(err,foundEvent){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    //     else{
+    //         res.render('audiLanding',{passedEvent:foundEvent});
+    //     }
+    // }); 
+    res.render('audiLanding');
 });
 
 
@@ -571,6 +589,7 @@ app.post('/login', function (req, res) {
 
 
 
+
 /*=======================================================================
                          COLLEGE EVENTS
 ========================================================================*/
@@ -583,6 +602,7 @@ app.get("/collegeEvents", function(req, res){
         }
     })
 });
+
 /*=======================================================================
                          LOGOUT
 ========================================================================*/
@@ -595,5 +615,3 @@ app.get('/logout', function (req, res) {
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 })
-
-
