@@ -7,6 +7,8 @@ const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
+
+
 var fs = require('fs');
 var nodemailer=require('nodemailer');
 //const LocalStrategy = require('passport-local').Strategy;
@@ -29,7 +31,7 @@ app.use(passport.session());
 
 mongoose.connect(`mongodb+srv://${process.env.ADMIN}:${process.env.PASSWORD}@cluster0.eyjhl.mongodb.net/projectDB`, { useUnifiedTopology: true, useNewUrlParser: true });
 /*=======================================================================
-                             EVENT SCHEMA
+                            CREATE EVENT SCHEMA
 ========================================================================*/
 const eventSchema = new mongoose.Schema({
     username:String,
@@ -50,16 +52,16 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
-
+    BookedPer:Number,
+    eventType:String
 
 });
 
 
 
-
 const Event = mongoose.model("Event", eventSchema);
 /*=======================================================================
-                            AUDIANCE SCHEMA
+                            AUDIANCE REGISTER SCHEMA
 ========================================================================*/
 const audianceSchema = new mongoose.Schema({
     audiName: String,
@@ -70,20 +72,27 @@ const audianceSchema = new mongoose.Schema({
     eventId:String,
     noOfTickets:Number,
     gender:String,
-
+    username:String,
+    password:String,
+    
 });
 
+
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
+
+
+
 /*=======================================================================
-                         ORGANISER SCHEMA
+                         ORGANISER REGISTER SCHEMA
 ========================================================================*/
 
 const organiserSchema = new mongoose.Schema({
     username: String,
     name: String,
     email:String,
-    password: String
-    
+    password: String,
+    role:String,
+    prefEvent:String
 });
 
 organiserSchema.plugin(passportLocalMongoose);
@@ -107,27 +116,16 @@ const collegeEventSchema = new mongoose.Schema({
     endTime: String,
     price:Number,
     collegeName: String,
-    type: String
+    type: String,
+    image: 
+    {
+        data: Buffer,
+        contentType: String
+    },
+    rules: String
 });
 
 const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
-
-const colEvent = new CollegeEvent({
-    username: "hello",
-    name: "world",
-    description: "nice",
-    location: "kolkata",
-    startDate: 210320,
-    startTime: "20:00",
-    endDate: 210320,
-    endTime: "21:00",
-    price: 200,
-    collegeName: "nice",
-    rules: "wow",
-    type: "quiz"
-});
-
-//colEvent.save();
 
 /*=======================================================================
                          Functions
@@ -173,15 +171,30 @@ app.get("/", (req,res)=>{
 ========================================================================*/
 app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
+        var name = req.user.name;
+        var arr = [];
         Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
-        
         {
             if(err)console.log(err)
             else{
                 var name = req.user.name;
-                res.render('organiser', {passedname: name,foundEvents})
+                arr = foundEvents
+                //res.render('organiser', {passedname: name,foundEvents})
             }
-        })
+
+
+        }).then(()=>{
+            CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
+                if(err){
+                    handleError(err);
+                } else{
+                    res.render('organiser', {passedname: name, arr, foundcolEvents});
+                }
+            })
+
+    })
+
+
         
     } else {
         res.redirect('/login');
@@ -241,13 +254,16 @@ app.post("/createEvent", upload, function(req,res){
     endTime: req.body.endTime,
     price:req.body.price,
     city:req.body.city,
+    eventType:req.body.eventType,
     Booked:0,
+    BookedPer:0,
     image: 
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
         contentType: 'image/png'
     }
     });
+
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -267,6 +283,12 @@ app.post("/delete",function(req,res){
     if (err) console.log(err);
    });  
 
+   CollegeEvent.deleteOne({_id:delid}, function(err){
+       if(err){
+           handleError(err);
+       }
+   });
+   
    res.redirect('organiser');
 })
 
@@ -275,25 +297,39 @@ app.post("/delete",function(req,res){
                          CREATE COLLEGE EVENT ROUTE
 ========================================================================*/
 
-// app.post("/collegeEvent", function(req, res){
-//     const colEvent = new CollegeEvent({
-//         username: ,
-//         name: "world",
-//         description: "nice",
-//         location: "kolkata",
-//         startDate: 210320,
-//         startTime: "20:00",
-//         endDate: 210320,
-//         endTime: "21:00",
-//         price: 200,
-//         collegeName: "nice",
-//         rules: "wow",
-//         type: "quiz"
-//     });
-    
-//     //colEvent.save();
-// });
+app.get("/collegeEventform", function(req, res){
+    res.render("collegeEventform");
+}) 
 
+app.post("/collegeEvent",upload, function(req, res){
+    const colEvent = new CollegeEvent({
+        username: req.body.username,
+        name: req.body.Name,
+        description: req.body.description,
+        location: req.body.location,
+        startDate: dateToNumber(req.body.startDate),
+        startTime:req.body.startingTime,
+        endDate: dateToNumber(req.body.endDate),
+        endTime:req.body.endTime ,
+        price: req.body.price,
+        collegeName: req.body.colName,
+        rules: req.body.rules,
+        type: req.body.type,
+        image: 
+        {
+            data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    });
+    
+    colEvent.save(function(err, doc){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/createEvent");
+        }
+    });
+});
 
 /*=======================================================================
                          AUDIANCE ROUTE
@@ -326,6 +362,23 @@ app.get("/cities/:city/:eventId", (req,res)=> {
     })
 });
 
+/*=======================================================================
+                         AUDIANCE LANDING PAGE
+========================================================================*/
+
+
+//   app.get("/audiLand",function(req,res){
+//     // Event.find({eventType},function(err,foundEvent){
+//     //     if(err){
+//     //         console.log(err);
+//     //     }
+//     //     else{
+//     //         res.render('audiLanding',{passedEvent:foundEvent});
+//     //     }
+//     // }); 
+//     res.render('audiLanding');
+//  });
+
 
 /*=======================================================================
                          ANALYTICS ROUTE
@@ -347,8 +400,8 @@ app.get("/analytics/:id", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                console.log(arr)
-                console.log(arr[0].tolalCapacity);
+                // console.log(arr)
+                // console.log(arr[0].tolalCapacity);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
@@ -429,7 +482,7 @@ app.post("/audiDetailsInput",(req,res)=>{
         }
     
         event.Booked = Number(event.Booked) + Number(tickets);
-    
+        event.BookedPer = ((Number(event.Booked))/event.tolalCapacity)*100;
         event.save((err, updatedevent) => {
             if (err) {
                 console.log('Error');
@@ -487,7 +540,129 @@ app.get("/cities/:city/:eventId/booking",(req,res)=>{
 
 });
 
+/*=======================================================================
+                         AUDIANCE-REGISTER ROUTE
+========================================================================*/
 
+app.get("/audiregister",function(req,res){
+    res.render("audiRegister");
+});
+
+app.post('/audiregister', function (req, res) {
+    Organiser.register(
+        {   
+            username: req.body.username,
+            name: req.body.name,
+            email: req.body.email,
+            role:req.body.role,
+            prefEvent:req.body.preferred
+        },
+            req.body.password,
+            function (err, organiser) {
+            if (err) {
+                console.log(err);
+                res.redirect('/audiregister');
+            } else {
+                passport.authenticate('local')(req, res, function () {
+                    if(req.user.role=="AUDIENCE"){
+                    res.redirect('/audiLanding');}
+            
+                });
+            }
+        });
+    });
+
+
+/*=======================================================================
+                            AUDIENCE LANDING
+========================================================================*/
+
+app.get("/audiLanding",function(req,res){
+    if (req.isAuthenticated()){
+        // var threshold = 15;
+        var arr= [];
+        var prefEvent=req.user.prefEvent;
+       
+        Event.find({},function(err,topEvent){
+            if(err){
+                console.log(err);
+
+            }else{
+                // console.log(topEvent);
+                arr = topEvent;  
+               // console.log(arr.sort(dynamicsort("BookedPer","desc")));  
+               arr.sort(dynamicsort("BookedPer","desc"));
+                 
+            }
+        })
+        .then(()=>{
+             
+        Event.find({eventType:prefEvent},function(err,foundEvent){
+
+            if(err){
+                console.log(err);
+            }
+            else{
+               console.log(arr);
+                res.render('audiLanding',{passedEvent:foundEvent,arr});
+                
+            }
+
+        });
+        });
+        console.log(arr);
+        function dynamicsort(property,order) {
+            var sort_order = 1;
+            if(order === "desc"){
+                sort_order = -1;
+            }
+            return function (a, b){
+                // a should come before b in the sorted order
+                if(a[property] < b[property]){
+                        return -1 * sort_order;
+                // a should come after b in the sorted order
+                }else if(a[property] > b[property]){
+                        return 1 * sort_order;
+                // a and b are the same
+                }else{
+                        return 0 * sort_order;
+                }
+            }
+        }
+        
+
+    }
+    else{
+        res.redirect("/audiLogin")
+    }
+    
+});
+
+/*=======================================================================
+                        AUDIENCE LOGIN
+========================================================================*/
+app.get("/audiLogin",function(req,res){
+    res.render("audiLogin")
+});
+
+app.post("/audiLogin", function(req,res){
+    const organiser = new Organiser({
+        username: req.body.username,
+        password: req.body.password,
+    });
+
+    req.login(organiser, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            passport.authenticate('local', {failureRedirect: '/audiLogin'})(req, res, function () {
+                if(req.user.role=="AUDIENCE"){
+                res.redirect("/audiLanding");
+            }
+            });
+        }
+    });
+});
 /*=======================================================================
                          REGISTER ROUTES
 ========================================================================*/
@@ -499,7 +674,8 @@ app.post('/register', function (req, res) {
         {   
             username: req.body.username,
             name: req.body.name,
-            email: req.body.email
+            email: req.body.email,
+            role:req.body.role
             
         },
          req.body.password,
@@ -510,7 +686,9 @@ app.post('/register', function (req, res) {
                 res.redirect('/register');
             } else {
                 passport.authenticate('local')(req, res, function () {
-                    res.redirect('/organiser');
+                    if(req.user.role == "ORGANISER"){                 
+                    res.redirect('/organiser'); }
+                   
                     var transporter=nodemailer.createTransport({
                         service:'gmail',
                         auth:{
@@ -544,7 +722,7 @@ app.post('/register', function (req, res) {
 ========================================================================*/
 app.get("/login",(req,res)=>{
     res.render('login');
-})
+});
 
 app.post('/login', function (req, res) {
     const organiser = new Organiser({
@@ -555,13 +733,33 @@ app.post('/login', function (req, res) {
     req.login(organiser, function (err) {
         if (err) {
             console.log(err);
-        } else {
+        }
+        else {
             passport.authenticate('local', {failureRedirect: '/login'})(req, res, function () {
-                res.redirect("/organiser")
+                if(req.user.role=="ORGANISER"){
+                res.redirect("/organiser");
+            }
             });
         }
-    });
 });
+});
+
+
+
+
+/*=======================================================================
+                         COLLEGE EVENTS
+========================================================================*/
+app.get("/collegeEvents", function(req, res){
+    CollegeEvent.find({}, function(err, foundEvents){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("collegeEvents", {foundEvents});
+        }
+    })
+});
+
 /*=======================================================================
                          LOGOUT
 ========================================================================*/
@@ -573,6 +771,6 @@ app.get('/logout', function (req, res) {
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
-})
+});
 
 

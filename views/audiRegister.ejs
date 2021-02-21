@@ -1,6 +1,6 @@
 <%- include('partials/header') -%>
 <%- include ('partials/messages') -%>
-<form action="/register" method="POST">
+<form action="/audiregister" method="POST">
     <div class="register-form">
         <div class="register-card">
             <div class="register-img">
@@ -52,12 +52,21 @@
                 />
             </div>
             <div>
-                
                 <input
                 name="role"
-                value="ORGANISER" style="display: none;"
+                value="AUDIENCE" style="display: none;"
                 />
             </div>
+            <label for="prefEve">Event Type</label>
+                <select name="preferred" input type>
+                    <option value="preferredEvent">Enter Preferred Event</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Movies">Movies and Drama</option>
+                </select>
+
             <button type ="submit" >Register</button>
             <p>Have an account?<a href="/login">Login</a></p>
             </div>
