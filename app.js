@@ -52,6 +52,7 @@ const eventSchema = new mongoose.Schema({
         contentType: String
     },
     Booked:Number,
+    BookedPer:Number,
     eventType:String
 
 });
@@ -255,6 +256,7 @@ app.post("/createEvent", upload, function(req,res){
     city:req.body.city,
     eventType:req.body.eventType,
     Booked:0,
+    BookedPer:0,
     image: 
     {
         data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
@@ -395,7 +397,6 @@ app.get("/analytics/:id", function(req, res){
     })
     .then(()=>{
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
-            //console.log(foundAudience);
             if(err){
                 console.log(err);
             }else{
@@ -481,7 +482,7 @@ app.post("/audiDetailsInput",(req,res)=>{
         }
     
         event.Booked = Number(event.Booked) + Number(tickets);
-    
+        event.BookedPer = ((Number(event.Booked))/event.tolalCapacity)*100;
         event.save((err, updatedevent) => {
             if (err) {
                 console.log('Error');
@@ -578,17 +579,58 @@ app.post('/audiregister', function (req, res) {
 
 app.get("/audiLanding",function(req,res){
     if (req.isAuthenticated()){
+        // var threshold = 15;
+        var arr= [];
         var prefEvent=req.user.prefEvent;
-        
+       
+        Event.find({},function(err,topEvent){
+            if(err){
+                console.log(err);
+
+            }else{
+                // console.log(topEvent);
+                arr = topEvent;  
+               // console.log(arr.sort(dynamicsort("BookedPer","desc")));  
+               arr.sort(dynamicsort("BookedPer","desc"));
+                 
+            }
+        })
+        .then(()=>{
+             
         Event.find({eventType:prefEvent},function(err,foundEvent){
+
             if(err){
                 console.log(err);
             }
             else{
-                res.render('audiLanding',{passedEvent:foundEvent});
+               console.log(arr);
+                res.render('audiLanding',{passedEvent:foundEvent,arr});
                 
             }
+
         });
+        });
+        console.log(arr);
+        function dynamicsort(property,order) {
+            var sort_order = 1;
+            if(order === "desc"){
+                sort_order = -1;
+            }
+            return function (a, b){
+                // a should come before b in the sorted order
+                if(a[property] < b[property]){
+                        return -1 * sort_order;
+                // a should come after b in the sorted order
+                }else if(a[property] > b[property]){
+                        return 1 * sort_order;
+                // a and b are the same
+                }else{
+                        return 0 * sort_order;
+                }
+            }
+        }
+        
+
     }
     else{
         res.redirect("/audiLogin")
