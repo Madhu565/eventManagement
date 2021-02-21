@@ -18,7 +18,7 @@
         </div>
     </nav>
     <h1>Your Events</h1>
-    <%foundEvents.forEach(function(Event){%>
+    <%arr.forEach(function(Event){%>
     <div class="organiser-events">
     <p><%= Event.eventName %> </p>
     <div class="actions">
@@ -29,6 +29,24 @@
         </form></div>
     </div>
     <% }) %>
+
+    <h1>College Events</h1>
+    <%foundcolEvents.forEach(function(Event){%>
+        <div class="organiser-events">
+        <p><%= Event.name %> </p>
+        <div class="actions">
+            <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
+            <form action="/delete" method="POST" >
+                <input style="display: none;" value="<%=Event._id%>" name ="id">
+                <button type="submit">Delete</button>
+            </form></div>
+        </div>
+        <% }) %>
+
+
+
+
+
     </div>
 
     
