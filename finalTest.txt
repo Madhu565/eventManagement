@@ -84,3 +84,13 @@ const event = new Event({
 // event2.save();
 // event3.save();
 // event4.save();
+
+<!-- <div id="preferredEvent"></div>
+    <%  foundEvent.forEach(prefEvent => { %>
+        <div class="event-box">
+            <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
+            <p><%=prefEvent.eventName.toUpperCase()%></p>
+        </div>
+<% }) %> -->
+<!-- </div> -->
+
