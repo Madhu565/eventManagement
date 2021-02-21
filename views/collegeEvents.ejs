@@ -17,9 +17,11 @@
     <h2>Techincal Events</h2>
     <% foundEvents.forEach(function(event){ %>
         <% if(event.type == "Techincal Events"){ %>
-            <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" style="width: 300px; height: 300px;">
-            <p><%= event.name %></p>
-            <p><%= event.type %></p>
+            <div style="display: flex;">
+                <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" style="width: 300px; height: 300px;">
+                <p><%= event.name %></p>
+                <p><%= event.type %></p>
+            </div>
         <% } }) %>
     <h2>Creative and Cultural Events</h2>
     <% foundEvents.forEach(function(event){ %>

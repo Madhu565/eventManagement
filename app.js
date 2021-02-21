@@ -249,7 +249,7 @@ app.post("/createEvent", upload, function(req,res){
     if (err) console.log(err);
    });  
 
-   res.redirect('organiser');
+   res.redirect('/organiser');
 })
 
 
@@ -335,18 +335,17 @@ app.get("/analytics/:id", function(req, res){
             console.log(err);
         }
         else{
-            arr = foundEvent;
+            console.log(foundEvent);
+            arr  = foundEvent;
             
         }
     })
     .then(()=>{
         Audiance.find({eventId:requestedId}, function(err, foundAudience){
-            console.log(foundAudience);
             if(err){
                 console.log(err);
             }else{
-                console.log(arr)
-                console.log(arr[0].tolalCapacity);
+                console.log(arr);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
