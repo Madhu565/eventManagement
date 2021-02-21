@@ -54,33 +54,36 @@ const eventSchema = new mongoose.Schema({
     BookedPer:Number,
     eventType:String
 
+<<<<<<< HEAD
 
 });
 const Event = mongoose.model("Event", eventSchema);
+=======
+});
+
+const Event = mongoose.model("Event", eventSchema);
+
+
+>>>>>>> f6f16c377c6071589eafc9234b2b76614740f3ce
 /*=======================================================================
-                            AUDIANCE REGISTER SCHEMA
+                            EVENT BOOKING SCHEMA
 ========================================================================*/
+
 const audianceSchema = new mongoose.Schema({
     audiName: String,
     audiEmail:String,
-    audiPhNum:Number,
     audiAge:Number,
-    audiAddress:String,
     eventId:String,
-    noOfTickets:Number,
-    gender:String,
-    username:String,
-    password:String,
-    
+    noOfTickets:Number, 
+    audiPhNum:Number,  
+    gender:String,     
 });
-
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
 
 
-
 /*=======================================================================
-                         ORGANISER REGISTER SCHEMA
+                           REGISTER SCHEMA
 ========================================================================*/
 
 const organiserSchema = new mongoose.Schema({
@@ -89,6 +92,9 @@ const organiserSchema = new mongoose.Schema({
     email:String,
     password: String,
     role:String,
+    audiPhNum:Number,  
+    gender:String, 
+    audiAge:Number ,
     prefEvent:String
 });
 
@@ -231,7 +237,9 @@ var upload = multer({ storage: Storage }).single('file');
 ========================================================================*/
 
 app.get("/createEvent", function(req, res){
-    res.render("createEvent");
+    var username = req.user.username;
+    console.log(username);
+    res.render("createEvent", {username});
 });
 
 app.get("/pictures", function(req, res){
@@ -249,10 +257,8 @@ app.get("/pictures", function(req, res){
 
 
 app.post("/createEvent", upload, function(req,res){
-
-
     const event = new Event({
-    username:req.user.username,
+    username:req.body.username,
     eventName: req.body.Name,
     description: req.body.description,
     location: req.body.location,
@@ -305,7 +311,8 @@ app.post("/createEvent", upload, function(req,res){
 ========================================================================*/
 
 app.get("/collegeEventform", function(req, res){
-    res.render("collegeEventform");
+    var username = req.user.username;
+    res.render("collegeEventform", {username});
 }) 
 
 app.post("/collegeEvent",upload, function(req, res){
@@ -351,16 +358,16 @@ app.get("/collegeEvents/:id",(req,res)=>{
 ========================================================================*/
 
   
-app.get("/cities/:city", (req,res)=>{
-    const requestedCity = req.params.city;
-    Event.find({city:requestedCity},(err,foundEvents)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.render("events",{foundEvents});
-        }
-    })
-});
+// app.get("/cities/:city", (req,res)=>{
+//     const requestedCity = req.params.city;
+//     Event.find({city:requestedCity},(err,foundEvents)=>{
+//         if(err){
+//             console.log(err);
+//         }else{
+//             res.render("events",{foundEvents});
+//         }
+//     })
+// });
 
 app.get("/cities/:city/:eventId", (req,res)=> {
     const requestedEvent = req.params.eventId;
@@ -376,23 +383,6 @@ app.get("/cities/:city/:eventId", (req,res)=> {
         }
     })
 });
-
-/*=======================================================================
-                         AUDIANCE LANDING PAGE
-========================================================================*/
-
-
-//   app.get("/audiLand",function(req,res){
-//     // Event.find({eventType},function(err,foundEvent){
-//     //     if(err){
-//     //         console.log(err);
-//     //     }
-//     //     else{
-//     //         res.render('audiLanding',{passedEvent:foundEvent});
-//     //     }
-//     // }); 
-//     res.render('audiLanding');
-//  });
 
 
 /*=======================================================================
@@ -451,6 +441,8 @@ app.get("/analytics/:id", function(req, res){
                          CITY
 ========================================================================*/
 app.get("/cities/:city", (req,res)=>{
+    if(req.isAuthenticated()){
+    console.log(req.user)
     const requestedCity = req.params.city;
     Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
         if(err) console.log(err);
@@ -463,8 +455,13 @@ app.get("/cities/:city", (req,res)=>{
         }
  
     })
-    
+}
+else{
+    res.redirect("/audiLogin")
+}
 });
+
+
 app.get('/events',(req,res)=>{
     Event.find({},(err,foundEvents)=>{
         if(err){
@@ -474,24 +471,23 @@ app.get('/events',(req,res)=>{
         }
     })
 })
+
+
 app.post("/audiDetailsInput",(req,res)=>{
-    
-    const {AudiName,email,ph_num,age,address,id,tickets,gender} = req.body
-    
+ 
     const audiance = new Audiance({
-        audiName: AudiName,
-        audiEmail:email,
-        audiPhNum:ph_num,
-        audiAge:age,
-        audiAddress:address,
-        eventId:id,
-        noOfTickets:tickets,
-        gender:gender
+        audiName:req.body.name,
+        eventId:req.body.id,
+        noOfTickets:req.body.tickets,    
+        audiEmail:req.body.audiEmail,
+        audiAge:req.body.audiAge,
+        audiPhNum:req.body.audiPhNum,  
+        gender:req.body.gender    
        });
     audiance.save();  
 
-    console.log(id);
-    Event.findById(id, (err, event) => {
+    console.log(req.body.id);
+    Event.findById(req.body.id, (err, event) => {
         if (err) {
             console.log('Error');
         }
@@ -508,9 +504,11 @@ app.post("/audiDetailsInput",(req,res)=>{
         });
     });
 
-    res.render("audiBookConfirm", {AudiName});
+    // res.render("audiBookConfirm", {audiName});
 
-
+    res.json({
+        tickets:req.body.tickets,
+    })
     
     var transporter=nodemailer.createTransport({
         service:'gmail',
@@ -534,13 +532,20 @@ app.post("/audiDetailsInput",(req,res)=>{
             console.log('Email sent:'+info.response);
         }
     });
+  
 
 });
 
 
 app.get("/cities/:city/:eventId/booking",(req,res)=>{
+    var user =[];
+    if(req.isAuthenticated()){
+        // console.log(req.user)
     const requestedCity = req.params.city;
     const requestedEvent = req.params.eventId;
+   user=req.user;
+   console.log(user)
+
     Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
         console.log(foundEvent);
         if(err){
@@ -549,10 +554,13 @@ app.get("/cities/:city/:eventId/booking",(req,res)=>{
             var capacity = foundEvent[0].tolalCapacity;
             var booked = foundEvent[0].Booked; 
             var remain = (capacity-booked);
-            res.render("audiDetailsInput",{foundEvent, remain});
+            res.render("audiDetailsInput",{foundEvent, user,remain});
         }
     })
-
+    }
+    else{
+        res.redirect("/audiLogin")
+    }
 });
 
 /*=======================================================================
@@ -570,6 +578,9 @@ app.post('/audiregister', function (req, res) {
             name: req.body.name,
             email: req.body.email,
             role:req.body.role,
+            audiPhNum:req.body.audiPhNum,  
+            gender:req.body.gender, 
+            audiAge:req.body.audiAge,
             prefEvent:req.body.preferred
         },
             req.body.password,
@@ -581,7 +592,29 @@ app.post('/audiregister', function (req, res) {
                 passport.authenticate('local')(req, res, function () {
                     if(req.user.role=="AUDIENCE"){
                     res.redirect('/audiLanding');}
-            
+                    
+                    var transporter=nodemailer.createTransport({
+                        service:'gmail',
+                        auth:{
+                            user:'grabmyseatsquad@gmail.com',
+                            pass:'SQUAD12345'
+                        }
+                    });
+                    
+                    var mailOptions={
+                        from:'grabmyseatsquad@gmail.com',
+                        to:req.body.email,
+                        subject:'Test Email',
+                        text:'Thanks for contacting GRAB MY SEAT'
+                    };
+                    transporter.sendMail(mailOptions,function(error,info){
+                        if(error){
+                            console.log('error');
+                        }
+                        else{
+                            console.log('Email sent:'+info.response);
+                        }
+                    });
                 });
             }
         });
@@ -593,6 +626,7 @@ app.post('/audiregister', function (req, res) {
 ========================================================================*/
 
 app.get("/audiLanding",function(req,res){
+   
     if (req.isAuthenticated()){
         // var threshold = 15;
         var arr= [];
