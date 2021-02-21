@@ -11,7 +11,6 @@ const multer = require("multer");
 
 var fs = require('fs');
 var nodemailer=require('nodemailer');
-//const LocalStrategy = require('passport-local').Strategy;
 var path = require("path");
 const app = express();
 app.set('view engine', 'ejs');
@@ -120,6 +119,7 @@ const collegeEventSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
+    Booked:Number,
     rules: String
 });
 
@@ -144,7 +144,18 @@ function dateToNumber(car){
 function handleError(e){
     console.log(e);
 }
-
+function numberToDate(nbr){
+    let arr = []
+   for(let i= 0; i<nbr.length ; i++){
+       if(i == 3 || i == 5){
+           arr.push(nbr[i]);
+           arr.push("-");
+       }else{
+           arr.push(nbr[i]);
+       }
+   }
+   return arr.join(''); 
+}
 function today(){
     let date = new Date;
     let day = (date.getDate())
@@ -272,9 +283,7 @@ app.post("/createEvent", upload, function(req,res){
     });
 })
 
-///Deleteing event for organizer
-
-app.post("/delete",function(req,res){
+ app.post("/delete",function(req,res){
     var delid= req.body.id
 
    Event.deleteOne({_id:delid},function(err){
@@ -330,6 +339,14 @@ app.post("/collegeEvent",upload, function(req, res){
     });
 });
 
+app.get("/collegeEvents/:id",(req,res)=>{
+    const requestedId = req.params.id;
+    CollegeEvent.find({_id: requestedId} , (err,foundEvent)=>{
+        res.render("collegeEvent",{foundEvent , startDate: numberToDate(String(foundEvent[0].startDate)), endDate: numberToDate(String(foundEvent[0].endDate))});
+    });
+})
+
+
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
@@ -373,7 +390,8 @@ app.get("/analytics/:id", function(req, res){
             console.log(err);
         }
         else{
-            arr = foundEvent;
+            console.log(foundEvent);
+            arr  = foundEvent;
             
         }
     })
@@ -382,8 +400,7 @@ app.get("/analytics/:id", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                // console.log(arr)
-                // console.log(arr[0].tolalCapacity);
+                console.log(arr);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
@@ -792,8 +809,10 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
-
-
+app.get('/audilogout', function (req, res) {
+    req.logout();
+    res.redirect('/');
+});
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 });

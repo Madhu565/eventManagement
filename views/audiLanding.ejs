@@ -1,6 +1,6 @@
 <%- include('partials/header') -%>
     <h1>AUDIENCE LANDING PAGE</h1>
-
+        <a href="/audilogout"><button type="submit" >LOGOUT</button></a>
         <button id="filterBtn">FILTER</button>
         <div id="my-Modal" class="filterModal">
             <div class="filterModal-content">
@@ -30,6 +30,29 @@
                 </div>
             </div>
         </div>
+        <br><br>
+        <h1>Top Events </h1>
+        <br>
+        <div id="preferredEvent"></div>
+        <%  arr.forEach(topEvent => { %>
+            <div class="event-box">
+                <img src="data:image/<%=topEvent.image.contentType%>;base64,<%=topEvent.image.data.toString('base64')%>">
+                <p><%=topEvent.eventName.toUpperCase()%></p>
+                <a href="/cities/<%=topEvent.city%>/<%=topEvent._id%>">explore</a>
+            </div>
+    <% }) %> 
+        <br><br>
+        <h1>Handpicked Events for You</h1>
+        <br>
+        <div id="preferredEvent"></div>
+        <%  passedEvent.forEach(prefEvent => { %>
+            <div class="event-box" >
+                <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=prefEvent.image.data.toString('base64')%>">
+                <p><%=prefEvent.eventName.toUpperCase()%></p>
+                <a href="/cities/<%=prefEvent.city%>/<%=prefEvent._id%>">explore</a>
+            </div>
+    <% }) %> 
+    
     <script>
         var modal = document.getElementById("my-Modal");
 
@@ -51,16 +74,7 @@
         }
         }
     </script>
-    <br><br>
-    <h1>Handpicked Events for You</h1>
-    <br>
-    <div id="preferredEvent"></div>
-    <%  passedEvent.forEach(prefEvent => { %>
-        <div class="event-box">
-            <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=prefEvent.image.data.toString('base64')%>">
-            <p><%=prefEvent.eventName.toUpperCase()%></p>
-        </div>
-<% }) %> 
+
  
 
 <%- include('partials/footer') -%>
