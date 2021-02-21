@@ -3,8 +3,7 @@
     <h1>Create Event</h1>    
 
     <form id="createEvent" class="createEvent-form" action="/createEvent" method="post" enctype="multipart/form-data" class="submitForm">
-        <label for="startDate">User Name</label>
-        <input type="text" placeholder="User Name" name="username"><br><br>
+        <input style="display: none;" value="<%= username %>" name="username"><br><br>
 
         <label for="startDate">Event Name</label>
         <input type="text" placeholder="Event Name" name="Name" id="name"><br><br>
@@ -55,8 +54,6 @@
             <option value="Movies">Movies and Drama</option>
         </select>
         <br><br>
-
-        
 
 
         <label>Event Picture</label>
