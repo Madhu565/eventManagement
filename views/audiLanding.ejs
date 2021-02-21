@@ -1,6 +1,6 @@
 <%- include('partials/header') -%>
     <h1>AUDIENCE LANDING PAGE</h1>
-
+        <a href="/audilogout"><button type="submit" >LOGOUT</button></a>
         <button id="filterBtn">FILTER</button>
         <div id="my-Modal" class="filterModal">
             <div class="filterModal-content">
@@ -52,6 +52,7 @@
                 <a href="/cities/<%=prefEvent.city%>/<%=prefEvent._id%>">explore</a>
             </div>
     <% }) %> 
+    
     <script>
         var modal = document.getElementById("my-Modal");
 
