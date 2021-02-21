@@ -1,5 +1,6 @@
 <%- include('partials/header') -%>
 <div class="back">
+<<<<<<< HEAD
     <h1>Create Event</h1>
     
     <!-- <input id="ColEvent" type="checkbox" onclick="checkbox()">
@@ -10,6 +11,10 @@
 <!--===========================================================================
                                 CREATE EVENT 
 ===============================================================================-->
+=======
+    <h1>Create Event</h1>    
+
+>>>>>>> ea1583c0c14cda861b362ce62dba0c2bdd77e7a8
     <form id="createEvent" class="createEvent-form" action="/createEvent" method="post" enctype="multipart/form-data" class="submitForm">
         <label for="startDate">User Name</label>
         <input type="text" placeholder="User Name" name="username"><br><br>
@@ -44,7 +49,7 @@
         </div>
         <div>
             <label for="startTime">Enter the Starting Time</label>
-            <input type="time" name="startingTime"><br><br>
+            <input type="time"  name="startingTime"><br><br>
     
             <label for="endTime">Enter the Ending Time</label>
             <input type="time" name="endTime" id="endingTime"><br><br>
@@ -60,9 +65,6 @@
     </form>
 
 
-<!--===========================================================================
-                                CREATE COLLEGE EVENT 
-===============================================================================-->
 <!-- <form style="display: none;" id="collegeEvent" class="createEvent-form" action="/collegeEvent" method="post" enctype="multipart/form-data" class="submitForm">
     <label for="startDate">User Name</label>
     <input type="text" placeholder="User Name" name="colUsername"><br><br>
@@ -117,36 +119,20 @@
 
     <button type="submit" class="btn">CREATE</button>
 </form>
+=======
+
 
 
 </div> 
 
-
-
 <script>
-    function checkbox(){
-        var checkbox = document.getElementById("ColEvent");
-        var form = document.getElementById("collegeEvent");
-        if(checkbox.checked  == true){
-            form.style.display = "block";
-        }else{
-            form.style.display = "none";
-        }
+    
+    var minDate = document.getElementById("startingDate");
+    minDate.min = new Date().toISOString().slice(0,10);
 
+    var endDate = document.getElementById("endingDate");
+    endDate.min = new Date().toISOString().slice(0,10);
+</script>
 
-    }
+<%- include('partials/footer') -%>
 
-    function checkbox2(){
-        var checkbox2 = document.getElementById("event");
-        var form = document.getElementById("createEvent");
-
-        if(checkbox2.checked == true){
-            form.style.display = "block";
-        }else{
-            form.style.display = "none";
-        }
-    }
-
-</script> -->
-</body>
-</html>

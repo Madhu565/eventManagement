@@ -106,28 +106,11 @@ const collegeEventSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-    Booked:Number
-
+    Booked:Number,
+    rules: String
 });
 
 const CollegeEvent = mongoose.model("CollegeEvent", collegeEventSchema);
-
-// const colEvent = new CollegeEvent({
-//     username: "hello",
-//     name: "world",
-//     description: "nice",
-//     location: "kolkata",
-//     startDate: 210320,
-//     startTime: "20:00",
-//     endDate: 210320,
-//     endTime: "21:00",
-//     price: 200,
-//     collegeName: "nice",
-//     rules: "wow",
-//     type: "quiz"
-// });
-
-//colEvent.save();
 
 /*=======================================================================
                          Functions
@@ -248,6 +231,7 @@ app.post("/createEvent", upload, function(req,res){
         contentType: 'image/png'
     }
     });
+
     event.save(function(err, doc){
         if(err){
             throw err;
@@ -273,31 +257,39 @@ app.post("/createEvent", upload, function(req,res){
                          CREATE COLLEGE EVENT ROUTE
 ========================================================================*/
 
-// app.post("/collegeEvent", function(req, res){
-//     const {colUsername,colEventName,colEventDescription,colLocation,startDate1,endDate1,colEventStartingTime,colEventPrice,colName,colEventEndingTime,type} = req.body;
-//    console.log(colUsername)
-//     const colEvent = new CollegeEvent({
-//         username: colUsername,
-//         name: colEventName,
-//         description:colEventDescription,
-//         location: colLocation,
-//         startDate: dateToNumber(startDate1),
-//         startTime: colEventStartingTime,
-//         endDate: dateToNumber(endDate1),
-//         endTime: colEventEndingTime,
-//         price: colEventPrice,
-//         collegeName: colName,
-//         type: type,
-//         image: 
-//         {
-//             data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
-//             contentType: 'image/png'
-//         },
-//         Booked:0
-//     });
+app.get("/collegeEventform", function(req, res){
+    res.render("collegeEventform");
+}) 
+
+app.post("/collegeEvent",upload, function(req, res){
+    const colEvent = new CollegeEvent({
+        username: req.body.username,
+        name: req.body.Name,
+        description: req.body.description,
+        location: req.body.location,
+        startDate: dateToNumber(req.body.startDate),
+        startTime:req.body.startingTime,
+        endDate: dateToNumber(req.body.endDate),
+        endTime:req.body.endTime ,
+        price: req.body.price,
+        collegeName: req.body.colName,
+        rules: req.body.rules,
+        type: req.body.type,
+        image: 
+        {
+            data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    });
     
-//     colEvent.save();
-// });
+    colEvent.save(function(err, doc){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/createEvent");
+        }
+    });
+});
 
 
 /*=======================================================================
@@ -567,6 +559,21 @@ app.post('/login', function (req, res) {
             });
         }
     });
+});
+
+
+
+/*=======================================================================
+                         COLLEGE EVENTS
+========================================================================*/
+app.get("/collegeEvents", function(req, res){
+    CollegeEvent.find({}, function(err, foundEvents){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("collegeEvents", {foundEvents});
+        }
+    })
 });
 /*=======================================================================
                          LOGOUT
