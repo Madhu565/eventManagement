@@ -10,8 +10,7 @@
     <h1>College event form</h1>
     <form  id="collegeEvent" class="createEvent-form" action="/collegeEvent" method="post" enctype="multipart/form-data" class="submitForm">
     
-        <label for="startDate">User Name</label>
-        <input type="text" placeholder="User Name" name="username"><br><br>
+        <input style="display: none;" value="<%= username %>" name="username"><br><br>
     
         <label for="startDate">Event Name</label>
         <input type="text" placeholder="Event Name" name="Name" id="name"><br><br>
