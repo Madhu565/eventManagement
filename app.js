@@ -54,17 +54,11 @@ const eventSchema = new mongoose.Schema({
     BookedPer:Number,
     eventType:String
 
-<<<<<<< HEAD
-
-});
-const Event = mongoose.model("Event", eventSchema);
-=======
 });
 
 const Event = mongoose.model("Event", eventSchema);
 
 
->>>>>>> f6f16c377c6071589eafc9234b2b76614740f3ce
 /*=======================================================================
                             EVENT BOOKING SCHEMA
 ========================================================================*/
