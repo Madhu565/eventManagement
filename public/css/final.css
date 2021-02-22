@@ -236,3 +236,230 @@
                 transition: 0.5s;
             
             }
+
+/* /////////////////////////////////////////////////////////
+Login-Page
+///////////////////////////////////////////////////////// */
+
+.login-form{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height:100vh;
+    overflow: hidden;
+  
+}
+.login-card{
+    display: flex;
+    width: 60%;
+    height:50%;
+}
+.login-img{
+    background-color: rgb(226, 224, 224);
+    border: 2px solid #ec4646 ;
+    width:40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 30px;
+}
+
+.login-img svg{
+    width: 100%;
+}
+.login-credentials{
+    width: 60%;
+    background-color: #ec4646;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-top-right-radius: 30px;
+
+}
+.login-credentials p {
+    color: white;
+    margin-left: auto;
+    padding-right: 40px;
+}
+.login-credentials a{
+color: white;
+}
+.login-credentials button{
+    color: white;
+    width : 40%;
+    height: 40px;
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 15px;
+}
+.login-credentials button:hover{
+    color:#ec4646;
+    background-color: white;
+    transform: translateX(4px);
+
+}
+.login-username{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 80%;
+}
+
+.login-username input{
+    width : 100%;
+    height: 50px;
+    border: none;
+    border-bottom:  2px solid white;
+    background-color: transparent;
+}
+.login-username input:focus, textarea:focus, select:focus{
+    border: none;
+    border-bottom:  2px solid white;
+    outline: none;
+    fill: none;
+}
+.login-password{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 80%;
+}
+.login-password input{
+    color: white;
+    width : 100%;
+    height: 50px;
+    border: none;
+    border-bottom:  2px solid white;
+    background-color: transparent;
+}
+.login-password input:focus{
+    border: none;
+    border-bottom:  2px solid white;
+    outline: none;
+}
+.login-username{
+    color: white;
+}
+.login-password{
+    color: white;
+}
+.btn{
+    
+    outline:none !important;
+    border: none;
+    border-radius:50px;
+    background: white;
+    color: white;
+    transition: 0.5s;
+}
+.btn:hover {
+    color:white;
+    background-color: transparent;
+    transform: translateX(4px);
+
+}
+
+.custom-shape-divider-bottom-1613982271 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1613982271 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 153px;
+}
+
+.custom-shape-divider-bottom-1613982271 .shape-fill {
+    fill: #EC4646;
+}
+
+/* /////////////////////////////////////////////////////////
+Register
+///////////////////////////////////////////////////////// */
+.register-form{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height:120vh;
+    
+}
+.register-card{
+    display: flex;
+    width: 60%;
+    height:75%;
+}
+.register-img{
+    background-color: #ffff;
+    border: 2px solid #ec4646 ;
+    width:40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 30px;
+}
+.register-credentials{
+    width: 60%;
+    background-color: #ec4646;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-top-right-radius: 30px;
+    color: white;
+}
+
+.register-credentials div{
+    width: 80%;
+}
+.register-credentials p{
+    margin-left: auto;
+    padding-right: 30px;
+}
+.register-credentials a{
+    color: white;
+}
+
+.register-credentials button{
+    color: white;
+    width : 40%;
+    height: 40px;
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 15px;
+}
+.register-credentials button:hover{
+    color:#ec4646;
+    background-color: white;
+    transform: translateX(4px);
+
+}
+.register-credentials  input{
+    width : 100%;
+    height: 50px;
+    border: none;
+    border-bottom:  2px solid white;
+    background-color: transparent;
+}
+.register-credentials input:focus, textarea:focus, select:focus{
+    border: none;
+    border-bottom:  2px solid white;
+    outline: none;
+    fill: none;
+}
+
