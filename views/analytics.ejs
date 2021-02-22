@@ -5,15 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/final.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <style>
-      table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        text-align: center;
-      }
-      </style>
+
 </head>
 <body>
    
@@ -23,25 +17,29 @@
         <div id="barchart_values" style="width: 900px; height: 300px;"></div>
     </div>
     <br><br><br><br>
-    <table class="table">
-      <tr>
-        <th>Sl.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Number Of Tickets</th>
-      </tr>
+    <div class="container">
+	
+      <div class="table">
+        <div class="table-header">
+          <div class="header__item"><a id="name" class="filter__link" href="#">Sl.no</a></div>
+          <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Name</a></div>
+          <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Email</a></div>
+          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">PhoneNumber</a></div>
+          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Tickets</a></div>
+        </div>
       <% var count=1%>
       <% passedAudience.forEach(audience => { %>
-        <tr>
-          <td><%= count++ %></td>
-          <td><%= audience.audiName %></td>
-          <td><%= audience.audiEmail %></td>
-          <td><%= audience.audiPhNum %></td>
-          <td><%= audience.noOfTickets %></td>
-        </tr>
+        <div class="table-content">	
+          <div class="table-row">		
+            <div class="table-data"><%= count++ %> </div>
+            <div class="table-data"><%= audience.audiName %></div>
+            <div class="table-data"><%= audience.audiEmail %></div>
+            <div class="table-data"><%= audience.audiPhNum %></div>
+            <div class="table-data"><%= audience.noOfTickets %></div>
+          </div>
+        </div>  
       <% }) %> 
-    </table>
+    </div>
   
 
 
