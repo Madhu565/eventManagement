@@ -2,6 +2,7 @@
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0%;
+    /* overflow-x: hidden; */
 }
 
 #logo{
@@ -133,6 +134,10 @@
     flex-wrap: wrap;
     align-items: center;
 }
+.event-categories a{
+    text-decoration: none;
+    color: black;
+}
 
 
    
@@ -141,7 +146,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width:20vw;
+    width:15vw;
     height: 30vh;
     /* background-color: yellow; */
 }
@@ -159,13 +164,13 @@
     font-weight: bold;
 }
 .city{
-    /* background-color: #141414; */
+    background-color: #d8d4d4;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: baseline;
-    padding: 5px;
-    margin-bottom: 20px;
+    margin: 20px 0;
+    padding-bottom: 30px;
     /* height: 35vh; */
 }
 .kolkata{
@@ -248,8 +253,11 @@
 /* /////////////////////////////////////////////////////////
 Login-Page
 ///////////////////////////////////////////////////////// */
-
 .login-form{
+    background-image: url(../images/doodle.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -257,8 +265,6 @@ Login-Page
     align-items: center;
     width: 100vw;
     height:100vh;
-    overflow: hidden;
-  
 }
 .login-card{
     display: flex;
@@ -267,12 +273,12 @@ Login-Page
 }
 .login-img{
     background-color: rgb(226, 224, 224);
-    border: 2px solid #ec4646 ;
     width:40%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-bottom-left-radius: 30px;
+    overflow:hidden;
 }
 .login-img svg{
     width: 100%;
@@ -295,9 +301,13 @@ Login-Page
 .login-credentials a{
 color: white;
 }
+.login-credentials label{
+    font-weight: bold;
+}
 .login-credentials button{
     color: white;
     width : 40%;
+    font-weight: bold;
     height: 40px;
     border: 2px solid white;
     background-color: transparent;
@@ -312,11 +322,15 @@ color: white;
 }
 
 .login-username input{
+    color: white;
     width : 100%;
     height: 50px;
     border: none;
     border-bottom:  2px solid white;
     background-color: transparent;
+}
+::placeholder{
+    color: white;
 }
 .login-username input:focus, textarea:focus, select:focus{
     border: none;
@@ -631,6 +645,7 @@ Analytics
   
   .organiser-events {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 30%;
@@ -729,7 +744,7 @@ Analytics
 Footer
 ----------------------------------------------------------- */
 .footer{
-    margin-top: 50px ;
+    /* margin-top: 50px ; */
     height: 40vh;
     width: 100vw;
     background-color: #d8d8d8;
@@ -757,6 +772,7 @@ Footer
 }
 .logo{
     font-size: 40px;
+    font-weight: bold;
     color: #ec4646;
 }
 .about{
@@ -795,3 +811,168 @@ Footer
     transition: 0.5s;
     color: #ec4646;
 }
+/* ----------------------------------------------------------------
+carousel
+---------------------------------------------------------------- */
+.img-slider{
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+    position: relative;
+    width: 100vw;
+    height: 500px;
+    margin: 10px;
+    background: #1D212B;
+  }
+  
+  .img-slider .slide{
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    clip-path: circle(0% at 0 50%);
+  }
+  
+  .img-slider .slide.active{
+    clip-path: circle(150% at 0 50%);
+    transition: 2s;
+    transition-property: clip-path;
+  }
+  
+  .img-slider .slide img{
+    z-index: 1;
+    width: 100%;
+    height: 500px;
+    border-radius: 5px;
+  }
+  
+  .img-slider .slide .info{
+    position: absolute;
+    top: 50%;
+    padding: 15px 30px;
+  }
+  
+  .img-slider .slide .info h2{
+    color: #fff;
+    font-size: 45px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 2px;
+  }
+  
+  .img-slider .slide .info p{
+    color: #fff;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    width: 60%;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .img-slider .navigation{
+    z-index: 2;
+    position: absolute;
+    display: flex;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .img-slider .navigation .btn{
+    background: rgba(255, 255, 255, 0.5);
+    width: 12px;
+    height: 12px;
+    margin: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .img-slider .navigation .btn.active{
+    background: #2696E9;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  @media (max-width: 820px){
+    .img-slider{
+      width: 600px;
+      height: 375px;
+    }
+  
+    .img-slider .slide .info{
+      padding: 10px 25px;
+    }
+  
+    .img-slider .slide .info h2{
+      font-size: 35px;
+    }
+  
+    .img-slider .slide .info p{
+      width: 70%;
+      font-size: 15px;
+    }
+  
+    .img-slider .navigation{
+      bottom: 25px;
+    }
+  
+    .img-slider .navigation .btn{
+      width: 10px;
+      height: 10px;
+      margin: 8px;
+    }
+  }
+  
+  @media (max-width: 620px){
+    .img-slider{
+      width: 400px;
+      height: 50px;
+    }
+
+  
+    .img-slider .slide .info{
+      padding: 10px 20px;
+    }
+  
+    .img-slider .slide .info h2{
+      font-size: 30px;
+    }
+  
+    .img-slider .slide .info p{
+      width: 80%;
+      font-size: 13px;
+    }
+  
+    .img-slider .navigation{
+      bottom: 15px;
+    }
+  
+    .img-slider .navigation .btn{
+      width: 8px;
+      height: 8px;
+      margin: 6px;
+    }
+  }
+  
+  @media (max-width: 420px){
+    .img-slider{
+      width: 320px;
+      height: 200px;
+    }
+  
+    .img-slider .slide .info{
+      padding: 5px 10px;
+    }
+  
+    .img-slider .slide .info h2{
+      font-size: 25px;
+    }
+  
+    .img-slider .slide .info p{
+      width: 90%;
+      font-size: 11px;
+    }
+  
+    .img-slider .navigation{
+      bottom: 10px;
+    }
+  }
+        

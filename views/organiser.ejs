@@ -23,7 +23,7 @@
             <%arr.forEach(function(Event){%>
             
             <div class="organiser-events">
-            <p><%= Event.eventName %> </p>
+            <p><%= Event.eventName %> </p> <br>
             <div class="actions">
                 <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
                 <form action="/delete" method="POST" >
