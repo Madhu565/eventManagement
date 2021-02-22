@@ -1,0 +1,80 @@
+<%- include('partials/header') -%>
+    <h1>AUDIENCE LANDING PAGE</h1>
+        <a href="/audilogout"><button type="submit" >LOGOUT</button></a>
+        <button id="filterBtn">FILTER</button>
+        <div id="my-Modal" class="filterModal">
+            <div class="filterModal-content">
+                <span class="filterClose">&times;</span>
+                <div class="city">
+                    <div class="kolkata">
+                        <%- include('partials/svg') -%>
+                        <h4>Kolkata</h4>
+                    </div>
+                    <div class="Delhi">
+                        <%- include('partials/svgD') -%>
+                        <h4>Delhi</h4>
+                    </div>
+                    <div class="Bengaluru">
+                        <%- include('partials/svgB') -%>
+                        <h4>Bengaluru</h4>
+                    </div>
+                    <div class="Hyderabad">
+                        <%- include('partials/svgH') -%>
+                        <h4>Hyderabad</h4>
+                    </div>
+                    <div class="Mumbai">
+                        <%- include('partials/svgM') -%>
+                        <h4>Mumbai</h4>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <h1>Top Events </h1>
+        <br>
+        <div id="preferredEvent"></div>
+        <%  arr.forEach(topEvent => { %>
+            <div class="event-box">
+                <img src="data:image/<%=topEvent.image.contentType%>;base64,<%=topEvent.image.data.toString('base64')%>">
+                <p><%=topEvent.eventName.toUpperCase()%></p>
+                <a href="/cities/<%=topEvent.city%>/<%=topEvent._id%>">explore</a>
+            </div>
+    <% }) %> 
+        <br><br>
+        <h1>Handpicked Events for You</h1>
+        <br>
+        <div id="preferredEvent"></div>
+        <%  passedEvent.forEach(prefEvent => { %>
+            <div class="event-box" >
+                <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=prefEvent.image.data.toString('base64')%>">
+                <p><%=prefEvent.eventName.toUpperCase()%></p>
+                <a href="/cities/<%=prefEvent.city%>/<%=prefEvent._id%>">explore</a>
+            </div>
+    <% }) %> 
+    
+    <script>
+        var modal = document.getElementById("my-Modal");
+
+        var btn = document.getElementById("filterBtn");
+
+        var span = document.getElementsByClassName("filterClose")[0];
+
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
+    </script>
+
+ 
+
+<%- include('partials/footer') -%>

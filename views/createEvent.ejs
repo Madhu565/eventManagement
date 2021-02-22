@@ -1,11 +1,22 @@
 <%- include('partials/header') -%>
 <div class="back">
+<<<<<<< HEAD
     <h1>Create Event</h1>
     
+    <!-- <input id="ColEvent" type="checkbox" onclick="checkbox()">
+    <label>College Events</label>
 
-    <form class="createEvent-form" action="/createEvent" method="post" enctype="multipart/form-data" class="submitForm">
-        <label for="startDate">User Name</label>
-        <input type="text" placeholder="User Name" name="username"><br><br>
+    <input id="event" type="checkbox" onclick="checkbox2()">
+    <label>Other Events</label>     -->
+<!--===========================================================================
+                                CREATE EVENT 
+===============================================================================-->
+=======
+    <h1>Create Event</h1>    
+
+>>>>>>> ea1583c0c14cda861b362ce62dba0c2bdd77e7a8
+    <form id="createEvent" class="createEvent-form" action="/createEvent" method="post" enctype="multipart/form-data" class="submitForm">
+        <input style="display: none;" value="<%= username %>" name="username"><br><br>
 
         <label for="startDate">Event Name</label>
         <input type="text" placeholder="Event Name" name="Name" id="name"><br><br>
@@ -37,7 +48,7 @@
         </div>
         <div>
             <label for="startTime">Enter the Starting Time</label>
-            <input type="time" name="startingTime"><br><br>
+            <input type="time"  name="startingTime"><br><br>
     
             <label for="endTime">Enter the Ending Time</label>
             <input type="time" name="endTime" id="endingTime"><br><br>
@@ -45,11 +56,94 @@
         <label for="startDate">Ticket Price</label>
         <input type="number" placeholder="Price" name="price" id="price"><br><br>
 
+
+        <label for="prefEve">Event Type</label>
+        <select name="eventType" input type>
+            <option value="preferredEvent">Enter Preferred Event</option>
+            <option value="Technical">Technical</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Sports">Sports</option>
+            <option value="Movies">Movies and Drama</option>
+        </select>
+        <br><br>
+
+
+        <label>Event Picture</label>
         <input type="file" name="file" >
-
-
 
         <button type="submit" class="btn">CREATE</button>
     </form>
+
+
+<!-- <form style="display: none;" id="collegeEvent" class="createEvent-form" action="/collegeEvent" method="post" enctype="multipart/form-data" class="submitForm">
+    <label for="startDate">User Name</label>
+    <input type="text" placeholder="User Name" name="colUsername"><br><br>
+
+    <label for="startDate">Event Name</label>
+    <input type="text" placeholder="Event Name" name="colEventName" id="name"><br><br>
+
+    
+    <label for="startDate">Event Description</label>
+    <textarea name="colEventDescription" id="" cols="30" rows="10"></textarea><br><br>
+
+
+    <label for="startDate">Enter Location</label>
+    <input type="text" placeholder="Location" name="colLocation" id="location"><br><br>
+
+    <div>
+        <label for="startDate">Enter the Starting Date</label>
+        <input type="date" name="startDate1" id="startingDate"><br><br>
+
+        <label for="endDate">Enter the Ending Date</label>
+        <input type="date" name="endDate1" id="endingDate"><br><br>
+    </div>
+    <div>
+        <label for="startTime">Enter the Starting Time</label>
+        <input type="time" name="colEventStartingTime"><br><br>
+
+        <label for="endTime">Enter the Ending Time</label>
+        <input type="time" name="colEventEndingTime" id="endingTime"><br><br>
+    </div>
+    <label for="startDate">Registration Fee</label>
+    <input type="number" placeholder="Price" name="colEventPrice" id="price"><br><br>
+
+
+    <label>College Name</label>
+    <input type="text" placeholder="College Name" name="colName">
+
+    
+
+    <label>Type of event</label>
+        <select name="type">
+            <option >Hackathon</option>
+            <option >Creative and Cultural Events</option>
+            <option >Workshops and Webinars</option>
+            <option >Techincal Events</option>
+        </select><br></br>
+
+
+    <label>Event Picture</label>
+    <input type="file" name="file" >
+
+
+
+    <button type="submit" class="btn">CREATE</button>
+</form>
+=======
+
+
+
 </div> 
+
+<script>
+    
+    var minDate = document.getElementById("startingDate");
+    minDate.min = new Date().toISOString().slice(0,10);
+
+    var endDate = document.getElementById("endingDate");
+    endDate.min = new Date().toISOString().slice(0,10);
+</script>
+
 <%- include('partials/footer') -%>
+

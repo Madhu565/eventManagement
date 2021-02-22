@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>College event form</h1>
+    <form  id="collegeEvent" class="createEvent-form" action="/collegeEvent" method="post" enctype="multipart/form-data" class="submitForm">
+    
+        <input style="display: none;" value="<%= username %>" name="username"><br><br>
+    
+        <label for="startDate">Event Name</label>
+        <input type="text" placeholder="Event Name" name="Name" id="name"><br><br>
+    
+        
+        <label for="startDate">Event Description</label>
+        <textarea name="description" id="" cols="30" rows="10"></textarea><br><br>
+    
+    
+        <label for="startDate">Enter Location</label>
+        <input type="text" placeholder="Location" name="location" id="location"><br><br>
+    
+        <div>
+            <label for="startDate">Enter the Starting Date</label>
+            <input type="date" name="startDate" id="startingDate"><br><br>
+    
+            <label for="endDate">Enter the Ending Date</label>
+            <input type="date" name="endDate" id="endingDate"><br><br>
+        </div>
+        <div>
+            <label for="startTime">Enter the Starting Time</label>
+            <input type="time" name="startingTime"><br><br>
+    
+            <label for="endTime">Enter the Ending Time</label>
+            <input type="time" name="endTime" id="endingTime"><br><br>
+        </div>
+        <label for="startDate">Registration Fee</label>
+        <input type="number" placeholder="Price" name="price" id="price"><br><br>
+    
+    
+        <label>College Name</label>
+        <input type="text" placeholder="College Name" name="colName">
+    
+        <label>Rules and Regulations</label>
+        <input type="text" placeholder="Rules and Regulations" name="rules">
+    
+        <label>Type of event</label>
+            <select name="type">
+                <option >Hackathon</option>
+                <option >Creative and Cultural Events</option>
+                <option >Workshops and Webinars</option>
+                <option >Techincal Events</option>
+            </select><br></br>
+    
+    
+        <label>Event Picture</label>
+        <input type="file" name="file" >
+    
+    
+    
+        <button type="submit" class="btn">CREATE</button>
+    </form>
+
+
+
+    <script>
+        var minDate = document.getElementById("startingDate");
+        minDate.min = new Date().toISOString().slice(0,10);
+
+        var endDate = document.getElementById("endingDate");
+        endDate.min = new Date().toISOString().slice(0,10);
+    </script>
+</body>
+</html>

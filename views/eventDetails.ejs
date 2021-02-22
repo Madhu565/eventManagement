@@ -1,23 +1,42 @@
 <%- include('partials/header') -%>
+<div class="container-fluid">
 <div class="event-details">
-        <div class= "event-inner">
-            <div class="image-inner">
-                <img  src="data:image/<%=foundEvent[0].image.contentType%>;base64,<%=foundEvent[0].image.data.toString('base64')%>">
-            </div>
-        
-            <%  foundEvent.forEach(foundEvent => { %>
-            <div class="details">    
+    
+    <div class="bg-img">
+        <img  src="data:image/<%=foundEvent[0].image.contentType%>;base64,<%=foundEvent[0].image.data.toString('base64')%>">
+    </div>
+    <div class= "event-inner">
+        <div class="image-inner">
+            <img  src="data:image/<%=foundEvent[0].image.contentType%>;base64,<%=foundEvent[0].image.data.toString('base64')%>">
+        </div>
+    
+        <%  foundEvent.forEach(foundEvent => { %>
+        <div class="details">   
+            <div class="name-loc">
                 <p class=event-name><%=foundEvent.eventName.toUpperCase()%></p>
                 <p>Location: <%=foundEvent.location%></p>
+            </div> 
+
+            <div class="start-end">
                 <p>Starts on :<%=foundEvent.startDate%>, <%=foundEvent.startTime%></p>
                 <p>Ends on :<%=foundEvent.endDate%>, <%=foundEvent.endTime%></p>
                 <p>Price : Rs<%=foundEvent.price%></p>
                 <p><%=foundEvent.city%></p>
-                <button type="submit">Book ticket</button>
+                <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%>/booking"><button type="submit">Book ticket</button></a>
             </div>
-         </div>
-            <p><%=foundEvent.description%></p> 
+
+            <p>Price : Rs<%=foundEvent.price%></p>
+            <p><%=foundEvent.city%></p>
+            <button type="submit">Book ticket</button>
+        </div>
+    </div>
+         <!-- <div class="description">
+            <h1>DESCRIPTION</h1>
+           
+        </div> -->
+        <p ><%=foundEvent.description%></p> 
             <% }) %>
    
+</div>
 </div>
 <%- include('partials/footer') -%>
