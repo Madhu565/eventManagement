@@ -7,7 +7,7 @@ const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
-
+const PDFDocument = require('pdfkit');
 
 var fs = require('fs');
 var nodemailer=require('nodemailer');
@@ -498,11 +498,8 @@ app.post("/audiDetailsInput",(req,res)=>{
         });
     });
 
-    // res.render("audiBookConfirm", {audiName});
+    
 
-    res.json({
-        tickets:req.body.tickets,
-    })
     console.log(req.body.audiEmail)
     var transporter=nodemailer.createTransport({
         service:'gmail',
@@ -526,10 +523,12 @@ app.post("/audiDetailsInput",(req,res)=>{
             console.log('Email sent:'+info.response);
         }
     });
-  
+    
+
+
+    res.render("audiBookConfirm");
 
 });
-
 
 app.get("/cities/:city/:eventId/booking",(req,res)=>{
     var user =[];
@@ -813,6 +812,11 @@ app.get('/audilogout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
+
+
+
+
+
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 });
