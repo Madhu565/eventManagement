@@ -1,7 +1,7 @@
 <%- include('partials/header') -%>
 <div class="organiser">
     <nav class="organiser-nav">
-        <h1>Dashboard</h1>
+        <h1>GrabMySeat</h1>
         <div>
             
             <button class="trigger">Create Event</button>
@@ -14,33 +14,38 @@
 
                 </div>
             </div>
-            <a href="/logout"><button>LOG OUT</button></a>
+            <a href="/logout"><button>Log Out</button></a>
         </div>
     </nav>
-    <h1>Your Events</h1>
-    <%arr.forEach(function(Event){%>
-    <div class="organiser-events">
-    <p><%= Event.eventName %> </p>
-    <div class="actions">
-        <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
-        <form action="/delete" method="POST" >
-            <input style="display: none;" value="<%=Event._id%>" name ="id">
-            <button type="submit">Delete</button>
-        </form></div>
-    </div>
-    <% }) %>
-
-    <h1>College Events</h1>
-    <%foundcolEvents.forEach(function(Event){%>
-        <div class="organiser-events">
-        <p><%= Event.name %> </p>
-        <div class="actions">
-            <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
-            <form action="/delete" method="POST" >
-                <input style="display: none;" value="<%=Event._id%>" name ="id">
-                <button type="submit">Delete</button>
-            </form></div>
+        
+        <h1>Your Events</h1>
+        <div class="events-parent">
+            <%arr.forEach(function(Event){%>
+            
+            <div class="organiser-events">
+            <p><%= Event.eventName %> </p> <br>
+            <div class="actions">
+                <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
+                <form action="/delete" method="POST" >
+                    <input style="display: none;" value="<%=Event._id%>" name ="id">
+                    <button type="submit">Delete</button>
+                </form></div>
+            </div>
+            <% }) %>
         </div>
+        <h1>College Events</h1>
+        <%foundcolEvents.forEach(function(Event){%>
+           
+            <div class="organiser-events">
+            <p><%= Event.name %> </p>
+            <div class="actions">
+                <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
+                <form action="/delete" method="POST" >
+                    <input style="display: none;" value="<%=Event._id%>" name ="id">
+                    <button type="submit">Delete</button>
+                </form></div>
+            </div>
+    
         <% }) %>
 
 
