@@ -1,13 +1,12 @@
 <%- include('partials/header') -%>
 <div class="back">
 
-    <h1>Create Event</h1>    
-
+        
+    
     <form id="createEvent" class="createEvent-form" action="/createEvent" method="post" enctype="multipart/form-data" class="submitForm">
+        <h1>Create Event</h1>
         <div class="createEvent-card">
-            <div class="createEvent-img">
-                <%- include('partials/svgCreateEvent') -%>
-            </div>
+            
             <div class="createEvent-credentials">
         <div><input style="display: none;" value="<%= username %>" name="username"><br><br></div>
         <div>
