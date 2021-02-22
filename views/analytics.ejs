@@ -7,7 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-  
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+      }
+      </style>
 </head>
 <body>
    
@@ -17,16 +23,26 @@
         <div id="barchart_values" style="width: 900px; height: 300px;"></div>
     </div>
     <br><br><br><br>
-    <ul>
+    <table class="table">
+      <tr>
+        <th>Sl.No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Number Of Tickets</th>
+      </tr>
+      <% var count=1%>
       <% passedAudience.forEach(audience => { %>
-        <div style="display: flex; justify-content: space-around;">
-          <li><%= audience.audiName %></li>
-          <li><%= audience.audiEmail %></li>
-          <li><%= audience.audiPhNum %></li>
-          <li><%= audience.noOfTickets %></li>
-        </div>
-        <% }) %> 
-    </ul>
+        <tr>
+          <td><%= count++ %></td>
+          <td><%= audience.audiName %></td>
+          <td><%= audience.audiEmail %></td>
+          <td><%= audience.audiPhNum %></td>
+          <td><%= audience.noOfTickets %></td>
+        </tr>
+      <% }) %> 
+    </table>
+  
 
 
     <script>
