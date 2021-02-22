@@ -34,12 +34,17 @@
         <h1>Top Events </h1>
         <br>
         <div id="preferredEvent"></div>
+        <% var count = 1 %>
         <%  arr.forEach(topEvent => { %>
+            <% if(count <=3){
             <div class="event-box">
                 <img src="data:image/<%=topEvent.image.contentType%>;base64,<%=topEvent.image.data.toString('base64')%>">
                 <p><%=topEvent.eventName.toUpperCase()%></p>
                 <a href="/cities/<%=topEvent.city%>/<%=topEvent._id%>">explore</a>
             </div>
+            <% count++ %>
+        <% } %>
+
     <% }) %> 
         <br><br>
         <h1>Handpicked Events for You</h1>

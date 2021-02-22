@@ -1,20 +1,28 @@
+const gap = 500;
 
-const search = document.getElementById('search');
-const matchedEvents = document.getElementById('matched-events');
+const carousel = document.getElementById("carousel"),
+  content = document.getElementById("content"),
+  next = document.getElementById("next"),
+  prev = document.getElementById("prev");
 
-const searchEvents = async searchText => {
-  const res = await fetch('http://localhost:3000/events');
-    console.log(res.json());
-    
-
-  let matches = users.filter(user => {
-      const regex = new RegExp(`^${searchText}`,'gi');
-      return user.firstName.match(regex);
-  });
-  if(searchText.length == 0){
-      matches = [];
+next.addEventListener("click", e => {
+  carousel.scrollBy(width + gap, 0);
+  if (carousel.scrollWidth !== 0) {
+    prev.style.display = "flex";
   }
-  outputHtlm(matches);
-}
+  if (content.scrollWidth - width - gap <= carousel.scrollLeft + width) {
+    next.style.display = "none";
+  }
+});
+prev.addEventListener("click", e => {
+  carousel.scrollBy(-(width + gap), 0);
+  if (carousel.scrollLeft - width - gap <= 0) {
+    prev.style.display = "none";
+  }
+  if (!content.scrollWidth - width - gap <= carousel.scrollLeft + width) {
+    next.style.display = "flex";
+  }
+});
 
-searchEvents();
+let width = carousel.offsetWidth;
+window.addEventListener("resize", e => (width = carousel.offsetWidth));

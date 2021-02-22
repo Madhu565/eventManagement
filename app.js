@@ -170,7 +170,6 @@ return exactDate;
 
 app.get("/", (req,res)=>{
     let current = req.url;
-    console.log(dateToNumber(today()));
     res.render("landing");
 })
 
@@ -390,7 +389,6 @@ app.get("/analytics/:id", function(req, res){
             console.log(err);
         }
         else{
-            console.log(foundEvent);
             arr  = foundEvent;
             
         }
@@ -400,7 +398,6 @@ app.get("/analytics/:id", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                console.log(arr);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "Male"){
                         malecount = malecount+1;
@@ -480,7 +477,6 @@ app.post("/audiDetailsInput",(req,res)=>{
        });
     audiance.save();  
 
-    console.log(req.body.id);
     Event.findById(req.body.id, (err, event) => {
         if (err) {
             console.log('Error');
@@ -500,7 +496,9 @@ app.post("/audiDetailsInput",(req,res)=>{
 
     
 
-    console.log(req.body.audiEmail)
+    res.json({
+        tickets:req.body.tickets,
+    })
     var transporter=nodemailer.createTransport({
         service:'gmail',
         auth:{
@@ -629,10 +627,8 @@ app.get("/audiLanding",function(req,res){
                 console.log(err);
 
             }else{
-                // console.log(topEvent);
                 arr = topEvent;  
-               // console.log(arr.sort(dynamicsort("BookedPer","desc")));  
-               arr.sort(dynamicsort("BookedPer","desc"));
+                arr.sort(dynamicsort("BookedPer","desc"));
                  
             }
         })
