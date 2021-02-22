@@ -444,6 +444,10 @@ color: white;
 Register
 ///////////////////////////////////////////////////////// */
 .register-form{
+    background-image: url(../images/doodle.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -975,4 +979,82 @@ carousel
       bottom: 10px;
     }
   }
-        
+   
+  
+  .createEvent-form{
+    background-image: url(../images/doodle.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height:320vh;
+    
+}
+.createEvent-card{
+    display: flex;
+    width: 60%;
+    height:75%;
+}
+.createEvent-img{
+    background-color: #ffff;
+    border: 2px solid #ec4646 ;
+    width:40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 30px;
+}
+.createEvent-credentials{
+    width: 60%;
+    background-color: #ec4646;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-top-right-radius: 30px;
+    color: white;
+}
+
+.createEvent-credentials div{
+    width: 80%;
+}
+.createEvent-credentials p{
+    margin-left: auto;
+    padding-right: 30px;
+}
+.createEvent-credentials a{
+    color: white;
+}
+
+.createEvent-credentials button{
+    color: white;
+    width : 40%;
+    height: 40px;
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 15px;
+}
+.createEvent-credentials button:hover{
+    color:#ec4646;
+    background-color: white;
+    transform: translateX(4px);
+
+}
+.createEvent-credentials  input{
+    width : 100%;
+    height: 50px;
+    border: none;
+    border-bottom:  2px solid white;
+    background-color: transparent;
+}
+.createEvent-credentials input:focus, textarea:focus, select:focus{
+    border: none;
+    border-bottom:  2px solid white;
+    outline: none;
+    fill: none;
+}
