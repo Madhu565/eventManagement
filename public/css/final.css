@@ -729,8 +729,11 @@ Analytics
     display: flex;
     flex-wrap: wrap;
   }
-  
-  .actions {
+  .collegeEvent-parent{
+    display: flex;
+    flex-wrap: wrap;
+  }
+.actions {
     display: flex;
     align-items: center;
     justify-content: space-around;
