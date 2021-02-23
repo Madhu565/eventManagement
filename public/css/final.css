@@ -714,14 +714,14 @@ Analytics
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 30%;
-    height: 20%;
+    width: 400;
+    height: 200;
     margin: 20px;
     border-radius: 10px;
-    background-image: url(../images/ZenBG\(1\)\.png);
     background-color: #ec4646;
   }
   
+
   .organiser-events p {
     font-size: 32px;
     font-weight: bold;
@@ -808,6 +808,31 @@ Analytics
     visibility: visible;
     transform: scale(1);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+  }
+  @media only screen and (max-width: 600px) {
+    .organiser-events{
+      width: 300;
+      height: 100;
+      }
+      .organiser-events p {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        margin: 20px;
+      }
+      .actions button {
+        color: white;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        font-size: 15px;
+        letter-spacing: 1px;
+        width: 100px;
+        height: 40px;
+        border: none;
+        background-color: #2b2a3b;
+        text-align: center;
+        border-radius: 5px;
+      }
   }
   /* -----------------------------------------------------------
 Footer
@@ -929,7 +954,19 @@ carousel
     align-items: center;
     width: 60%;
     height:75%;
+    margin: 30px;
     
+}
+@media only screen and (max-width: 600px) {
+  .createEvent-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    height:75%;
+    margin: 30px;
+    
+}
 }
 .createEvent-img{
     background-color: #ffff;
@@ -941,14 +978,22 @@ carousel
     border-bottom-left-radius: 30px;
 }
 .createEvent-credentials{
-    width: 60%;
+    width: 100%;
     background-color: #ec4646;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    border-top-right-radius: 30px;
+    border-radius: 5px;
     color: white;
+    padding: 10px;
+}
+.createEvent-credentials textarea{
+  width : 100%;
+  height: 50px;
+  border: none;
+  border-bottom:  2px solid white;
+  background-color: transparent;
 }
 
 .createEvent-credentials div{
@@ -989,3 +1034,13 @@ carousel
     outline: none;
     fill: none;
 }
+.extra-padding{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.extra-padding label, select{
+margin-right: auto;
+}
+
