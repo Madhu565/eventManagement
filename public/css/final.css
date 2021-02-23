@@ -1,3 +1,9 @@
+
+/*=======================================================================
+                         LANDING
+========================================================================*/
+
+
 *{
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -236,3 +242,197 @@
                 transition: 0.5s;
             
             }
+            
+/*=======================================================================
+                         AUDI-LANDING
+========================================================================*/
+
+.audi-landing{
+    height :fit-content;
+    overflow: hidden;
+}
+.audi-landing-contents{
+    background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url(../images/audi-landing.jpg);
+    background-size:cover;
+    background-position: bottom;    
+    height: 60vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.audi-landing-contents .search{
+    display: flex;
+    justify-content: space-around;
+}
+.audi-landing-contents .clg-event{
+    border-radius: 40px;
+    width: fit-content;
+    height:40px;
+    color: rgb(0, 0, 0);
+    background-color: white;
+    border: none;
+    margin-left: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    padding:0px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 2%;
+    left:10%
+}
+.audi-landing-contents .logout{
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    position: absolute;
+    top: 2%;
+    right:5%;
+}
+.audi-landing-contents h1{
+    letter-spacing: 2px;
+    color: rgb(255, 255, 255);
+    font-size: 60px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+.audi-landing-contents .searchbar{
+    height: 40px;
+    background: rgb(255, 255, 255);
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.searchbar input{
+    background: none;
+    border:none;
+    outline: none;
+    padding-left: 10px;
+}
+.audi-landing-contents .searchbar a{
+    color: black;
+    text-decoration: none;
+}
+.search .searchbar .search-btn{
+    border-radius: 40px;
+    width: 40px;
+    height:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search .filter button{
+    color: black;
+    background-color: white;
+    border-radius: 40px;
+    height: 40px;
+    border: none;
+    width: 130px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+
+.all-events{
+    margin: 20px 150px;
+}
+.all-events h1{
+    margin: 25px 25px;
+    letter-spacing: 1px;
+    font-size: 25px;
+}
+.event-cate{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.event-box{
+    width: 280px;
+    height: max-content;
+    border:1px solid rgb(101, 93, 93);
+    border-radius: 5px;
+    box-shadow: 13px -4px 58px -17px rgba(0,0,0,0.66);
+    -webkit-box-shadow: 13px -4px 58px -17px rgba(0,0,0,0.66);
+    -moz-box-shadow: 13px -4px 58px -17px rgba(0,0,0,0.66);
+}
+.event-box img{
+    width: 280px;
+    height:250px;
+    border-radius:5px 5px 0px 0px;
+}
+.event-box .event-name{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+.event-box p{
+    text-align: left;
+    color:black;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+.event-box a{
+    text-decoration: none;
+}
+.event-box .event-details{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+.event-box .event-details p{
+    color: black;
+    text-align: left;
+    font-size: 15px;
+}
+.event-box .event-book{
+    background-color: rgb(194, 72, 72);
+    text-align: center;
+    padding:2px 0px;
+    
+}
+.event-box .event-book a{
+    color: white;
+    font-weight: bold;
+}
+/* ----------------------------AUDI-LANDING MODAL---------------------- */
+.filterModal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100vw; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    overflow: hidden;
+  }
+  
+  
+  .filterModal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; 
+  }
+  
+  
+  .filterClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .filterClose:hover,
+  .filterClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

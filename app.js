@@ -619,7 +619,8 @@ app.get("/audiLanding",function(req,res){
         // var threshold = 15;
         var arr= [];
         var prefEvent=req.user.prefEvent;
-       
+        var audiName=req.user.name;
+      
         Event.find({},function(err,topEvent){
             if(err){
                 console.log(err);
@@ -639,7 +640,7 @@ app.get("/audiLanding",function(req,res){
             }
             else{
              
-                res.render('audiLanding',{passedEvent:foundEvent,arr});
+                res.render('audiLanding',{passedEvent:foundEvent,arr,audiName});
                 
             }
 
