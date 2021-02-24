@@ -181,25 +181,31 @@ app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
         var name = req.user.name;
         var arr = [];
-        Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
-        {
-            if(err)console.log(err)
-            else{
-                var name = req.user.name;
-                arr = foundEvents
-                //res.render('organiser', {passedname: name,foundEvents})
-            }
-
-
+        Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
+            if(err) console.log(err);
         }).then(()=>{
-            CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
-                if(err){
-                    handleError(err);
-                } else{
-                    res.render('organiser', {passedname: name, arr, foundcolEvents});
+            Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
+            {
+                if(err)console.log(err)
+                else{
+                    var name = req.user.name;
+                    arr = foundEvents
                 }
+    
+    
+            }).then(()=>{
+                CollegeEvent.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
+                    if(err) console.log(err);
+                }).then(()=>{
+                    CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
+                        if(err){
+                            handleError(err);
+                        } else{
+                            res.render('organiser', {passedname: name, arr, foundcolEvents});
+                        }
+                    })
             })
-
+        })
     })
 
 
@@ -207,9 +213,6 @@ app.get("/organiser", function(req, res){
     } else {
         res.redirect('/login');
     }
-        Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
-            if(err) console.log(err);
-        });
 });
 
 
