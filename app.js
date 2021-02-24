@@ -333,7 +333,7 @@ app.post("/collegeEvent",upload, function(req, res){
         if(err){
             console.log(err);
         } else {
-            res.redirect("/createEvent");
+            res.redirect("/collegeEventform");
         }
     });
 });
