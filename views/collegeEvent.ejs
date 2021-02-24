@@ -1,4 +1,5 @@
 <%- include('partials/header') -%>
+<<<<<<< HEAD
 <div class="colEvent">
     <% foundEvent.forEach(event => { %>
         <div class="colEvent-header">
@@ -26,3 +27,25 @@
     <%})%>
 </div>
 <%- include('partials/conformation') -%>
+=======
+<% foundEvent.forEach(event => { %>
+    <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" >
+    <p><%= event.name %></p>
+    <p><%= event.location %></p>
+    <p><%= event.description %></p>
+    <p><%= event.rules %></p>
+    <p><%= startDate %></p>
+    <p><%= endDate %></p>
+    <form action="/collegeBook" method="POST">
+        <input style="display: none;" value="<%= event._id %>" name="id">
+        <input style="display: none;" value="<%= user.name %>" name="name">
+        <input style="display: none;" value="<%= user.email %>" name="mail">
+        <input style="display: none;" value="<%= user.audiAge %>" name="age">
+        <input style="display: none;" value="<%= user.audiPhNum %>" name="phnum">
+        <input style="display: none;" value="College" name="type">
+
+        <button type="submit">Register</button>
+    </form>
+<%})%>
+<%- include('partials/footer') -%>
+>>>>>>> e88171554205efdce7c76ab5255d820f0fbebd61

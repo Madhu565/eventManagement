@@ -10,12 +10,21 @@
 
 </head>
 <body>
-   
-    <div class="analysis">
-        <div id="myPieChart" style="width: 500px; height: 500px;"></div>
-        <div id="myPieChart2" style="width: 500px; height: 500px;"></div> 
-        <div id="barchart_values" style="width: 900px; height: 300px;"></div>
+
+  <div class="revenue">
+    <div class="revenue-content">
+      <h1>Total Revenue</h1>
+      <br>
+      <h1>₹<%= booking*price %></h1>
     </div>
+  </div>
+    
+    <div class="analysis">
+        <div id="myPieChart"></div>
+        <div id="myPieChart2"></div> 
+        <div id="barchart_values"></div>
+    </div>
+<<<<<<< HEAD
     <br><br><br><br>
 <ul>
 <div class="container">
@@ -26,6 +35,31 @@
       <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Email</a></div>
       <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">PhoneNumber</a></div>
       <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Tickets</a></div>
+=======
+    <br><br>
+    <div class="container">
+	
+      <div class="table">
+        <div class="table-header">
+          <div class="header__item"><a id="name" class="filter__link" href="#">Sl.no</a></div>
+          <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Name</a></div>
+          <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Email</a></div>
+          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">PhoneNumber</a></div>
+          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Tickets</a></div>
+        </div>
+      <% var count=1%>
+      <% passedAudience.forEach(audience => { %>
+        <div class="table-content">	
+          <div class="table-row">		
+            <div class="table-data"><%= count++ %> </div>
+            <div class="table-data"><%= audience.audiName %></div>
+            <div class="table-data"><%= audience.audiEmail %></div>
+            <div class="table-data"><%= audience.audiPhNum %></div>
+            <div class="table-data"><%= audience.noOfTickets %></div>
+          </div>
+        </div>  
+      <% }) %> 
+>>>>>>> e88171554205efdce7c76ab5255d820f0fbebd61
     </div>
   <% var count=1%>
   <% passedAudience.forEach(audience => { %>

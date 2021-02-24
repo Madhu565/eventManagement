@@ -1,113 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/final.css">
-    <title>Document</title>
-</head>
-<body>
-    <div class="CollegeEvents-header">
-        <div class="CollegeEvents-header-content">
-            <h1>GrabMySeat</h1>
-            <h3>Search, Register, Participate in College Events across India</h3>
-        
-            <div class="search">
-                <input type="search" placeholder="Search for Events across India">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/final.css">
+        <title>Document</title>
+    </head>
+    <body>
+
+        <div id="cllg-navbar">
+            <h2>GrabMySeat</h2>
+            <a href="/logout">Logout</a>
+        </div>
+
+
+        <div class="CollegeEvents-header">
+            <div class="CollegeEvents-header-content">
+                <h1>GrabMySeat</h1>
+                <h3>Search, Register, Participate in College Events across India</h3>
+
+                <div class="search">
+                    <input type="search" placeholder="Search for Events across India">
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="CollegeEvents-heading">
-        <h2>Hackathons</h2>
-        <br>
-    <div class="CollegeEvents-body">
-        <% foundEvents.forEach(function(event){ %>
-            <% if(event.type == "Hackathon"){ %>
-                <div class="card-content">
-                    <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
-                    <div class="card-content-body">
-                        <div class="card-content-middle">
-                            <h4><%= event.name %></h4><br>
-                            <p>Starts on - <%= event.startDate %> at <%= event.startTime %> IST</p>
-                            <p>End on - <%= event.endDate %> at <%= event.endTime %> IST</p>
-                            <p><%= event.collegeName %></p>
-                        </div>
-                        <div class="card-content-footer">
-                            <a href="collegeEvents/<%=event._id%>">Register</a>
-                        </div>
-                    </div>
-                    
-                </div>
-            <% } }) %>
-        </div>
-    <h2>Techincal Events</h2>
-    <br>
-        <div class="CollegeEvents-body">
-            <% foundEvents.forEach(function(event){ %>
-                <% if(event.type == "Techincal Events"){ %>
-                    <div class="card-content">
-                        <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
-                        <div class="card-content-body">
-                            <div class="card-content-middle">
-                                <h4><%= event.name %></h4><br>
-                                <p>Starts on - <%= event.startDate %> at <%= event.startTime %> IST</p>
-                                <p>End on - <%= event.endDate %> at <%= event.endTime %> IST</p>
-                                <p><%= event.collegeName %></p>
+        <div class="CollegeEvents-heading">
+            <h2>Hackathons</h2>
+            <br>
+            <div class="CollegeEvents-body">
+                <% foundEvents.forEach(function(event){ %>
+                    <% if(event.type == "Hackathon"){ %>
+                        <div class="card-content">
+                            <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
+                            <div class="card-content-body">
+                                <div class="card-content-middle">
+                                    <h4><%= event.name %></h4><br>
+                                    <p>Starts on -
+                                        <%= event.startDate %>
+                                        at
+                                        <%= event.startTime %>
+                                        IST</p>
+                                    <p>End on -
+                                        <%= event.endDate %>
+                                        at
+                                        <%= event.endTime %>
+                                        IST</p>
+                                    <p><%= event.collegeName %></p>
+                                </div>
+                                <div class="card-content-footer">
+                                    <a href="collegeEvents/<%=event._id%>">Register</a>
+                                </div>
                             </div>
-                           
-                            <div class="card-content-footer">
-                                <a href="collegeEvents/<%=event._id%>">Register</a>
+
+                        </div>
+                    <% } }) %>
+                </div>
+                <h2>Techincal Events</h2>
+                <br>
+                <div class="CollegeEvents-body">
+                    <% foundEvents.forEach(function(event){ %>
+                        <% if(event.type == "Techincal Events"){ %>
+                            <div class="card-content">
+                                <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
+                                <div class="card-content-body">
+                                    <div class="card-content-middle">
+                                        <h4><%= event.name %></h4><br>
+                                        <p>Starts on -
+                                            <%= event.startDate %>
+                                            at
+                                            <%= event.startTime %>
+                                            IST</p>
+                                        <p>End on -
+                                            <%= event.endDate %>
+                                            at
+                                            <%= event.endTime %>
+                                            IST</p>
+                                        <p><%= event.collegeName %></p>
+                                    </div>
+
+                                    <div class="card-content-footer">
+                                        <a href="collegeEvents/<%=event._id%>">Register</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        <% } }) %>
+                    </div>
+                    <h2>Creative and Cultural Events</h2>
+                    <br>
+                    <div class="CollegeEvents-body">
+                        <% foundEvents.forEach(function(event){ %>
+                            <% if(event.type == "Creative and Cultural Events"){ %>
+                                <div class="card-content">
+                                    <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
+                                    <div class="card-content-body">
+                                        <div class="card-content-middle">
+                                            <h4><%= event.name %></h4><br>
+                                            <p>Starts on -
+                                                <%= event.startDate %>
+                                                at
+                                                <%= event.startTime %>
+                                                IST</p>
+                                            <p>End on -
+                                                <%= event.endDate %>
+                                                at
+                                                <%= event.endTime %>
+                                                IST</p>
+                                            <p><%= event.collegeName %></p>
+                                        </div>
+                                        <div class="card-content-footer">
+                                            <a href="collegeEvents/<%=event._id%>">Register</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } }) %>
+                        </div>
+                        <h2>Workshops and Webinars</h2>
+                        <br>
+                        <div class="CollegeEvents-body">
+                            <% foundEvents.forEach(function(event){ %>
+                                <% if(event.type == "Workshops and Webinars"){ %>
+                                    <div class="card-content">
+                                        <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
+                                        <div class="card-content-body">
+                                            <div class="card-content-middle">
+                                                <h4><%= event.name %></h4><br>
+                                                <p>Starts on -
+                                                    <%= event.startDate %>
+                                                    at
+                                                    <%= event.startTime %>
+                                                    IST</p>
+                                                <p>End on -
+                                                    <%= event.endDate %>
+                                                    at
+                                                    <%= event.endTime %>
+                                                    IST</p>
+                                                <p><%= event.collegeName %></p>
+                                            </div>
+                                            <div class="card-content-footer">
+                                                <a href="collegeEvents/<%=event._id%>">Register</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } }) %>
                             </div>
                         </div>
-                        
-                    </div>
-                <% } }) %>
-        </div>
-    <h2>Creative and Cultural Events</h2>
-    <br>
-    <div class="CollegeEvents-body">
-        <% foundEvents.forEach(function(event){ %>
-            <% if(event.type == "Creative and Cultural Events"){ %>
-                <div class="card-content">
-                    <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
-                    <div class="card-content-body">
-                        <div class="card-content-middle">
-                                <h4><%= event.name %></h4><br>
-                                <p>Starts on - <%= event.startDate %> at <%= event.startTime %> IST</p>
-                                <p>End on - <%= event.endDate %> at <%= event.endTime %> IST</p>
-                                <p><%= event.collegeName %></p>
-                        </div>
-                        <div class="card-content-footer">
-                            <a href="collegeEvents/<%=event._id%>">Register</a>
-                        </div>
-                    </div>
-                </div>
-            <% } }) %>
-    </div>
-    <h2>Workshops and Webinars</h2>
-    <br>
-    <div class="CollegeEvents-body">
-        <% foundEvents.forEach(function(event){ %>
-            <% if(event.type == "Workshops and Webinars"){ %>
-                <div class="card-content">
-                    <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>">
-                    <div class="card-content-body">
-                        <div class="card-content-middle">
-                            <h4><%= event.name %></h4><br>
-                            <p>Starts on - <%= event.startDate %> at <%= event.startTime %> IST</p>
-                            <p>End on - <%= event.endDate %> at <%= event.endTime %> IST</p>
-                            <p><%= event.collegeName %></p>
-                        </div>
-                        <div class="card-content-footer">
-                            <a href="collegeEvents/<%=event._id%>">Register</a>
-                        </div>
-                    </div>
-                </div>
-            <% } }) %>
-        </div>
-    </div>
-    
-    <%- include('partials/footer') -%>
+
+
+                        <script>
+                            window.onscroll = function () {
+                                scrollFunction()
+                            };
+
+                            function scrollFunction() {
+                                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                                    document.getElementById("cllg-navbar").style.top = "0";
+                                } else {
+                                    document.getElementById("cllg-navbar").style.top = "-50px";
+                                }
+                            }
+                        </script>
+
+                        <%- include('partials/footer') -%>

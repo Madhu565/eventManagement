@@ -1,85 +1,118 @@
 <%- include('partials/header') -%>
 <div class="back">
-    <h1>Create Event</h1>    
+    <h1>Create Event</h1>
 
     <form id="createEvent" class="createEvent-form" action="/createEvent" method="post" enctype="multipart/form-data" class="submitForm">
         <div class="createEvent-card">
             <div class="createEvent-credentials">
                 <h1>Create Event</h1>
 
-        <div><input style="display: none;" value="<%= username %>" name="username"><br><br></div>
-        <div>
-        <label for="startDate">Event Name</label>
-        <input type="text" placeholder="Event Name" name="Name" id="name"><br><br>
-        </div>
-        <div>
-        <label for="startDate">Event Description</label>
-        <textarea name="description" id="" cols="30" rows="10"></textarea><br><br>
-        </div>
-        <div>
-        <label for="startDate">Enter City</label></div>
-        <div>
-        <select name="city">
-            <option >Bengaluru</option>
-            <option >Mumbai</option>
-            <option >Kolkata</option>
-            <option >Hyderabad</option>
-            <option >Delhi</option>
-        </select></div><br></br>
+                <div>
+                    <input style="display: none;" value="<%= username %>" name="username">
+                        <br>
+                            <br></div>
+                            <div>
+                                <label for="startDate">Event Name</label>
+                                <input type="text" placeholder="Event Name" name="Name" id="name">
+                                    <br>
+                                        <br></div>
+                                        <div>
+                                            <label for="startDate">Event Description</label>
+                                            <textarea name="description" id="" cols="30" rows="10"></textarea>
+                                            <br>
+                                                <br></div>
+                                                <div>
+                                                    <label for="startDate">Enter City</label>
+                                                </div>
+                                                <div>
+                                                    <select name="city">
+                                                        <option>Bengaluru</option>
+                                                        <option>Mumbai</option>
+                                                        <option>Kolkata</option>
+                                                        <option>Hyderabad</option>
+                                                        <option>Delhi</option>
+                                                    </select>
+                                                </div>
+                                                <br></br>
 
-        <div><label for="startDate">Enter Location</label></div>
-        <div><input type="text" placeholder="Location" name="location" id="location"></div><br><br>
+                                                <div>
+                                                    <label for="startDate">Enter Location</label>
+                                                </div>
+                                                <div>
+                                                    <input type="text" placeholder="Location" name="location" id="location"></div>
+                                                    <br>
+                                                        <br>
 
-        <div><label for="startDate">Maximum Capacity</label></div>
-        <div><input type="number" placeholder="Capacity" name="capacity" id="capacity"></div><br><br>
-        <div>
-            <label for="startDate">Enter the Starting Date</label>
-            <input type="date" name="startDate" id="startingDate"><br><br>
-    
-            <label for="endDate">Enter the Ending Date</label>
-            <input type="date" name="endDate" id="endingDate"><br><br>
-        </div>
-        <div>
-            <label for="startTime">Enter the Starting Time</label>
-            <input type="time"  name="startingTime"><br><br>
-    
-            <label for="endTime">Enter the Ending Time</label>
-            <input type="time" name="endTime" id="endingTime"><br><br>
-        </div>
-        <div><label for="startDate">Ticket Price</label></div>
-        <div><input type="number" placeholder="Price" name="price" id="price"></div><br><br>
+                                                            <div>
+                                                                <label for="startDate">Maximum Capacity</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="number" placeholder="Capacity" name="capacity" id="capacity"></div>
+                                                                <br>
+                                                                    <br>
+                                                                        <div>
+                                                                            <label for="startDate">Enter the Starting Date</label>
+                                                                            <input type="date" name="startDate" id="startingDate">
+                                                                                <br>
+                                                                                    <br>
 
-        <div>
-        <label for="prefEve">Event Type</label></div>
-        <div>
-        <select name="eventType" input type>
-            <option value="preferredEvent">Enter Preferred Event</option>
-            <option value="Technical">Technical</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Cultural">Cultural</option>
-            <option value="Sports">Sports</option>
-            <option value="Movies">Movies and Drama</option>
-        </select>
-    </div>
-        <br><br>
+                                                                                        <label for="endDate">Enter the Ending Date</label>
+                                                                                        <input type="date" name="endDate" id="endingDate">
+                                                                                            <br>
+                                                                                                <br></div>
+                                                                                                <div>
+                                                                                                    <label for="startTime">Enter the Starting Time</label>
+                                                                                                    <input type="time" name="startingTime">
+                                                                                                        <br>
+                                                                                                            <br>
+
+                                                                                                                <label for="endTime">Enter the Ending Time</label>
+                                                                                                                <input type="time" name="endTime" id="endingTime">
+                                                                                                                    <br>
+                                                                                                                        <br></div>
+                                                                                                                        <div>
+                                                                                                                            <label for="startDate">Ticket Price</label>
+                                                                                                                        </div>
+                                                                                                                        <div>
+                                                                                                                            <input type="number" placeholder="Price" name="price" id="price"></div>
+                                                                                                                            <br>
+                                                                                                                                <br>
+
+                                                                                                                                    <div>
+                                                                                                                                        <label for="prefEve">Event Type</label>
+                                                                                                                                    </div>
+                                                                                                                                    <div>
+                                                                                                                                        <select name="eventType" input type>
+                                                                                                                                            <option value="preferredEvent">Enter Preferred Event</option>
+                                                                                                                                            <option value="Technical">Technical</option>
+                                                                                                                                            <option value="Comedy">Comedy</option>
+                                                                                                                                            <option value="Cultural">Cultural</option>
+                                                                                                                                            <option value="Sports">Sports</option>
+                                                                                                                                            <option value="Movies">Movies and Drama</option>
+                                                                                                                                        </select>
+                                                                                                                                    </div>
+                                                                                                                                    <br>
+                                                                                                                                        <br>
 
 
-        <div><label>Event Picture</label></div>
-        <div><input type="file" name="file" ></div><br>
+                                                                                                                                            <div>
+                                                                                                                                                <label>Event Picture</label>
+                                                                                                                                            </div>
+                                                                                                                                            <div>
+                                                                                                                                                <input type="file" name="file"></div>
+                                                                                                                                                <br>
 
-        <button type="submit" class="btn">CREATE</button>
-        </div>
-    </div>
-    </form>
-    <script>
-        var minDate = document.getElementById("startingDate");
-        minDate.min = new Date().toISOString().slice(0,10);
+                                                                                                                                                    <button type="submit" class="btn">CREATE</button>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </form>
+                                                                                                                                        <script>
+                                                                                                                                            var minDate = document.getElementById("startingDate");
+                                                                                                                                            minDate.min = new Date().toISOString().slice(0, 10);
 
 
-        var endDate = document.getElementById("endingDate");
-        endDate.min = new Date().toISOString().slice(0,10);
-        console.log(endDate.min)
-
-    </script>
-<%- include('partials/footer') -%>
-
+                                                                                                                                            var endDate = document.getElementById("endingDate");
+                                                                                                                                            endDate.min = new Date().toISOString().slice(0, 10);
+                                                                                                                                            console.log(endDate.min)
+                                                                                                                                        </script>
+                                                                                                                                        <%- include('partials/footer') -%>

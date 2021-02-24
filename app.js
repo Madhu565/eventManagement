@@ -353,16 +353,6 @@ app.get("/collegeEvents/:id",(req,res)=>{
 ========================================================================*/
 
   
-// app.get("/cities/:city", (req,res)=>{
-//     const requestedCity = req.params.city;
-//     Event.find({city:requestedCity},(err,foundEvents)=>{
-//         if(err){
-//             console.log(err);
-//         }else{
-//             res.render("events",{foundEvents});
-//         }
-//     })
-// });
 
 app.get("/cities/:city/:eventId", (req,res)=> {
     const requestedEvent = req.params.eventId;
