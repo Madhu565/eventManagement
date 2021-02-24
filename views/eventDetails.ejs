@@ -22,7 +22,29 @@
                 <p>Ends on :<%=foundEvent.endDate%>, <%=foundEvent.endTime%></p>
                 <p>Price : Rs<%=foundEvent.price%></p>
                 <p><%=foundEvent.city%></p>
-                <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%>/booking"><button type="submit">Book ticket</button></a>
+                <button id="BookBtn">Book Ticket</button>
+
+                    
+                    <div id="BookModal" class="book">
+
+                    
+                    <div class="book-content">
+
+                        <span class="closeBook">&times;</span>
+                        <div class="content"><p>Thank You for choosing Grab My Seat</p></div>
+                        <input required autocomplete="none" style="display: none;" value=<%= foundEvent._id%> name="id">
+                        <input style="display: none;"  value=<%= user.name%> name="name" >
+                         <input style="display: none;"  value=<%= user.email%> name="audiEmail" >
+                         <input style="display: none;"  value=<%= user.audiAge%> name="audiAge" >
+                         <input style="display: none;"  value=<%= user.audiPhNum%> name="audiPhNum" >
+                         <input style="display: none;"  value=<%= user.gender%> name="gender" >
+                        <label for="tickets" style="color: white; font-weight: 200; font-size: 20px;">How many tickets ? </label>
+                        <input required autocomplete="none" type="number" min="1" max="<%= remain %>" placeholder="No. of tickets" name=tickets><br></br>
+                        <button type="submit" class="bookingBtn">Confirm</button>
+                        
+                    </div>
+
+                    </div>
             </div>
 
             <p>Price : Rs<%=foundEvent.price%></p>
@@ -39,4 +61,25 @@
    
 </div>
 </div>
+<script>
+    var modal = document.getElementById("BookModal");
+
+    var btn = document.getElementById("BookBtn");
+
+    var span = document.getElementsByClassName("closeBook")[0];
+
+    btn.onclick = function() {
+    modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+</script>
 <%- include('partials/footer') -%>

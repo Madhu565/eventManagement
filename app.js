@@ -369,15 +369,33 @@ app.get("/cities/:city/:eventId", (req,res)=> {
     const requestedEvent = req.params.eventId;
     const requestedCity = req.params.city;
    
-    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
-        if(err){
-            console.log(err);
-        }else{
+    
+        if(req.isAuthenticated()){
+            // console.log(req.user)
+        const requestedCity = req.params.city;
+        const requestedEvent = req.params.eventId;
+       const user=req.user;
+       
+    
+        Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
             
-            res.render("eventDetails",{foundEvent})
+            if(err){
+                console.log(err);
+            }else{
+                var capacity = foundEvent[0].tolalCapacity;
+                var booked = foundEvent[0].Booked; 
+                var remain = (capacity-booked);
+                res.render("eventDetails",{foundEvent, user,remain});
+                console.log(foundEvent);
+            }
             
+        })
         }
-    })
+        else{
+            res.redirect("/audiLogin")
+        }
+        
+    
 });
 
 
@@ -532,12 +550,14 @@ app.post("/audiDetailsInput",(req,res)=>{
 });
 
 app.get("/cities/:city/:eventId/booking",(req,res)=>{
-    var user =[];
+    // var user =[];
+
     if(req.isAuthenticated()){
         // console.log(req.user)
     const requestedCity = req.params.city;
     const requestedEvent = req.params.eventId;
-   user=req.user;
+   const user=req.user;
+   
 
     Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
      
