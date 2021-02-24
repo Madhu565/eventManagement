@@ -107,7 +107,7 @@ passport.deserializeUser(Organiser.deserializeUser());
 ========================================================================*/
 const collegeEventSchema = new mongoose.Schema({
     username: String,
-    name: String,
+    eventName: String,
     description: String,
     location: String,
     startDate: Number,
@@ -316,7 +316,7 @@ app.get("/collegeEventform", function(req, res){
 app.post("/collegeEvent",upload, function(req, res){
     const colEvent = new CollegeEvent({
         username: req.body.username,
-        name: req.body.Name,
+        eventName: req.body.Name,
         description: req.body.description,
         location: req.body.location,
         startDate: dateToNumber(req.body.startDate),
@@ -815,10 +815,19 @@ app.get('/events',(req,res)=>{
         if(err){
             console.log(err);
         }else{
-            res.json(foundEvents);
+           res.json(foundEvents);
         }
     })
 });
+app.get("/colEvents",(req,res)=>{
+    CollegeEvent.find({},(e,foundEvent)=>{
+        if(e){
+            console.log(e);
+        }else{
+            res.json(foundEvent)
+        }
+    })
+})
 app.get("/search",(req,res)=>{
     res.render("search");
 })

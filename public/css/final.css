@@ -510,11 +510,28 @@ color: white;
   color: black;
 }
 .match-list{
+  display: flex;
+  flex-direction: column;
+  position:absolute;
+  left:400px;
   margin: 5px;
   width: 40vw;
   padding: 10px;
   border-radius: 10px;
   background-color: white;
+}
+@media only screen and (max-width: 600px) {
+  .match-list{
+    display: flex;
+    flex-direction: column;
+    position:absolute;
+    left:100px;
+    margin: 5px;
+    width: 40vw;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+  }
 }
 .match-list a{
   color: #ec4646;
@@ -1257,8 +1274,11 @@ carousel
 
   }
 
+  .CollegeEvents-header input{
+    color: white;
+  }
   .CollegeEvents-header ::placeholder{
-    color: gray;
+    color: white;
     letter-spacing: 1px;
     word-spacing: 1px;
     font-size: large;
