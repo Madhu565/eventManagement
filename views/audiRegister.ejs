@@ -12,34 +12,37 @@
                 <input
                 type="text"
                 name="username"
-                placeholder="Enter User Name"
+                placeholder="   Enter User Name"
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="name">Name</label>
                 <input
                 type="text"
                 name="name"
-                placeholder="Enter Name"
+                placeholder="   Enter Name"
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="phone">Mobile Number</label>
                 <input
                 type="tel"
                 name="audiPhNum"
-                placeholder="Mobile number"
+                placeholder="   Mobile number"
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="age">Age</label>
                 <input
                 type="number"
                 name="audiAge"
-                placeholder="Age"
+                placeholder="   Age"
                 min="1"
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
@@ -58,46 +61,55 @@
                 <label for="email">E-Mail</label>
                 <input
                 name="email"
-                placeholder="Enter E-Mail"
+                placeholder="   Enter E-Mail"
                 value="<% typeof email != 'undefined' ? email : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="password">Password</label>
                 <input
                 type="password"
                 name="password"
-                placeholder="Enter Password"
+                placeholder="   Enter Password"
                 value="<% typeof email != 'undefined' ? password : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="password2">Confirm Password</label>
                 <input
                 type="password"
                 name="password2"
-                placeholder="Enter Password"
+                placeholder="   Enter Password"
                 value="<% typeof email != 'undefined' ? password2 : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <input
                 name="role"
                 value="AUDIENCE" style="display: none;"
                 />
             </div>
-            <label for="prefEve">Event Type</label>
-                <select name="preferred" input type>
-                    <option value="preferredEvent">Enter Preferred Event</option>
+            <div>
+                <label>Event Type</label>
+                <select name="preferred">
                     <option value="Technical">Technical</option>
                     <option value="Comedy">Comedy</option>
                     <option value="Cultural">Cultural</option>
                     <option value="Sports">Sports</option>
                     <option value="Movies">Movies and Drama</option>
                 </select>
-
+            </div>
+                <br>
             <button type ="submit" >Register</button>
+<<<<<<< HEAD
+            <p>Have an account? <a href="/login"> Login</a></p>
+=======
+            <br>
             <p>Have an account?<a href="/login">Login</a></p>
+>>>>>>> f49054dce1c51c1cde99716b0b071a11b39a127d
             </div>
         </div>
 </form>
