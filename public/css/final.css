@@ -2,7 +2,7 @@
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 #logo {
@@ -850,6 +850,7 @@ carousel
   background: rgba(0, 0, 0, 0.1);
   font-size: 16px;
   width: 60%;
+  height: 100%;
   padding: 10px;
   border-radius: 4px;
 }
@@ -910,7 +911,7 @@ carousel
 @media (max-width: 620px) {
   .img-slider {
     width: 400px;
-    height: 50px;
+    height: 250px;
   }
 
   .img-slider .slide .info {
