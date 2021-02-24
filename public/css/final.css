@@ -1,10 +1,28 @@
+/*=======================================================================
+                         LANDING
+========================================================================*/
+
 * {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0%;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
 }
-
+.header {
+  width: 100vw;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../images/event.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+.header h1 {
+  font-size: 72px;
+  color: white;
+}
 #logo {
   color: #ff385c;
   margin-left: 20px;
@@ -40,71 +58,50 @@
   align-items: center;
   width: 20%;
 }
-.carousel {
-  margin: 0;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 10px;
+@media only screen and (max-width: 600px) {
+  .header h1 {
+    font-size: 32px;
+    color: white;
+  }
+  .landing-nav {
+    background-color: #d8d8d8;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .landing-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+  }
+  #logo {
+    color: #ff385c;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .landing-actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 50%;
+  }
+  .button {
+    /* margin: 20px; */
+    width: 20%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    border-radius: 15px;
+    font-size: 10px;
+  }
 }
 
-#wrapper {
-  width: 100%;
-  max-width: 100vw;
-  position: relative;
-}
-
-#carousel {
-  overflow: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-#carousel::-webkit-scrollbar {
-  height: 0;
-}
-
-#prev,
-#next {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  background: white;
-  border: none;
-  padding: 8px;
-  border-radius: 50%;
-  outline: 0;
-  cursor: pointer;
-  position: absolute;
-}
-
-#prev {
-  top: 15%;
-  left: 0;
-  transform: translate(100%, -100%);
-  display: none;
-}
-
-#next {
-  top: 15%;
-  right: 0;
-  transform: translate(-100%, -100%);
-}
-
-#content {
-  display: grid;
-  grid-gap: 16px;
-  grid-auto-flow: column;
-  margin: auto;
-  box-sizing: border-box;
-}
-
-.item {
-  height: 40vh;
-  border-radius: 5px;
-  background: green;
-}
 .taglines {
   display: flex;
   width: 100%;
@@ -127,41 +124,14 @@
   font-size: 15px;
   color: black;
 }
-.event-categories {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.event-categories a {
-  text-decoration: none;
-  color: black;
-}
-
-.event {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 15vw;
-  height: 30vh;
-  /* background-color: yellow; */
-}
 .division {
   margin-left: 84px;
+  margin-top: 30px;
   margin-bottom: 20px;
   color: #000000;
 }
-.event img {
-  height: 85%;
-}
 
-.event p {
-  font-size: 25px;
-  font-weight: bold;
-}
 .city {
-  background-color: #d8d4d4;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -239,7 +209,97 @@
   fill: #ec4646;
   transition: 0.5s;
 }
+@media only screen and (max-width: 600px) {
+  .kolkata,
+  .Bengaluru,
+  .Mumbai,
+  .Hyderabad {
+    color: black;
+    width: 200pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+  .Delhi {
+    margin: 70px 0 0;
+  }
+}
 
+.event-categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+.event-categories a {
+  text-decoration: none;
+  color: black;
+}
+
+.event {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 40vh;
+  margin: 50px 10px;
+}
+
+.event img {
+  width: 100%;
+  height: 90%;
+}
+.event p {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+@media only screen and (max-width: 600px) {
+  .event-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+  }
+
+  .event-categories a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .event {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 50vh;
+    margin: 30px 10px;
+  }
+
+  .event img {
+    width: 80%;
+    height: 90%;
+  }
+  .event p {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 28px;
+  }
+  .division {
+    margin-left: 0;
+    text-align: center;
+  }
+}
 /* /////////////////////////////////////////////////////////
 Login-Page
 ///////////////////////////////////////////////////////// */
@@ -350,17 +410,208 @@ select:focus {
   outline: none;
 }
 
+@media only screen and (max-width: 600px) {
+  .login-img {
+    display: none;
+  }
+  .login-credentials {
+    width: 100%;
+    height: 80%;
+    background-color: #ec4646;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-top-right-radius: 0;
+    border-radius: 15px;
+  }
+  .login-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 80%;
+  }
+}
+
+/*=======================================================================
+                       AUDI-LANDING
+========================================================================*/
+
+.audi-landing {
+  height: fit-content;
+  overflow: hidden;
+}
+.audi-landing-contents {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(../images/audi-landing.jpg);
+  background-size: cover;
+  background-position: bottom;
+  height: 60vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.audi-landing-contents .search {
+  display: flex;
+  justify-content: space-around;
+}
+.audi-landing-contents .clg-event {
+  border-radius: 40px;
+  width: fit-content;
+  height: 40px;
+  color: rgb(0, 0, 0);
+  background-color: white;
+  border: none;
+  margin-left: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 2%;
+  left: 10%;
+}
+.audi-landing-contents .logout {
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  position: absolute;
+  top: 2%;
+  right: 5%;
+}
+.audi-landing-contents h1 {
+  letter-spacing: 2px;
+  color: rgb(255, 255, 255);
+  font-size: 60px;
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+.audi-landing-contents .searchbar {
+  height: 40px;
+  background: rgb(255, 255, 255);
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchbar input {
+  background: none;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+}
+.audi-landing-contents .searchbar a {
+  color: black;
+  text-decoration: none;
+}
+.search .searchbar .search-btn {
+  border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search .filter button {
+  color: black;
+  background-color: white;
+  border-radius: 40px;
+  height: 40px;
+  border: none;
+  width: 130px;
+  margin-left: 20px;
+  font-size: 15px;
+}
+
+.all-events {
+  margin: 20px 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  .all-events {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.all-events h1 {
+  margin: 25px 25px;
+  letter-spacing: 1px;
+  font-size: 25px;
+}
+.event-cate {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.event-box {
+  width: 280px;
+  margin-bottom: 20px;
+  height: max-content;
+  border: 1px solid rgb(101, 93, 93);
+  border-radius: 5px;
+  box-shadow: 13px -4px 58px -17px rgba(0, 0, 0, 0.66);
+  -webkit-box-shadow: 13px -4px 58px -17px rgba(0, 0, 0, 0.66);
+  -moz-box-shadow: 13px -4px 58px -17px rgba(0, 0, 0, 0.66);
+}
+.event-box img {
+  width: 280px;
+  height: 250px;
+  border-radius: 5px 5px 0px 0px;
+}
+.event-box .event-name {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+.event-box p {
+  text-align: left;
+  color: black;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+.event-box a {
+  text-decoration: none;
+}
+.event-box .event-details {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+.event-box .event-details p {
+  color: black;
+  text-align: left;
+  font-size: 15px;
+}
+.event-box .event-book {
+  background-color: rgb(194, 72, 72);
+  text-align: center;
+  padding: 2px 0px;
+}
+.event-box .event-book a {
+  color: white;
+  font-weight: bold;
+}
+/* ----------------------------AUDI-LANDING MODAL---------------------- */
 .filterModal {
   display: none;
   position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
-  overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+  overflow: hidden;
 }
 
 .filterModal-content {
@@ -430,13 +681,17 @@ select:focus {
 Register
 ///////////////////////////////////////////////////////// */
 .register-form {
+  background-image: url(../images/doodle.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
   background-color: white;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 120vh;
+  height: 130vh;
 }
 .register-card {
   display: flex;
@@ -507,7 +762,7 @@ select:focus {
 Analytics
 ----------------------------------------------------------- */
 /* body{
-    background-color: black;
+  background-color: black;
 } */
 .analysis {
   display: flex;
@@ -569,12 +824,10 @@ Analytics
   padding-right: 22px;
 }
 /* ----------------------------------------------------------------
-                        ORGANISER PAGE 
+                      ORGANISER PAGE 
 ---------------------------------------------------------------- */
 
 .organiser {
-  width: 100vw;
-  height: 100vh;
   background-color: #ffff;
 }
 .organiser-nav {
@@ -601,20 +854,6 @@ Analytics
   justify-content: space-around;
 }
 .organiser-nav button {
-  /* color: #fff;
-    margin-bottom: 10px;
-    font-size: 15px;
-    letter-spacing: 1px;
-    margin-right: 20px;
-    width: 150px;
-    height: 60px;
-    border: none;
-    background-color: #2b2a3b;
-    text-align: center;
-    border-radius: 5px;
-    box-shadow: -1px -2px 50px 0px rgba(0, 0, 0, 0.48);
-    -webkit-box-shadow: -1px -2px 50px 0px rgba(0, 0, 0, 0.48);
-    -moz-box-shadow: -1px -2px 50px 0px rgba(0, 0, 0, 0.48); */
   color: #141414;
   border: none;
   background-color: transparent;
@@ -634,11 +873,11 @@ Analytics
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 30%;
-  height: 20%;
+  width: 450px;
+  height: 200;
+  max-height: 200;
   margin: 20px;
   border-radius: 10px;
-  background-image: url(../images/ZenBG\(1\)\.png);
   background-color: #ec4646;
 }
 
@@ -652,8 +891,14 @@ Analytics
 .events-parent {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
-
+.collegeEvent-parent {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  align-items: center;
+}
 .actions {
   display: flex;
   align-items: center;
@@ -726,18 +971,44 @@ Analytics
   transform: scale(1);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+@media only screen and (max-width: 600px) {
+  .organiser-events {
+    width: 300;
+    height: 100;
+  }
+  .organiser-events p {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 20px;
+  }
+  .actions button {
+    color: white;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    width: 100px;
+    height: 40px;
+    border: none;
+    background-color: #2b2a3b;
+    text-align: center;
+    border-radius: 5px;
+  }
+}
 /* -----------------------------------------------------------
 Footer
 ----------------------------------------------------------- */
 .footer {
-  /* margin-top: 50px ; */
   height: 40vh;
   width: 100vw;
-  background-color: #d8d8d8;
+  background-color: #f3f1f1;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
+
 #explore-heading {
   font-size: 30px;
   color: #ec4646;
@@ -788,7 +1059,7 @@ Footer
   color: #ec4646;
 }
 .favicon {
-  width: 10vw;
+  width: 200px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -797,60 +1068,80 @@ Footer
   transition: 0.5s;
   color: #ec4646;
 }
+@media only screen and (max-width: 600px) {
+  .footer {
+    width: 100vw;
+    background-color: #f3f1f1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .about {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo {
+    display: none;
+  }
+}
 /* ----------------------------------------------------------------
 carousel
 ---------------------------------------------------------------- */
-.img-slider {
-  /* display: flex;
+
+.createEvent-form {
+  background-image: url(../images/doodle.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: white;
+  display: flex;
   justify-content: center;
-  align-items: center; */
-  position: relative;
+  flex-direction: column;
+  align-items: center;
   width: 100vw;
-  height: 500px;
-  margin: 10px;
-  background: #1d212b;
+  height: auto;
 }
-
-.img-slider .slide {
-  z-index: 1;
-  position: absolute;
-  width: 100%;
-  clip-path: circle(0% at 0 50%);
-}
-
-.img-slider .slide.active {
-  clip-path: circle(150% at 0 50%);
-  transition: 2s;
-  transition-property: clip-path;
-}
-
-.img-slider .slide img {
-  z-index: 1;
-  width: 100%;
-  height: 500px;
-  border-radius: 5px;
-}
-
-.img-slider .slide .info {
-  position: absolute;
-  top: 50%;
-  padding: 15px 30px;
-}
-
-.img-slider .slide .info h2 {
-  color: #fff;
-  font-size: 45px;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.img-slider .slide .info p {
-  color: #fff;
-  background: rgba(0, 0, 0, 0.1);
-  font-size: 16px;
+.createEvent-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 60%;
-  height: 100%;
+  height: 75%;
+  margin: 30px;
+}
+@media only screen and (max-width: 600px) {
+  .createEvent-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    height: 75%;
+    margin: 30px;
+  }
+}
+.createEvent-img {
+  background-color: #ffff;
+  border: 2px solid #ec4646;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom-left-radius: 30px;
+}
+.createEvent-credentials {
+  width: 100%;
+  background-color: #ec4646;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 5px;
+  color: white;
   padding: 10px;
   border-radius: 4px;
 }
@@ -878,6 +1169,111 @@ carousel
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
+/* ----------------------------------------------------------------
+                        COLLEGE EVENTS 
+---------------------------------------------------------------- */
+.CollegeEvents-header {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.59), rgba(0, 0, 0, 0.432)),
+    url("/images/CollegeEvent.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 60vh;
+  position: relative;
+}
+
+.CollegeEvents-header-content {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.CollegeEvents-header-content h1 {
+  font-size: 4rem;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.CollegeEvents-header-content h3 {
+  font-size: 1.6rem;
+  text-align: center;
+  font-weight: lighter;
+}
+.CollegeEvents-header input {
+  width: 40vw;
+  height: 10vh;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid white;
+  border-radius: 7px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.CollegeEvents-header ::placeholder {
+  color: gray;
+  letter-spacing: 1px;
+  word-spacing: 1px;
+  font-size: large;
+  text-align: center;
+}
+
+.CollegeEvents-heading h2 {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  word-spacing: 1px;
+  margin-left: 100px;
+  margin-top: 30px;
+}
+
+.CollegeEvents-body {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 80%;
+  gap: 20px;
+}
+
+.card-content img {
+  border-radius: 5px 5px 0 0px;
+  width: 280px;
+  height: 200px;
+}
+
+.card-content-middle {
+  padding: 10px;
+}
+
+.card-content-footer {
+  background-color: #ec4646;
+  width: 100%;
+  padding: 5px 0;
+  border-radius: 0 0 5px 5px;
+}
+
+.card-content-footer a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-content {
+  border-radius: 5px;
+  width: 280px;
+  border: 1px solid gray;
+  box-shadow: 13px -4px 58px -17px rgba(0, 0, 0, 0.66);
+  -webkit-box-shadow: 13px -4px 58px -17px rgba(0, 0, 0, 0.66);
+  -moz-box-shadow: 13px -4px 58px -17px rgba(0, 0, 0, 0.66);
+}
 @media (max-width: 820px) {
   .img-slider {
     width: 600px;
@@ -911,53 +1307,63 @@ carousel
 @media (max-width: 620px) {
   .img-slider {
     width: 400px;
-    height: 250px;
-  }
-
-  .img-slider .slide .info {
-    padding: 10px 20px;
-  }
-
-  .img-slider .slide .info h2 {
-    font-size: 30px;
-  }
-
-  .img-slider .slide .info p {
-    width: 80%;
-    font-size: 13px;
-  }
-
-  .img-slider .navigation {
-    bottom: 15px;
-  }
-
-  .img-slider .navigation .btn {
-    width: 8px;
-    height: 8px;
-    margin: 6px;
+    height: 50px;
   }
 }
+.createEvent-credentials textarea {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-bottom: 2px solid white;
+  background-color: transparent;
+}
 
-@media (max-width: 420px) {
-  .img-slider {
-    width: 320px;
-    height: 200px;
-  }
+.createEvent-credentials div {
+  width: 80%;
+}
+.createEvent-credentials p {
+  margin-left: auto;
+  padding-right: 30px;
+}
+.createEvent-credentials a {
+  color: white;
+}
 
-  .img-slider .slide .info {
-    padding: 5px 10px;
-  }
-
-  .img-slider .slide .info h2 {
-    font-size: 25px;
-  }
-
-  .img-slider .slide .info p {
-    width: 90%;
-    font-size: 11px;
-  }
-
-  .img-slider .navigation {
-    bottom: 10px;
-  }
+.createEvent-credentials button {
+  color: white;
+  width: 40%;
+  height: 40px;
+  border: 2px solid white;
+  background-color: transparent;
+  border-radius: 15px;
+}
+.createEvent-credentials button:hover {
+  color: #ec4646;
+  background-color: white;
+  transform: translateX(4px);
+}
+.createEvent-credentials input {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-bottom: 2px solid white;
+  background-color: transparent;
+}
+.createEvent-credentials input:focus,
+textarea:focus,
+select:focus {
+  border: none;
+  border-bottom: 2px solid white;
+  outline: none;
+  fill: none;
+}
+.extra-padding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.extra-padding label,
+select {
+  margin-right: auto;
 }
