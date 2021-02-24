@@ -25,6 +25,13 @@ background-size: cover;
 font-size: 72px;
 color: white;
 }
+.events-header{
+  width: 100vw;
+  height: 40vw;
+}
+.events-header img{
+  width: 100%;
+}
 #logo{
   color: #ff385c;
   margin-left: 20px;
@@ -510,7 +517,6 @@ align-items: center;
 color: black;
 }
 .match-list{
-<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   position:absolute;
@@ -520,13 +526,6 @@ color: black;
   padding: 10px;
   border-radius: 10px;
   background-color: white;
-=======
-margin: 5px;
-width: 40vw;
-padding: 10px;
-border-radius: 10px;
-background-color: white;
->>>>>>> f49054dce1c51c1cde99716b0b071a11b39a127d
 }
 @media only screen and (max-width: 600px) {
   .match-list{
@@ -1283,7 +1282,19 @@ carousel
   text-align: center;
   font-weight: bolder;
 }
-
+@media only screen and (max-width: 600px) {
+  .CollegeEvents-header-content h1{
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bolder;
+  }
+  .CollegeEvents-header-content h3{
+    font-size: 0.8rem;
+    text-align: center;
+    font-weight: lighter;
+  
+  }
+  }
 .CollegeEvents-header-content h3{
   font-size: 1.6rem;
   text-align: center;
@@ -1306,7 +1317,6 @@ carousel
 
 }
 
-<<<<<<< HEAD
   .CollegeEvents-header input{
     color: white;
   }
@@ -1317,15 +1327,6 @@ carousel
     font-size: large;
     text-align: center;
   }
-=======
-.CollegeEvents-header ::placeholder{
-  color: gray;
-  letter-spacing: 1px;
-  word-spacing: 1px;
-  font-size: large;
-  text-align: center;
-}
->>>>>>> f49054dce1c51c1cde99716b0b071a11b39a127d
 
 
 .CollegeEvents-heading h2{
