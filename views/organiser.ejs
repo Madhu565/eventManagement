@@ -36,7 +36,7 @@
         <div class="events-parent">
             <%foundcolEvents.forEach(function(Event){%>
                 <div class="organiser-events">
-                <p><%= Event.name %> </p>
+                <p><%= Event.eventName %> </p>
                 <div class="actions">
                     <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
                     <form action="/delete" method="POST" >
