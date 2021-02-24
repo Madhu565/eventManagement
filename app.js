@@ -56,7 +56,10 @@ const eventSchema = new mongoose.Schema({
 
 });
 
+
+
 const Event = mongoose.model("Event", eventSchema);
+
 
 
 /*=======================================================================
@@ -370,7 +373,7 @@ app.get("/cities/:city/:eventId", (req,res)=> {
             console.log(err);
         }else{
             
-            res.render("eventDetails",{foundEvent})
+            res.render("eventDetails",{foundEvent,startDate:numberToDate(String(foundEvent[0].startDate)),endDate:numberToDate(String(foundEvent[0].endDate))})
             
         }
     })
@@ -396,7 +399,6 @@ app.get("/analytics/:id", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                // console.log(arr);
                 foundAudience.forEach(function(audience){
                     if(audience.gender === "male"){
                         malecount = malecount+1;
@@ -412,7 +414,6 @@ app.get("/analytics/:id", function(req, res){
                         seniorCitizenCount = seniorCitizenCount+1;
                     }
                 });
-                // console.log(arr,malecount,femalecount,childrenCount);
                 res.render("analytics",{
                     passedAudience:foundAudience,
                     male: malecount, 
@@ -452,15 +453,7 @@ else{
 });
 
 
-app.get('/events',(req,res)=>{
-    Event.find({},(err,foundEvents)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.json(foundEvents)
-        }
-    })
-})
+
 
 
 app.post("/audiDetailsInput",(req,res)=>{
@@ -817,9 +810,22 @@ app.get('/audilogout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
-
+app.get('/events',(req,res)=>{
+    Event.find({},(err,foundEvents)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.json(foundEvents);
+        }
+    })
+});
+app.get("/search",(req,res)=>{
+    res.render("search");
+})
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 });
 
-
+/*=======================================================================
+                         LOGOUT
+========================================================================*/
