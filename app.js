@@ -415,10 +415,11 @@ app.get("/analytics/:id", function(req, res){
                     female: femalecount, 
                     children: childrenCount, 
                     teenager: teenagerCount,
-                     middleAged: middleAgedCount, 
+                    middleAged: middleAgedCount, 
                     seniorCitizen: seniorCitizenCount,
                     booking:arr[0].Booked,
-                    cap:arr[0].tolalCapacity
+                    cap:arr[0].tolalCapacity,
+                    price:arr[0].price
                 });
             }
         })  

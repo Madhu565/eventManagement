@@ -10,11 +10,19 @@
 
 </head>
 <body>
-   
+
+  <div class="revenue">
+    <div class="revenue-content">
+      <h1>Total Revenue</h1>
+      <br>
+      <h1>₹<%= booking*price %></h1>
+    </div>
+  </div>
+    
     <div class="analysis">
-        <div id="myPieChart" style="width: 500px; height: 500px;"></div>
-        <div id="myPieChart2" style="width: 500px; height: 500px;"></div> 
-        <div id="barchart_values" style="width: 900px; height: 300px;"></div>
+        <div id="myPieChart"></div>
+        <div id="myPieChart2"></div> 
+        <div id="barchart_values"></div>
     </div>
     <br><br>
     <div class="container">
@@ -50,8 +58,6 @@
         var teenager = Number("<%= teenager %>");
         var middleAged = Number("<%= middleAged %>");
         var seniorCitizen = Number("<%= seniorCitizen %>");
-        // document.getElementById("demo").innerHTML = children;
-        // document.getElementById("demo1").innerHTML = female;
         var mper = male/(male+female);
         var fper = female/(male+female);
         var capacity = "<%= cap %>";
