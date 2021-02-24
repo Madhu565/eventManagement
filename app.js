@@ -7,7 +7,7 @@ const passport = require('passport');
 const session = require('express-session');
 const passportLocalMongoose = require('passport-local-mongoose');
 const multer = require("multer");
-
+const PDFDocument = require('pdfkit');
 
 var fs = require('fs');
 var nodemailer=require('nodemailer');
@@ -181,25 +181,31 @@ app.get("/organiser", function(req, res){
     if (req.isAuthenticated()) {
         var name = req.user.name;
         var arr = [];
-        Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
-        {
-            if(err)console.log(err)
-            else{
-                var name = req.user.name;
-                arr = foundEvents
-                //res.render('organiser', {passedname: name,foundEvents})
-            }
-
-
+        Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
+            if(err) console.log(err);
         }).then(()=>{
-            CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
-                if(err){
-                    handleError(err);
-                } else{
-                    res.render('organiser', {passedname: name, arr, foundcolEvents});
+            Event.find({username:req.user.username},function(err,foundEvents) // getting the data from the database
+            {
+                if(err)console.log(err)
+                else{
+                    var name = req.user.name;
+                    arr = foundEvents
                 }
+    
+    
+            }).then(()=>{
+                CollegeEvent.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
+                    if(err) console.log(err);
+                }).then(()=>{
+                    CollegeEvent.find({username: req.user.username}, function(err, foundcolEvents){
+                        if(err){
+                            handleError(err);
+                        } else{
+                            res.render('organiser', {passedname: name, arr, foundcolEvents});
+                        }
+                    })
             })
-
+        })
     })
 
 
@@ -207,9 +213,6 @@ app.get("/organiser", function(req, res){
     } else {
         res.redirect('/login');
     }
-        Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
-            if(err) console.log(err);
-        });
 });
 
 
@@ -333,7 +336,7 @@ app.post("/collegeEvent",upload, function(req, res){
         if(err){
             console.log(err);
         } else {
-            res.redirect("/createEvent");
+            res.redirect("/collegeEventform");
         }
     });
 });
@@ -494,7 +497,7 @@ app.post("/audiDetailsInput",(req,res)=>{
         });
     });
 
-    // res.render("audiBookConfirm", {audiName});
+    
 
     res.json({
         tickets:req.body.tickets,
@@ -521,10 +524,12 @@ app.post("/audiDetailsInput",(req,res)=>{
             console.log('Email sent:'+info.response);
         }
     });
-  
+    
+
+
+    res.render("audiBookConfirm");
 
 });
-
 
 app.get("/cities/:city/:eventId/booking",(req,res)=>{
     var user =[];
@@ -619,7 +624,8 @@ app.get("/audiLanding",function(req,res){
         // var threshold = 15;
         var arr= [];
         var prefEvent=req.user.prefEvent;
-       
+        var audiName=req.user.name;
+      
         Event.find({},function(err,topEvent){
             if(err){
                 console.log(err);
@@ -639,7 +645,7 @@ app.get("/audiLanding",function(req,res){
             }
             else{
              
-                res.render('audiLanding',{passedEvent:foundEvent,arr});
+                res.render('audiLanding',{passedEvent:foundEvent,arr,audiName});
                 
             }
 
@@ -806,6 +812,11 @@ app.get('/audilogout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
+
+
+
+
+
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
 });
