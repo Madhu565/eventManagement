@@ -1,28 +1,38 @@
-const gap = 500;
+const search = document.getElementById('search');
+const matchList = document.getElementById('match-list');
 
-const carousel = document.getElementById("carousel"),
-  content = document.getElementById("content"),
-  next = document.getElementById("next"),
-  prev = document.getElementById("prev");
+const searchUsers = async searchText => {
+    const res = await fetch('http://localhost:3000/events');
+    const users = await res.json();
+    
+    console.log(users);
 
-next.addEventListener("click", e => {
-  carousel.scrollBy(width + gap, 0);
-  if (carousel.scrollWidth !== 0) {
-    prev.style.display = "flex";
-  }
-  if (content.scrollWidth - width - gap <= carousel.scrollLeft + width) {
-    next.style.display = "none";
-  }
-});
-prev.addEventListener("click", e => {
-  carousel.scrollBy(-(width + gap), 0);
-  if (carousel.scrollLeft - width - gap <= 0) {
-    prev.style.display = "none";
-  }
-  if (!content.scrollWidth - width - gap <= carousel.scrollLeft + width) {
-    next.style.display = "flex";
-  }
-});
+    let matches = users.filter(user => {
+        const regex = new RegExp(`^${searchText}`,'gi');
+        return user.eventName.match(regex);
+    });
+    if(searchText.length == 0){
+        matches = [];
+    }
+    outputHtlm(matches);
+}
 
-let width = carousel.offsetWidth;
-window.addEventListener("resize", e => (width = carousel.offsetWidth));
+const outputHtlm = matches => {
+    if(matches.length > 0){
+        const html = matches.map(match => `
+        <div class="match-list">
+            <div>
+                <a href= '/cities/${match.city}/${match._id}'>${match.eventName}</a>
+                <p>${match.description.slice(0,300)}</p>
+            </div>
+        </div>
+        `).join('');
+
+        matchList.innerHTML = html;
+    }else{
+        const html = '';
+        matchList.innerHTML = html
+    }
+}
+
+search.addEventListener('input', ()=>searchUsers(search.value));

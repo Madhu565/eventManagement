@@ -1,45 +1,40 @@
 <%- include('partials/header') -%>
 <div class="audi-landing">
-        <div class="audi-landing-contents">
-            <a class="clg-event" href="/collegeEvents">Explore College Events</a> 
-            <a class="logout" href="/audilogout">Logout</a>  
-            <h1>GrabMySeat </h1>          
-            <div class="search">
-                <div class="searchbar">
-                        <input type="search" placeholder="Search">
-                        <a class="search-btn" href="#"><i class="fas fa-search"></i></a>
+    <div class="audiLanding-cover">
+        <div class="audiLanding-header">
+            <a  href="/collegeEvents"> College Events</a> 
+            <a  id="filterBtn" >Select City</a>
+            <a  href="/audilogout">Logout</a>  
+        </div>
+           <div class="audi-landing-contents">
+               <div class="landing-center">
+                <div>
+                    <h1>GrabMySeat </h1>          
                 </div>
-                <div class="filter">
-                    <button id="filterBtn">Select City</button>
-                    <div id="my-Modal" class="filterModal">
-                        <div class="filterModal-content">
-                            <span class="filterClose">&times;</span>
-                            <div class="city">
-                                <div class="kolkata">
-                                    <%- include('partials/svg') -%>
-                                    <h4>Kolkata</h4>
+                <div class="search">
+                    <div class="searchbar">
+                        <div>
+                            <input id="search" type="text" name="Search" placeholder="search for events">
+                         </div>
+                        <div id="match-list"></div>
+                    </div>
+                    <div class="filter">
+                        <div id="my-Modal" class="filterModal">
+                            <div class="filterModal-content">
+                                <span class="filterClose">&times;</span>
+                                <div class="city">
+                                        <h4>Kolkata</h4>
+                                        <h4>Delhi</h4>
+                                        <h4>Bengaluru</h4>
+                                        <h4>Hyderabad</h4>
+                                        <h4>Mumbai</h4>
                                 </div>
-                                <div class="Delhi">
-                                    <%- include('partials/svgD') -%>
-                                    <h4>Delhi</h4>
-                                </div>
-                                <div class="Bengaluru">
-                                    <%- include('partials/svgB') -%>
-                                    <h4>Bengaluru</h4>
-                                </div>
-                                <div class="Hyderabad">
-                                    <%- include('partials/svgH') -%>
-                                    <h4>Hyderabad</h4>
-                                </div>
-                                <div class="Mumbai">
-                                    <%- include('partials/svgM') -%>
-                                    <h4>Mumbai</h4>
-                                </div>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
             </div>
         </div>
 
@@ -101,7 +96,7 @@
             var span = document.getElementsByClassName("filterClose")[0];
 
             btn.onclick = function() {
-            modal.style.display = "block";
+            modal.style.display = "flex";
             }
 
             span.onclick = function() {

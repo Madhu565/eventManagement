@@ -21,7 +21,6 @@
         <h1>Your Events</h1>
         <div class="events-parent">
             <%arr.forEach(function(Event){%>
-            
             <div class="organiser-events">
             <p><%= Event.eventName %> </p> <br>
             <div class="actions">
@@ -34,7 +33,7 @@
             <% }) %>
         </div>
         <h1>College Events</h1>
-        <div class="collegeEvent-parent">
+        <div class="events-parent">
             <%foundcolEvents.forEach(function(Event){%>
                 <div class="organiser-events">
                 <p><%= Event.name %> </p>

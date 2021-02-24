@@ -1,11 +1,9 @@
 <%- include('partials/header') -%>
-<div class="events">
-    <div>
-        <input id="search" type="text" name="Search" placeholder="search">
-     </div>>
-    <div id="matched-events"></div>
+
+
+<div class="event-cate">
 <%  foundEvents.forEach(foundEvent => { %>
-        <div class="event-box">
+        <div id="event-box" class="event-box">
             <img src="data:image/<%=foundEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
             <p><%=foundEvent.eventName.toUpperCase()%></p>
             
