@@ -1,85 +1,119 @@
 <%- include('partials/header') -%>
-    <h1>AUDIENCE LANDING PAGE</h1>
-        <a href="/audilogout"><button type="submit" >LOGOUT</button></a>
-        <button id="filterBtn">FILTER</button>
-        <div id="my-Modal" class="filterModal">
-            <div class="filterModal-content">
-                <span class="filterClose">&times;</span>
-                <div class="city">
-                    <div class="kolkata">
-                        <%- include('partials/svg') -%>
-                        <h4>Kolkata</h4>
+<div class="audi-landing">
+        <div class="audi-landing-contents">
+            <a class="clg-event" href="/collegeEvents">Explore College Events</a> 
+            <a class="logout" href="/audilogout">Logout</a>  
+            <h1>GrabMySeat </h1>          
+            <div class="search">
+                <div class="searchbar">
+                        <input type="search" placeholder="Search">
+                        <a class="search-btn" href="#"><i class="fas fa-search"></i></a>
+                </div>
+                <div class="filter">
+                    <button id="filterBtn">Select City</button>
+                    <div id="my-Modal" class="filterModal">
+                        <div class="filterModal-content">
+                            <span class="filterClose">&times;</span>
+                            <div class="city">
+                                <div class="kolkata">
+                                    <%- include('partials/svg') -%>
+                                    <h4>Kolkata</h4>
+                                </div>
+                                <div class="Delhi">
+                                    <%- include('partials/svgD') -%>
+                                    <h4>Delhi</h4>
+                                </div>
+                                <div class="Bengaluru">
+                                    <%- include('partials/svgB') -%>
+                                    <h4>Bengaluru</h4>
+                                </div>
+                                <div class="Hyderabad">
+                                    <%- include('partials/svgH') -%>
+                                    <h4>Hyderabad</h4>
+                                </div>
+                                <div class="Mumbai">
+                                    <%- include('partials/svgM') -%>
+                                    <h4>Mumbai</h4>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
-                    <div class="Delhi">
-                        <%- include('partials/svgD') -%>
-                        <h4>Delhi</h4>
-                    </div>
-                    <div class="Bengaluru">
-                        <%- include('partials/svgB') -%>
-                        <h4>Bengaluru</h4>
-                    </div>
-                    <div class="Hyderabad">
-                        <%- include('partials/svgH') -%>
-                        <h4>Hyderabad</h4>
-                    </div>
-                    <div class="Mumbai">
-                        <%- include('partials/svgM') -%>
-                        <h4>Mumbai</h4>
-                    </div>
-                    
                 </div>
             </div>
         </div>
-        <br><br>
-        <h1>Top Events </h1>
-        <br>
-        <div id="preferredEvent"></div>
-        <% var count = 1 %>
-        <%  arr.forEach(topEvent => { %>
-            <% if(count <=3){
-            <div class="event-box">
-                <img src="data:image/<%=topEvent.image.contentType%>;base64,<%=topEvent.image.data.toString('base64')%>">
-                <p><%=topEvent.eventName.toUpperCase()%></p>
-                <a href="/cities/<%=topEvent.city%>/<%=topEvent._id%>">explore</a>
+
+        <div class="all-events">
+            <h1>Top Events Across INDIA</h1>
+            <% var count = 0 %>
+            <div class="event-cate">
+                <%  arr.forEach(topEvent => { %>
+                    <% if(count <=3){ %>
+                    <div class="event-box">
+                        <a href="/cities/<%=topEvent.city%>/<%=topEvent._id%>">
+                        <img src="data:image/<%=topEvent.image.contentType%>;base64,<%=topEvent.image.data.toString('base64')%>">
+                        <p class="event-name"><%=topEvent.eventName%></p> </a>
+                        <div class="event-details">
+                            <p><span>Venue </span>: <%=topEvent.city%>, <%=topEvent.location%></p>
+                            <p><span>Starts</span>: <%=topEvent.startDate%></p>
+                            <p><span>₹ </span>: <%=topEvent.price%></p>
+                        </div>
+                        <div class="event-book">
+                            <a  href="/cities/<%=topEvent.city%>/<%=topEvent._id%>">Book Event</a>
+                        </div>
+                        <% count++ %>
+                    </div>
+                        <% } %>
+                    
+                        <% }) %>
+                   
+            </div>  
+            <br><br>
+            <h1>Handpicked Events for YOU</h1>
+            <% var count1 = 0 %>
+            <div class="event-cate">
+                <%  passedEvent.forEach(prefEvent => { %>
+                    <% if(count1 <=3){ %>
+                    <div class="event-box" >
+                        <a href="/cities/<%=prefEvent.city%>/<%=prefEvent._id%>">
+                        <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=prefEvent.image.data.toString('base64')%>">
+                        <p class="event-name"><%=prefEvent.eventName%></p></a>
+                        <div class="event-details">
+                            <p><span>Venue  </span> : <%=prefEvent.city%>, <%=prefEvent.location%></p>
+                            <p><span>Starts </span>: <%=prefEvent.startDate%></p>
+                            <p><span>₹ </span>: <%=prefEvent.price%></p>
+                        </div>
+                        <div class="event-book">
+                            <a  href="/cities/<%=prefEvent.city%>/<%=prefEvent._id%>">Book Event</a>
+                        </div>
+                        <% count++ %>
+                    </div>
+                        <% } %>
+                        <% }) %>   
             </div>
-            <% count++ %>
-        <% } %>
+        </div>
 
-    <% }) %> 
-        <br><br>
-        <h1>Handpicked Events for You</h1>
-        <br>
-        <div id="preferredEvent"></div>
-        <%  passedEvent.forEach(prefEvent => { %>
-            <div class="event-box" >
-                <img src="data:image/<%=prefEvent.image.contentType%>;base64,<%=prefEvent.image.data.toString('base64')%>">
-                <p><%=prefEvent.eventName.toUpperCase()%></p>
-                <a href="/cities/<%=prefEvent.city%>/<%=prefEvent._id%>">explore</a>
-            </div>
-    <% }) %> 
-    
-    <script>
-        var modal = document.getElementById("my-Modal");
+        <script>
+            var modal = document.getElementById("my-Modal");
 
-        var btn = document.getElementById("filterBtn");
+            var btn = document.getElementById("filterBtn");
 
-        var span = document.getElementsByClassName("filterClose")[0];
+            var span = document.getElementsByClassName("filterClose")[0];
 
-        btn.onclick = function() {
-        modal.style.display = "block";
-        }
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
 
-        span.onclick = function() {
-        modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-        if (event.target == modal) {
+            span.onclick = function() {
             modal.style.display = "none";
-        }
-        }
-    </script>
+            }
 
- 
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+        </script>
+</div> 
 
 <%- include('partials/footer') -%>
