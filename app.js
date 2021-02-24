@@ -70,7 +70,8 @@ const audianceSchema = new mongoose.Schema({
     eventId:String,
     noOfTickets:Number, 
     audiPhNum:Number,  
-    gender:String,     
+    gender:String,
+    type: String     
 });
 
 const Audiance = mongoose.model("AudianceDetail", audianceSchema);
@@ -338,12 +339,7 @@ app.post("/collegeEvent",upload, function(req, res){
     });
 });
 
-app.get("/collegeEvents/:id",(req,res)=>{
-    const requestedId = req.params.id;
-    CollegeEvent.find({_id: requestedId} , (err,foundEvent)=>{
-        res.render("collegeEvent",{foundEvent , startDate: numberToDate(String(foundEvent[0].startDate)), endDate: numberToDate(String(foundEvent[0].endDate))});
-    });
-})
+
 
 
 /*=======================================================================
@@ -394,7 +390,7 @@ app.get("/analytics/:id", function(req, res){
         }
     })
     .then(()=>{
-        Audiance.find({eventId:requestedId}, function(err, foundAudience){
+        Audiance.find({eventId:requestedId, type: "Other"}, function(err, foundAudience){
             if(err){
                 console.log(err);
             }else{
@@ -473,7 +469,8 @@ app.post("/audiDetailsInput",(req,res)=>{
         audiEmail:req.body.audiEmail,
         audiAge:req.body.audiAge,
         audiPhNum:req.body.audiPhNum,  
-        gender:req.body.gender    
+        gender:req.body.gender,
+        type: req.body.type    
        });
     audiance.save();  
 
@@ -789,13 +786,46 @@ app.post('/login', function (req, res) {
                          COLLEGE EVENTS
 ========================================================================*/
 app.get("/collegeEvents", function(req, res){
-    CollegeEvent.find({}, function(err, foundEvents){
-        if(err){
-            console.log(err);
+        if(req.isAuthenticated()){
+            CollegeEvent.find({}, function(err, foundEvents){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("collegeEvents", {foundEvents});
+                }
+            })
         } else {
-            res.render("collegeEvents", {foundEvents});
+            res.redirect("/audilogin");
         }
-    })
+    
+});
+
+app.get("/collegeEvents/:id",(req,res)=>{
+    if(req.isAuthenticated()){
+        const requestedId = req.params.id;
+        const user = req.user;
+        console.log(user);
+        CollegeEvent.find({_id: requestedId} , (err,foundEvent)=>{
+        res.render("collegeEvent",{foundEvent, user, startDate: numberToDate(String(foundEvent[0].startDate)), endDate: numberToDate(String(foundEvent[0].endDate))});
+    });
+    } else {
+        res.redirect("/audilogin");
+    }
+    
+});
+
+app.post("/collegeBook", function(req, res){
+    const audiance = new Audiance({
+        audiName:req.body.name,
+        eventId:req.body.id,
+        audiEmail:req.body.mail,
+        audiAge:req.body.age,
+        audiPhNum:req.body.phnum,
+        type:req.body.type   
+       });
+    audiance.save();  
+
+    res.render("audiBookConfirm");
 });
 
 /*=======================================================================
