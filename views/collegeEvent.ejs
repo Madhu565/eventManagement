@@ -7,5 +7,15 @@
     <p><%= event.rules %></p>
     <p><%= startDate %></p>
     <p><%= endDate %></p>
+    <form action="/collegeBook" method="POST">
+        <input style="display: none;" value="<%= event._id %>" name="id">
+        <input style="display: none;" value="<%= user.name %>" name="name">
+        <input style="display: none;" value="<%= user.email %>" name="mail">
+        <input style="display: none;" value="<%= user.audiAge %>" name="age">
+        <input style="display: none;" value="<%= user.audiPhNum %>" name="phnum">
+        <input style="display: none;" value="College" name="type">
+
+        <button type="submit">Register</button>
+    </form>
 <%})%>
 <%- include('partials/footer') -%>

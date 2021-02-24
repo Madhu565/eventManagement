@@ -342,11 +342,32 @@ app.post("/collegeEvent",upload, function(req, res){
 });
 
 app.get("/collegeEvents/:id",(req,res)=>{
-    const requestedId = req.params.id;
-    CollegeEvent.find({_id: requestedId} , (err,foundEvent)=>{
-        res.render("collegeEvent",{foundEvent , startDate: numberToDate(String(foundEvent[0].startDate)), endDate: numberToDate(String(foundEvent[0].endDate))});
-    });
-})
+    if(req.isAuthenticated()){
+        const user= req.user;
+        const requestedId = req.params.id;
+        CollegeEvent.find({_id: requestedId} , (err,foundEvent)=>{
+            res.render("collegeEvent",{foundEvent , user, startDate: numberToDate(String(foundEvent[0].startDate)), endDate: numberToDate(String(foundEvent[0].endDate))});
+        });
+    }
+    else{
+        res.redirect("/audilogin");
+    }
+   
+});
+
+app.post("/collegeBook", function(req, res){
+    const audiance = new Audiance({
+        audiName:req.body.name,
+        eventId:req.body.id,
+        audiEmail:req.body.mail,
+        audiAge:req.body.age,
+        audiPhNum:req.body.phnum,
+        type:req.body.type   
+       });
+    audiance.save();  
+
+    res.render("audiBookConfirm");
+});
 
 
 /*=======================================================================
@@ -437,7 +458,16 @@ app.get("/analytics/:id", function(req, res){
 // -------------------------------------------
 
 app.get("/collegeAnalytics/:id",function(req,res){
-    res.render("collegeAnalytics");
+    const requestedId=req.params.id;
+    Audiance.find({eventId:requestedId, type:"College"}, function(err, foundAudience){
+            if(err){
+                console.log(err);
+            }
+
+            res.render("collegeAnalytics",{passedAudience:foundAudience});
+    })
+
+  
 })
 
 
