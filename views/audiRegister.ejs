@@ -16,6 +16,7 @@
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="name">Name</label>
                 <input
@@ -25,6 +26,7 @@
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="phone">Mobile Number</label>
                 <input
@@ -34,6 +36,7 @@
                 value="<% typeof name != 'undefined' ? name : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="age">Age</label>
                 <input
@@ -62,6 +65,7 @@
                 value="<% typeof email != 'undefined' ? email : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="password">Password</label>
                 <input
@@ -71,6 +75,7 @@
                 value="<% typeof email != 'undefined' ? password : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <label for="password2">Confirm Password</label>
                 <input
@@ -80,23 +85,26 @@
                 value="<% typeof email != 'undefined' ? password2 : '' %>"
                 />
             </div>
+            <br>
             <div>
                 <input
                 name="role"
                 value="AUDIENCE" style="display: none;"
                 />
             </div>
-            <label for="prefEve">Event Type</label>
-                <select name="preferred" input type>
-                    <option value="preferredEvent">Enter Preferred Event</option>
+            <div>
+                <label>Event Type</label>
+                <select name="preferred">
                     <option value="Technical">Technical</option>
                     <option value="Comedy">Comedy</option>
                     <option value="Cultural">Cultural</option>
                     <option value="Sports">Sports</option>
                     <option value="Movies">Movies and Drama</option>
                 </select>
-
+            </div>
+                <br>
             <button type ="submit" >Register</button>
+            <br>
             <p>Have an account?<a href="/login">Login</a></p>
             </div>
         </div>
