@@ -437,7 +437,8 @@ app.get("/analytics/:id", function(req, res){
                      middleAged: middleAgedCount, 
                     seniorCitizen: seniorCitizenCount,
                     booking:arr[0].Booked,
-                    cap:arr[0].tolalCapacity
+                    cap:arr[0].tolalCapacity,
+                    price:arr[0].price
                 });
             }
         })  
