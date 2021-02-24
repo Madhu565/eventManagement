@@ -234,7 +234,6 @@ var upload = multer({ storage: Storage }).single('file');
 
 app.get("/createEvent", function(req, res){
     var username = req.user.username;
-    console.log(username);
     res.render("createEvent", {username});
 });
 
@@ -393,7 +392,7 @@ app.get("/analytics/:id", function(req, res){
         }
         else{
             arr  = foundEvent;
-            
+            // console.log(arr);
         }
     })
     .then(()=>{
@@ -401,10 +400,11 @@ app.get("/analytics/:id", function(req, res){
             if(err){
                 console.log(err);
             }else{
+                // console.log(arr);
                 foundAudience.forEach(function(audience){
-                    if(audience.gender === "Male"){
+                    if(audience.gender === "male"){
                         malecount = malecount+1;
-                    } if(audience.gender === "Female") {
+                    } if(audience.gender === "female") {
                         femalecount = femalecount + 1;
                     } if(audience.audiAge>=0 && audience.audiAge<=14){
                         childrenCount = childrenCount+1;
@@ -416,6 +416,7 @@ app.get("/analytics/:id", function(req, res){
                         seniorCitizenCount = seniorCitizenCount+1;
                     }
                 });
+                // console.log(arr,malecount,femalecount,childrenCount);
                 res.render("analytics",{
                     passedAudience:foundAudience,
                     male: malecount, 
@@ -436,7 +437,6 @@ app.get("/analytics/:id", function(req, res){
 ========================================================================*/
 app.get("/cities/:city", (req,res)=>{
     if(req.isAuthenticated()){
-    console.log(req.user)
     const requestedCity = req.params.city;
     Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
         if(err) console.log(err);
@@ -497,11 +497,6 @@ app.post("/audiDetailsInput",(req,res)=>{
         });
     });
 
-    
-
-    res.json({
-        tickets:req.body.tickets,
-    })
     var transporter=nodemailer.createTransport({
         service:'gmail',
         auth:{
@@ -524,9 +519,6 @@ app.post("/audiDetailsInput",(req,res)=>{
             console.log('Email sent:'+info.response);
         }
     });
-    
-
-
     res.render("audiBookConfirm");
 
 });
@@ -792,13 +784,18 @@ app.post('/login', function (req, res) {
                          COLLEGE EVENTS
 ========================================================================*/
 app.get("/collegeEvents", function(req, res){
-    CollegeEvent.find({}, function(err, foundEvents){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("collegeEvents", {foundEvents});
-        }
-    })
+    if(req.isAuthenticated()){
+        CollegeEvent.find({}, function(err, foundEvents){
+            if(err){
+                console.log(err);
+            } else {
+                res.render("collegeEvents", {foundEvents});
+            }
+        })
+    }else{
+        res.redirect("/audiLogin");
+    }
+
 });
 
 /*=======================================================================
@@ -812,10 +809,6 @@ app.get('/audilogout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
-
-
-
-
 
 app.listen(3000 , ()=>{
     console.log("server running at 3000")
