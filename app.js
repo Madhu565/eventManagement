@@ -262,7 +262,7 @@ app.post("/createEvent", upload, function(req,res){
     location: req.body.location,
     tolalCapacity: req.body.capacity,
     startDate: dateToNumber(req.body.startDate),
-    startTime: req.body.startTime,
+    startTime: req.body.startingTime,
     endDate: dateToNumber(req.body.endDate),
     endTime: req.body.endTime,
     price:req.body.price,
@@ -375,74 +375,99 @@ app.post("/collegeBook", function(req, res){
 /*=======================================================================
                          AUDIANCE ROUTE
 ========================================================================*/
-
-  
-
-app.get("/cities/:city/:eventId", (req,res)=> {
-    const requestedEvent = req.params.eventId;
-    const requestedCity = req.params.city;
-   
-    Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
-        if(err){
-            console.log(err);
+app.get("/cities/:city/",(req,res)=>{
+    const requestedCity = req.params.city
+    Event.find({city: requestedCity},(e,foundEvents)=>{
+        if(e){
+            console.log(e);
         }else{
-            
-            res.render("eventDetails",{foundEvent,startDate:numberToDate(String(foundEvent[0].startDate)),endDate:numberToDate(String(foundEvent[0].endDate))})
-            
+            res.render("events",{foundEvents,requestedCity})
         }
     })
 });
+  
+
+app.get("/cities/:city/:eventId",(req,res)=>{
+    const requestedEvent = req.params.eventId;
+    const requestedCity = req.params.city;
+
+        if(req.isAuthenticated()){
+            console.log(req.user)
+       const user=req.user;
+       
+    
+        Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
+            
+            if(err){
+                console.log(err);
+            }else{
+                var capacity = foundEvent[0].tolalCapacity;
+                var booked = foundEvent[0].Booked; 
+                var remain = (capacity-booked);
+                res.render("eventDetails",{foundEvent, user,remain,startDate:numberToDate(String(foundEvent[0].startDate)),endDate:numberToDate(String(foundEvent[0].endDate))});
+                console.log(foundEvent);
+            }
+            
+        })
+        }
+        else{
+            res.redirect("/audiLogin")
+        }});
 
 
 /*=======================================================================
                          ANALYTICS ROUTE
 =======================================================================*/
-app.get("/analytics/:id", function(req, res){
-    const requestedId=req.params.id;
-    let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr=[]; 
-    Event.find({_id:requestedId},function(err,foundEvent){
-        if(err){
-            console.log(err);
-        }
-        else{
-            arr  = foundEvent;
-        }
-    })
-    .then(()=>{
-        Audiance.find({eventId:requestedId}, function(err, foundAudience){
+app.get("/analytics/:id", async function(req, res){
+    if(req.isAuthenticated()){
+        const requestedId=req.params.id;
+        let malecount = 0, femalecount = 0, childrenCount =0, teenagerCount=0, middleAgedCount =0, seniorCitizenCount=0 ,arr; 
+        arr = await Event.find({_id:requestedId},function(err,foundEvent){
             if(err){
                 console.log(err);
-            }else{
-                foundAudience.forEach(function(audience){
-                    if(audience.gender === "male"){
-                        malecount = malecount+1;
-                    } if(audience.gender === "female") {
-                        femalecount = femalecount + 1;
-                    } if(audience.audiAge>=0 && audience.audiAge<=14){
-                        childrenCount = childrenCount+1;
-                    }if(audience.audiAge>14 && audience.audiAge<=24){
-                        teenagerCount = teenagerCount+1;
-                    }if(audience.audiAge>24 && audience.audiAge<=64){
-                        middleAgedCount = middleAgedCount+1;
-                    }if(audience.audiAge>64){
-                        seniorCitizenCount = seniorCitizenCount+1;
-                    }
-                });
-                res.render("analytics",{
-                    passedAudience:foundAudience,
-                    male: malecount, 
-                    female: femalecount, 
-                    children: childrenCount, 
-                    teenager: teenagerCount,
-                     middleAged: middleAgedCount, 
-                    seniorCitizen: seniorCitizenCount,
-                    booking:arr[0].Booked,
-                    cap:arr[0].tolalCapacity,
-                    price:arr[0].price
-                });
             }
-        })  
-    });
+            else{
+                return foundEvent.pop();
+            }
+        })
+            Audiance.find({eventId:requestedId}, function(err, foundAudience){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log(arr);
+                    foundAudience.forEach(function(audience){
+                        if(audience.gender === "male"){
+                            malecount = malecount+1;
+                        } if(audience.gender === "female") {
+                            femalecount = femalecount + 1;
+                        } if(audience.audiAge>=0 && audience.audiAge<=14){
+                            childrenCount = childrenCount+1;
+                        }if(audience.audiAge>14 && audience.audiAge<=24){
+                            teenagerCount = teenagerCount+1;
+                        }if(audience.audiAge>24 && audience.audiAge<=64){
+                            middleAgedCount = middleAgedCount+1;
+                        }if(audience.audiAge>64){
+                            seniorCitizenCount = seniorCitizenCount+1;
+                        }
+                    });
+                    res.render("analytics",{
+                        passedAudience:foundAudience,
+                        male: malecount, 
+                        female: femalecount, 
+                        children: childrenCount, 
+                        teenager: teenagerCount,
+                         middleAged: middleAgedCount, 
+                        seniorCitizen: seniorCitizenCount,
+                        booking:arr[0].Booked,
+                        cap:arr[0].tolalCapacity,
+                        price:arr[0].price
+                    });
+                }
+            })  
+    }else{
+        res.redirect("/login")
+    }
+
 });
 
 // -------------------------------------------
@@ -467,25 +492,6 @@ app.get("/collegeAnalytics/:id",function(req,res){
 /*=======================================================================
                          CITY
 ========================================================================*/
-app.get("/cities/:city", (req,res)=>{
-    if(req.isAuthenticated()){
-    const requestedCity = req.params.city;
-    Event.deleteMany({endDate: { $lte : dateToNumber(today())}},(err)=>{
-        if(err) console.log(err);
-    });
-    Event.find({city:requestedCity},(err,foundEvents)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.render("events",{foundEvents});
-        }
- 
-    })
-}
-else{
-    res.redirect("/audiLogin")
-}
-});
 
 
 
@@ -547,30 +553,7 @@ app.post("/audiDetailsInput",(req,res)=>{
 
 });
 
-app.get("/cities/:city/:eventId/booking",(req,res)=>{
-    var user =[];
-    if(req.isAuthenticated()){
-        // console.log(req.user)
-    const requestedCity = req.params.city;
-    const requestedEvent = req.params.eventId;
-   user=req.user;
 
-    Event.find({city: requestedCity, _id:requestedEvent},(err,foundEvent)=>{
-     
-        if(err){
-            console.log(err);
-        }else{
-            var capacity = foundEvent[0].tolalCapacity;
-            var booked = foundEvent[0].Booked; 
-            var remain = (capacity-booked);
-            res.render("audiDetailsInput",{foundEvent, user,remain});
-        }
-    })
-    }
-    else{
-        res.redirect("/audiLogin")
-    }
-});
 
 /*=======================================================================
                          AUDIANCE-REGISTER ROUTE

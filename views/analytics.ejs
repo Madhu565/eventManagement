@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/final.css">
+    <link rel="stylesheet" href="/css/final-min.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
 <body>
-
+  <nav class="organiser-nav">
+    <h1><a href="/organiser">GrabMySeat</a></h1>
+    <div>
+        <a href="/logout"><button>Log Out</button></a>
+    </div>
+</nav>
   <div class="revenue">
     <div class="revenue-content">
       <h1>Total Revenue</h1>
@@ -25,43 +30,26 @@
         <div id="barchart_values"></div>
     </div>
     <br><br>
-    <div class="container">
+    <div>
 	
-      <div class="table">
-        <div class="table-header">
-          <div class="header__item"><a id="name" class="filter__link" href="#">Sl.no</a></div>
-          <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Name</a></div>
-          <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Email</a></div>
-          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">PhoneNumber</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Tickets</a></div>
-        </div>
+      <table class="table">
+        <tr>
+          <th>Sl.no</th>
+          <th>Participant</a></th>
+          <th>Email</th>
+          <th>PhoneNumber</a></th>
+        </tr>
       <% var count=1%>
       <% passedAudience.forEach(audience => { %>
-        <div class="table-content">	
-          <div class="table-row">		
-            <div class="table-data"><%= count++ %> </div>
-            <div class="table-data"><%= audience.audiName %></div>
-            <div class="table-data"><%= audience.audiEmail %></div>
-            <div class="table-data"><%= audience.audiPhNum %></div>
-            <div class="table-data"><%= audience.noOfTickets %></div>
-          </div>
-        </div>  
+          <tr >		
+            <td><%= count++ %> </td>
+            <td><%= audience.audiName %></td>
+            <td><%= audience.audiEmail %></td>
+            <td><%= audience.audiPhNum %></td>
+          </tr>
       <% }) %> 
-    </div>
-  <% var count=1%>
-  <% passedAudience.forEach(audience => { %>
-    <div class="table-content">	
-      <div class="table-row">		
-        <div class="table-data"><%= count++ %> </div>
-        <div class="table-data"><%= audience.audiName %></div>
-        <div class="table-data"><%= audience.audiEmail %></div>
-        <div class="table-data"><%= audience.audiPhNum %></div>
-        <div class="table-data"><%= audience.noOfTickets %></div>
-      </div>
-    </div>  
-  <% }) %> 
 </div>
-
+</div>
     <script>
         var male = "<%= male %>";
         var female = "<%= female %>";
@@ -125,16 +113,12 @@
                        2]);
             var options = {
             title: "Age group of attendees",
-            width: 600,
-            height: 400,
+            width: "300px",
+            height: "200px",
             bar: {groupWidth: "95%"},
-            legend: { position: "none" },
             };
             var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
             chart.draw(view, options);
         }
         
     </script>
-
-</body>
-</html>
