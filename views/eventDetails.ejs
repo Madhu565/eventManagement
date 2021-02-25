@@ -1,42 +1,75 @@
 <%- include('partials/header') -%>
-<div class="container-fluid">
-<div class="event-details">
-    
-    <div class="bg-img">
-        <img  src="data:image/<%=foundEvent[0].image.contentType%>;base64,<%=foundEvent[0].image.data.toString('base64')%>">
-    </div>
-    <div class= "event-inner">
-        <div class="image-inner">
+    <div class="colEvent">
+        <div class="colEvent-header">
             <img  src="data:image/<%=foundEvent[0].image.contentType%>;base64,<%=foundEvent[0].image.data.toString('base64')%>">
         </div>
-    
         <%  foundEvent.forEach(foundEvent => { %>
-        <div class="details">   
-            <div class="name-loc">
-                <p class=event-name><%=foundEvent.eventName.toUpperCase()%></p>
-                <p>Location: <%=foundEvent.location%></p>
+        <div class="colEvent-body">   
+            <div class="colEvent-location">
+                <p><span>Event Name: </span><%= foundEvent.eventName %></p>
+                <p><span>location: </span><%= foundEvent.location %></p>
             </div> 
-
-            <div class="start-end">
-                <p>Starts on :<%=foundEvent.startDate%>, <%=foundEvent.startTime%></p>
-                <p>Ends on :<%=foundEvent.endDate%>, <%=foundEvent.endTime%></p>
-                <p>Price : Rs<%=foundEvent.price%></p>
-                <p><%=foundEvent.city%></p>
-                <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%>/booking"><button type="submit">Book ticket</button></a>
+            <div class="start-end-date">
+                <p><span>Starts on :</span> <%=startDate%>at <%=foundEvent.startTime%> IST</p>
+                <p><span>Ends on :</span><%=endDate%> at <%=foundEvent.endTime%> IST</p>
+                <p><span>Price :</span> Rs<%=foundEvent.price%></p>
+                <p ><span>Description :</span><%=foundEvent.description%></p> 
+                <p><span>City :</span><%=foundEvent.city%></p>
             </div>
-
-            <p>Price : Rs<%=foundEvent.price%></p>
-            <p><%=foundEvent.city%></p>
-            <button type="submit">Book ticket</button>
         </div>
+        <div id="bookNav" class="bookNav">
+            <p>Price: <%= foundEvent.price %> </p>
+                <button id="BookBtn" class="btn1" type="submit">Book</button>
+        </div>    
     </div>
-         <!-- <div class="description">
-            <h1>DESCRIPTION</h1>
-           
-        </div> -->
-        <p ><%=foundEvent.description%></p> 
-            <% }) %>
-   
+    <div id="BookModal" class="book">
+
+                    
+        <div class="book-content">
+
+            <span class="closeBook">&times;</span>
+            <div class="content"><p>Thank You for choosing Grab My Seat</p></div>
+            <form action="/audiDetailsInput" method="post">
+                <input required autocomplete="none" style="display: none;" value=<%= foundEvent._id%> name="id">
+                <input style="display: none;"  value=<%= user.name%> name="name" >
+                 <input style="display: none;"  value=<%= user.email%> name="audiEmail" >
+                 <input style="display: none;"  value=<%= user.audiAge%> name="audiAge" >
+                 <input style="display: none;"  value=<%= user.audiPhNum%> name="audiPhNum" >
+                 <input style="display: none;"  value=<%= user.gender%> name="gender" >
+                <label for="tickets" style="color: white; font-weight: 200; font-size: 20px;">How many tickets ? </label>
+                <input required autocomplete="none" type="number" min="1" max="<%= remain %>" placeholder="No. of tickets" name=tickets><br></br>
+                <button type="submit" class="bookingBtn">Confirm</button>
+            </form>
+            
+        </div>
+
+        </div>
 </div>
 </div>
+</div>
+<% }) %>
+
+</div>
+</div>
+<script>
+var modal = document.getElementById("BookModal");
+
+var btn = document.getElementById("BookBtn");
+
+var span = document.getElementsByClassName("closeBook")[0];
+
+btn.onclick = function() {
+modal.style.display = "block";
+}
+
+span.onclick = function() {
+modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+if (event.target == modal) {
+modal.style.display = "none";
+}
+}
+</script>
 <%- include('partials/footer') -%>
