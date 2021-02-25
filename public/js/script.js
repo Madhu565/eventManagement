@@ -9,7 +9,7 @@ const searchUsers = async searchText => {
     console.log(users);
 
     let matches = users.filter(user => {
-        const regex = new RegExp(`${searchText}`,'gi');
+        const regex = new RegExp(`^${searchText}`,'gi');
         return user.eventName.match(regex);
     });
     if(searchText.length == 0){

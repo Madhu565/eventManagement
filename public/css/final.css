@@ -6,7 +6,7 @@
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 .header {
   width: 100vw;
@@ -620,41 +620,57 @@ select:focus {
   font-weight: bold;
 }
 /* ----------------------------AUDI-LANDING MODAL---------------------- */
-.filterModal {
-  display: none;
+.modal {
   position: fixed;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
   left: 0;
   top: 0;
-  width: 100vw;
-  overflow: hidden;
-}
-
-.filterModal-content {
-  background-color: #fefefe;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
+  padding: 10px;
   width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem 1.5rem;
+  width: 24rem;
+  border-radius: 0.5rem;
 }
 
-.filterClose {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.filterClose:hover,
-.filterClose:focus {
-  color: black;
+.modal-content a {
   text-decoration: none;
+  color: #ec4646;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.close-button {
+  float: right;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
   cursor: pointer;
+  border-radius: 0.25rem;
+  background-color: lightgray;
+}
+.close-button:hover {
+  background-color: darkgray;
+}
+.show-modal {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 
 .login-username {
@@ -712,24 +728,29 @@ Register
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 130vh;
+  height: auto;
 }
 .register-card {
   display: flex;
   width: 60%;
-  height: 75%;
+  height: auto;
 }
 .register-img {
   background-color: #ffff;
-  border: 2px solid #ec4646;
   width: 40%;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom-left-radius: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 20px;
 }
 .register-credentials {
   width: 60%;
+  height: auto;
+  padding: 20px;
   background-color: #ec4646;
   display: flex;
   flex-direction: column;
@@ -737,6 +758,8 @@ Register
   justify-content: space-around;
   border-top-right-radius: 30px;
   color: white;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .register-credentials div {
@@ -758,14 +781,18 @@ Register
   background-color: transparent;
   border-radius: 15px;
 }
+
+.register-credentials ::placeholder {
+  color: rgb(247, 234, 234);
+}
 .register-credentials button:hover {
   color: #ec4646;
   background-color: white;
   transform: translateX(4px);
 }
 .register-credentials input {
-  width: 40%;
-  height: 50px;
+  width: 100%;
+  height: 40px;
   border: none;
   border-bottom: 2px solid white;
   background-color: transparent;
@@ -782,6 +809,19 @@ select:focus {
   color: white;
 }
 
+
+@media only screen and (max-width: 600px) {
+  .register-img {
+    display: none;
+  }
+  .register-credentials {
+    width: 100%;
+    border-radius: 5px;
+  }
+  .register-card {
+    width: 90%;
+  }
+}
 /* -----------------------------------------------------------
 Analytics
 ----------------------------------------------------------- */
@@ -791,7 +831,11 @@ Analytics
 .analysis {
   display: flex;
   flex-wrap: wrap;
+  width: 100vw;
+  margin: 0%;
+  height: 50vh;
 }
+
 .container {
   max-width: 1000px;
   margin-right: auto;
@@ -799,7 +843,6 @@ Analytics
   display: flex;
   justify-content: center;
   align-items: center;
-  /* min-height:100vh; */
 }
 .table {
   width: 100%;
@@ -855,13 +898,6 @@ Analytics
 .organiser {
   background-color: #ffff;
 }
-.organiser-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  height: 10vh;
-}
 
 .organiser h1 {
   margin-left: 20px;
@@ -869,9 +905,18 @@ Analytics
   font-size: 30px;
   font-weight: bold;
 }
+.organiser-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10vh;
+  background-color: #ec4646;
+}
+
 .organiser-nav a {
   text-decoration: none;
-  color: #141414;
+  color: #ffffff;
+  margin-right: 40px;
 }
 .organiser-nav div {
   display: flex;
@@ -879,12 +924,11 @@ Analytics
   justify-content: space-around;
 }
 .organiser-nav button {
-  color: #141414;
+  color: #ffffff;
   border: none;
   background-color: transparent;
   text-align: center;
   margin-right: 40px;
-
   font-size: 20px;
 }
 
@@ -892,7 +936,23 @@ Analytics
   color: #ec4646;
   transition: 0.5s;
 }
+.organiser-nav h1{
+  color: white;
+  margin-left: 40px;
+}
+@media only screen and (max-width: 600px) {
+  .organiser-nav h1{
+    margin-left: 0;
+  }
+  .organiser-nav button{
+    margin-right: 0;
+  }
+  .organiser-nav a {
+    margin-right: 0;
+    margin-left: 10px;
+  }
 
+}
 .organiser-events {
   display: flex;
   flex-direction: column;
@@ -953,7 +1013,7 @@ Analytics
   -moz-box-shadow: -1px -2px 50px 0px rgba(0, 0, 0, 0.48);
 }
 
-.modal {
+.organiser-nav .modal {
   position: fixed;
   left: 0;
   top: 0;
@@ -965,19 +1025,22 @@ Analytics
   transform: scale(1.1);
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
-.modal-content {
+
+.organiser-nav .modal-content {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1rem 1.5rem;
-  width: 25rem;
+  width: 24rem;
   border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
 }
-.close-button {
+
+.organiser-nav .close-button {
   float: right;
   width: 1.5rem;
   line-height: 1.5rem;
@@ -986,15 +1049,17 @@ Analytics
   border-radius: 0.25rem;
   background-color: lightgray;
 }
-.close-button:hover {
+
+.organiser-nav .close-button:hover {
   background-color: darkgray;
 }
-.show-modal {
+.organiser-nav .show-modal {
   opacity: 1;
   visibility: visible;
   transform: scale(1);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+
 @media only screen and (max-width: 600px) {
   .organiser-events {
     width: 300;
