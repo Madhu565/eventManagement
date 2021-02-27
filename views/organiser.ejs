@@ -9,9 +9,15 @@
                 <div class="trigger-content">
                     <span class="closeTrigger">&times;</span>
                     <h3>Choose Event Type</h3>
+<<<<<<< HEAD
                     <div class="content" >
                     <a href="/collegeEventform"><button type="submit">College Events</button></a>
                     <a href="/createEvent"><button type="submit">Other Events</button></a>
+=======
+                    <a href="/collegeEventform"><button type="submit" style="color: #ec4646;">College Events</button></a>
+                    <a href="/createEvent"><button type="submit" style="color: #ec4646;">Other Events</button></a>
+
+>>>>>>> 7744a26881731b55bea1e9840bcb02d2894b3d1d
                 </div>
                 </div>
             </div> -->
@@ -45,9 +51,9 @@
         <div class="events-parent">
             <%foundcolEvents.forEach(function(Event){%>
                 <div class="organiser-events">
-                <p><%= Event.name %> </p>
+                <p><%= Event.eventName %> </p>
                 <div class="actions">
-                    <a href="/analytics/<%=Event._id%>"><button>Show Stats</button></a> 
+                    <a href="/collegeAnalytics/<%=Event._id%>"><button>Show Stats</button></a> 
                     <form action="/delete" method="POST" >
                         <input style="display: none;" value="<%=Event._id%>" name ="id">
                         <button type="submit">Delete</button>

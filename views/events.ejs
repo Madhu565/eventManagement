@@ -1,13 +1,57 @@
 <%- include('partials/header') -%>
 
-
+<%- include('partials/header') -%>
+<nav class=" event-navbar">
+    <a  class ="name" href="#">GrabMySeat</a>
+    <a  href="/audilogout">Logout</a>  
+</nav>
 <div class="event-cate">
+  
+    <% if(requestedCity=="Kolkata"){%>
+    <div class="kol-bg">
+        <h1 class="city-name">Kolkata</h1>
+    </div>
+    <% }%>
+
+    <% if(requestedCity=="Bangaluru"){%>
+    <div class="beng-bg">
+        <h1 class="city-name">Bengaluru</h1>
+    </div>
+    <% }%>
+
+    <% if(requestedCity=="Mumbai"){%>
+    <div class="mumbai-bg">
+        <h1 class="city-name">Mumbai</h1>
+    </div>
+    <% }%>
+
+    <% if(requestedCity=="Hyderabad"){%>
+    <div class="hydera-bg">
+        <h1 class="city-name">Hyderabad</h1>
+    </div>
+    <% }%>
+
+    <% if(requestedCity=="Delhi"){%>
+    <div class="delhi-bg">
+        <h1 class="city-name">Delhi</h1>
+    </div>
+    <% }%>
+
 <%  foundEvents.forEach(foundEvent => { %>
-        <div id="event-box" class="event-box">
-            <img src="data:image/<%=foundEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
-            <p><%=foundEvent.eventName.toUpperCase()%></p>
-            
-            <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%> ">explore</a>
+   
+        <div  class="event-box">
+            <a href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%> ">
+                <img src="data:image/<%=foundEvent.image.contentType%>;base64,<%=foundEvent.image.data.toString('base64')%>">
+                <p class="event-name"><%=foundEvent.eventName%></p>
+            </a>
+            <div class="event-details">
+                <p><span>Venue </span>: <%=foundEvent.city%>, <%=foundEvent.location%></p>
+                <p><span>Starts</span>: <%=foundEvent.startDate%></p>
+                <p><span>₹ </span>: <%=foundEvent.price%></p>
+            </div>
+            <div class="event-book">
+                <a  href="/cities/<%=foundEvent.city%>/<%=foundEvent._id%> ">Book Event</a>
+            </div>
         </div>
 <% }) %>
 </div>
