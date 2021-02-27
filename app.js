@@ -365,9 +365,10 @@ app.get("/collegeEvents/:id",(req,res)=>{
   
 
 app.get("/cities/:city/:eventId", (req,res)=> {
-    const requestedEvent = req.params.eventId;
-    const requestedCity = req.params.city;
-   
+    if(req.isAuthenticated()){
+        const requestedEvent = req.params.eventId;
+        const requestedCity = req.params.city;
+    
     Event.find({city:requestedCity,_id:requestedEvent},(err,foundEvent)=>{
         if(err){
             console.log(err);
@@ -377,6 +378,10 @@ app.get("/cities/:city/:eventId", (req,res)=> {
             
         }
     })
+    } else {
+        res.redirect("/audilogin");
+    }
+    
 });
 
 
@@ -420,10 +425,11 @@ app.get("/analytics/:id", function(req, res){
                     female: femalecount, 
                     children: childrenCount, 
                     teenager: teenagerCount,
-                     middleAged: middleAgedCount, 
+                    middleAged: middleAgedCount, 
                     seniorCitizen: seniorCitizenCount,
                     booking:arr[0].Booked,
-                    cap:arr[0].tolalCapacity
+                    cap:arr[0].tolalCapacity,
+                    price: arr[0].price
                 });
             }
         })  

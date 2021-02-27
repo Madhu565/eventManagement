@@ -626,43 +626,57 @@ font-size: 20px;
   font-weight: bold;
 }
 /* ----------------------------AUDI-LANDING MODAL---------------------- */
-.filterModal {
-  display: none; 
-  position: fixed; 
-  justify-content: center;
-  align-items: center;
-  z-index: 1; 
+.modal {
+  position: fixed;
   left: 0;
   top: 0;
-  width: 100vw; 
-  overflow: hidden;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
-
-
-.filterModal-content {
-  background-color: #fefefe;
+.modal-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 15% auto; 
-  padding: 20px;
-  border: 1px solid #888;
-  width: 100%; 
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem 1.5rem;
+  width: 24rem;
+  border-radius: 0.5rem;
 }
 
-
-.filterClose {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.filterClose:hover,
-.filterClose:focus {
-  color: black;
+.modal-content a{
   text-decoration: none;
+  color: #ec4646;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.close-button {
+  float: right;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
   cursor: pointer;
+  border-radius: 0.25rem;
+  background-color: lightgray;
+}
+.close-button:hover {
+  background-color: darkgray;
+}
+.show-modal {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.0);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 
 .login-username{
@@ -812,6 +826,7 @@ Register
   .register-card{
     width: 90%;
   }
+
 }
 /* -----------------------------------------------------------
 Analytics
@@ -819,9 +834,13 @@ Analytics
 /* body{
   background-color: black;
 } */
-.analysis{
+.analysis {
   display: flex;
+  width: 100vw;
+  margin: 0%;
+  height: 50vh;
 }
+
 .container {
 max-width: 1000px;
 margin-right:auto;
@@ -829,7 +848,6 @@ margin-left:auto;
 display:flex;
 justify-content:center;
 align-items:center;
-/* min-height:100vh; */
 }
 .table {
 width:100%;
@@ -986,7 +1004,7 @@ padding-right:22px;
   -moz-box-shadow: -1px -2px 50px 0px rgba(0, 0, 0, 0.48);
 }
 
-.modal {
+.organiser-nav .modal{
   position: fixed;
   left: 0;
   top: 0;
@@ -998,19 +1016,22 @@ padding-right:22px;
   transform: scale(1.1);
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
-.modal-content {
+
+.organiser-nav .modal-content{
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1rem 1.5rem;
-  width: 25rem;
+  width: 24rem;
   border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
 }
-.close-button {
+
+.organiser-nav .close-button{
   float: right;
   width: 1.5rem;
   line-height: 1.5rem;
@@ -1019,15 +1040,17 @@ padding-right:22px;
   border-radius: 0.25rem;
   background-color: lightgray;
 }
-.close-button:hover {
+
+.organiser-nav .close-button:hover {
   background-color: darkgray;
 }
-.show-modal {
+.organiser-nav .show-modal {
   opacity: 1;
   visibility: visible;
-  transform: scale(1);
+  transform: scale(1.0);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+
 @media only screen and (max-width: 600px) {
   .organiser-events{
     width: 300;
@@ -1052,6 +1075,7 @@ padding-right:22px;
       text-align: center;
       border-radius: 5px;
     }
+    
 }
 /* -----------------------------------------------------------
 Footer

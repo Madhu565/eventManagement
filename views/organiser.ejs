@@ -4,16 +4,25 @@
         <h1>GrabMySeat</h1>
         <div>
             
-            <button class="trigger">Create Event</button>
+             <button class="trigger">Create Event</button>
+            <!--<div id="myTrigger" class="triggerModal">
+                <div class="trigger-content">
+                    <span class="closeTrigger">&times;</span>
+                    <h3>Choose Event Type</h3>
+                    <div class="content" >
+                    <a href="/collegeEventform"><button type="submit">College Events</button></a>
+                    <a href="/createEvent"><button type="submit">Other Events</button></a>
+                </div>
+                </div>
+            </div> -->
             <div class="modal">
                 <div class="modal-content">
                     <span class="close-button">&times;</span>
-                    <h3>Choose Event Type</h3>
-                    <a href="/collegeEventform"><button type="submit">College Events</button></a>
-                    <a href="/createEvent"><button type="submit">Other Events</button></a>
-
+                    <h3>Choose type of Event</h3>
+                        <a href="/collegeEventform"><button type="submit">College Events</button></a>
+                        <a href="/createEvent"><button type="submit">Other Events</button></a>
                 </div>
-            </div>
+                </div>
             <a href="/logout"><button>Log Out</button></a>
         </div>
     </nav>
@@ -51,7 +60,7 @@
     
 
 <script>
-var modal = document.querySelector(".modal");
+    var modal = document.querySelector(".modal");
     var trigger = document.querySelector(".trigger");
     var closeButton = document.querySelector(".close-button");
 
